@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1241,7 +1241,7 @@
 </blockquote>
 <h2 id="2-超链接可以表示插入完整的代码块"><a href="#2-超链接可以表示插入完整的代码块" class="headerlink" title="2. 超链接可以表示插入完整的代码块"></a>2. 超链接可以表示插入完整的代码块</h2><p><img src="/knosys/project-nop-entropy/dev-guide/report/word-template/xpl-tag.png" alt="xpl-tag"></p>
 <p>通过<code>xpl:</code>超链接可以插入完整的xpl标签，在具体的标签实现中可以输出任意代码块。例如</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;package-diagrams outputMode=&quot;xml&quot;&gt;</span><br><span class="line">   &lt;source&gt;</span><br><span class="line">       ....</span><br><span class="line">       &lt;w:drawing&gt;</span><br><span class="line">         ...</span><br><span class="line">       &lt;/w:drawing&gt;</span><br><span class="line">   &lt;/source&gt;</span><br><span class="line">&lt;/package-diagrams&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">&lt;package-diagrams outputMode=&quot;xml&quot;&gt;<br>   &lt;source&gt;<br>       ....<br>       &lt;w:drawing&gt;<br>         ...<br>       &lt;/w:drawing&gt;<br>   &lt;/source&gt;<br>&lt;/package-diagrams&gt;<br></code></pre></td></tr></table></figure>
 
 <h2 id="3-通过插入配对的超链接来表示嵌套的块结构"><a href="#3-通过插入配对的超链接来表示嵌套的块结构" class="headerlink" title="3. 通过插入配对的超链接来表示嵌套的块结构"></a>3. 通过插入配对的超链接来表示嵌套的块结构</h2><p><img src="/knosys/project-nop-entropy/dev-guide/report/word-template/link-xpl.png" alt="link-xpl"></p>
 <p>可以插入配对的超链接 <code>xpl:&lt;c:for var=&quot;order&quot; items=&quot;$&#123;entity.orders&#125;&gt;&quot;</code>和<code>xpl:&lt;/c:for&gt;</code>表示它们之间的内容需要被包裹到一个<code>&lt;c:for&gt;</code>循环标签中。</p>
@@ -1266,13 +1266,13 @@
 </li>
 </ul>
 <p>Word模板会被转换为XPL模板语言之后再作为XPL模板编译并输出。转换后的代码通过dumpFile可以查看，大致结构类似</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">c:unit</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">c:import</span> <span class="attr">from</span>=<span class="string">&quot;/nop/test/orm-docx.xlib&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">c:import</span> <span class="attr">from</span>=<span class="string">&quot;/nop/ooxml/xlib/docx-gen.xlib&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">c:out</span> <span class="attr">escape</span>=<span class="string">&quot;none&quot;</span>&gt;</span><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">c:out</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">c:unit</span> <span class="attr">xpl:outputMode</span>=<span class="string">&quot;none&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">c:script</span>&gt;</span>logInfo(&quot;test&quot;)<span class="tag">&lt;/<span class="name">c:script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">c:unit</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">w:document</span>&gt;</span></span><br><span class="line">      ...</span><br><span class="line">  <span class="tag">&lt;/<span class="name">w:document</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">c:unit</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">c:unit</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">c:import</span> <span class="hljs-attr">from</span>=<span class="hljs-string">&quot;/nop/test/orm-docx.xlib&quot;</span>/&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">c:import</span> <span class="hljs-attr">from</span>=<span class="hljs-string">&quot;/nop/ooxml/xlib/docx-gen.xlib&quot;</span>/&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">c:out</span> <span class="hljs-attr">escape</span>=<span class="hljs-string">&quot;none&quot;</span>&gt;</span><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span>?&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">c:out</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">c:unit</span> <span class="hljs-attr">xpl:outputMode</span>=<span class="hljs-string">&quot;none&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">c:script</span>&gt;</span>logInfo(&quot;test&quot;)<span class="hljs-tag">&lt;/<span class="hljs-name">c:script</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">c:unit</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">w:document</span>&gt;</span><br>      ...<br>  <span class="hljs-tag">&lt;/<span class="hljs-name">w:document</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">c:unit</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>当xpl模板编译发现错误时，会抛出异常，其中包含有错误信息和准确的行号。行号对应于dumpFile文件中的位置，例如</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">io.nop.api.core.exceptions.NopEvalException: </span><br><span class="line">NopEvalException[seq=1,errorCode=nop.err.commons.text.scan-unexpected-char,</span><br><span class="line">params=&#123;pos=19, reader=$&#123;model.displayNam[e], expected=&#125;, eof=true&#125;,</span><br><span class="line">desc=读取到的下一个字符不是期待的字符[&#125;]]</span><br><span class="line">@_loc=[68:35:0:0]file:/C:/can/entropy-cloud/nop-ooxml/nop-ooxml-docx/dump-tpl.doc.xml</span><br><span class="line">  @@c:unit/w:document/w:body/w:p[2]/w:r/w:t@@[68:12:0:0]file:/C:/can/entropy-cloud/nop-ooxml/nop-ooxml-docx/dump-tpl.doc.xml</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">io.nop.api.core.exceptions.NopEvalException: <br>NopEvalException[seq=1,errorCode=nop.err.commons.text.scan-unexpected-char,<br>params=&#123;pos=19, reader=$&#123;model.displayNam[e], expected=&#125;, eof=true&#125;,<br>desc=读取到的下一个字符不是期待的字符[&#125;]]<br>@_loc=[68:35:0:0]file:/C:/can/entropy-cloud/nop-ooxml/nop-ooxml-docx/dump-tpl.doc.xml<br>  @@c:unit/w:document/w:body/w:p[2]/w:r/w:t@@[68:12:0:0]file:/C:/can/entropy-cloud/nop-ooxml/nop-ooxml-docx/dump-tpl.doc.xml<br></code></pre></td></tr></table></figure>
 
 <p>以上错误信息表示在dump-tpl.doc.xml的第68行的第35列出现语法错误，同时还显示了XLang语言内部的堆栈信息而不是Java函数的堆栈信息，实际对应的代码内容为</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">w:t</span>&gt;</span>$&#123;model.displayName<span class="tag">&lt;/<span class="name">w:t</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">w:t</span>&gt;</span>$&#123;model.displayName<span class="hljs-tag">&lt;/<span class="hljs-name">w:t</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>具体的模板示例和输出结果</p>
 <p><a target="_blank" rel="noopener" href="https://gitee.com/canonical-entropy/nop-entropy/tree/master/nop-ooxml/nop-ooxml-docx/src/test/resources/payment.docx">payment.docx</a></p>
@@ -1314,8 +1314,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

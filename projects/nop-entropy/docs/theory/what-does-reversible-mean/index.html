@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1232,7 +1232,7 @@
       </header>
       <div class="Article-content col-md-9"><p>可逆计算理论是我受到物理学和数学的启发，在2007年左右提出的新一代的软件构造理论。可逆一词与物理学中熵的概念息息相关，熵增的方向确定了物理世界中时间箭头的演化方向，可逆计算理论所研究的是面向演化的粗粒度软件结构的构造规律，所以可逆正是这个理论的点睛之笔。一些没有学过热力学和统计物理的同学，对于熵的概念一无所知，看到可逆这个说法难免会感到一头雾水。可逆重要吗？软件要怎么可逆？逆向执行吗？这有什么意义？在本文中，我简单解释一下可逆计算理论中可逆到底指什么。</p>
 <h2 id="一-可逆计算的核心公式"><a href="#一-可逆计算的核心公式" class="headerlink" title="一. 可逆计算的核心公式"></a>一. 可逆计算的核心公式</h2><p>可逆计算提出了软件构造的一个核心公式</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">App = Delta x-extends Generator&lt;DSL&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">App = Delta x-extends Generator&lt;DSL&gt;<br></code></pre></td></tr></table></figure>
 
 <p>需要明确指出的是，可逆计算理论是一个具有严格定义的科学理论，它并不是一个仁者见仁、智者见智的方法论，这里的公式也不是一种示意性的类比，它实际上包含如下精确定义的内容：</p>
 <ol>
@@ -1252,20 +1252,20 @@
 <p>在考虑存在单位元的情况下，任意元素总可以被看作是作用在单位元之上的某个差量，$0+A&#x3D;A$。所以说，全量是差量的一个特例，我们可以在差量概念的基础上重新认识和构建所有软件结构。</p>
 <p>在数学上，元素和作用在元素之上的运算是作为一个整体被定义的，也就是说Delta和<code>x-extends</code>算子必须作为一个整体被考虑，只有在明确<code>x-extends</code>作用含义的情况下我们才能清楚的解释Delta中的逆元到底意味着什么。</p>
 <h2 id="三-减法：方程的逆向求解"><a href="#三-减法：方程的逆向求解" class="headerlink" title="三. 减法：方程的逆向求解"></a>三. 减法：方程的逆向求解</h2><p>当我们从操作的角度去理解逆元的时候，就可以很自然的从逆元概念得到减法。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A = B + (-C) = B - C</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">A = B + (-C) = B - C<br></code></pre></td></tr></table></figure>
 
 <p>如果引入了减法的概念，我们就可以通过移项实现方程的逆向求解</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A = B + C ==&gt;  B = A - C</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">A = B + C ==&gt;  B = A - C<br></code></pre></td></tr></table></figure>
 
 <p>在Nop平台中的实际实现为</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">App = Delta x-extends Base ==&gt;  Delta = App x-diff Base</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">App = Delta x-extends Base ==&gt;  Delta = App x-diff Base<br></code></pre></td></tr></table></figure>
 
 <p><a target="_blank" rel="noopener" href="https://gitee.com/canonical-entropy/nop-entropy/blob/master/nop-xlang/src/main/java/io/nop/xlang/delta/DeltaMerger.java">DeltaMerger.java</a>和<a target="_blank" rel="noopener" href="https://gitee.com/canonical-entropy/nop-entropy/blob/master/nop-xlang/src/main/java/io/nop/xlang/delta/DeltaDiffer.java">DeltaDiffer.java</a>分别实现了正向的<code>x-extends</code>和逆向的<code>x-diff</code>运算。也就是说，在Nop平台中通过Delta合并算法合并得到整体之后，我们还可以通过diff算法反向计算重新拆分出其中的Delta成分，这种能力使得我们可以像解方程一样实现软件的差量化构造。</p>
 <p>具体的一个实际应用场景是，既支持自动化模型生成，又支持可视化设计的前端页面设计器。在Nop平台中，前端页面是根据数据模型自动推定生成的，在自动生成之后我们可以通过可视化设计器对生成的结果进行微调，然后再保存回页面DSL的时候，我们应用diff算法计算得到可视化修改的差量部分。也就是说，如果可视化设计器只是进行了局部调整，则实际保存到DSL文件中的也是少量的差量信息，而不是整个完整页面的信息。通过这种方法，我们可以实现自动化模型生成和可视化设计之间的协同作用。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PageInEditor = DeltaPage x-extends Generator&lt;ViewModel&gt;</span><br><span class="line">DeltaPage = PageInEditor x-diff Generator&lt;ViewModel&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">PageInEditor = DeltaPage x-extends Generator&lt;ViewModel&gt;<br>DeltaPage = PageInEditor x-diff Generator&lt;ViewModel&gt;<br></code></pre></td></tr></table></figure>
 
 <p>在可视化编辑器中进行编辑的总是全量页面 PageInEditor，但是保存到文件系统中的DSL是如下结构，它只突出显示手工修改的局部差量。</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">x:gen-extends:</span> <span class="string">|</span></span><br><span class="line"><span class="string">  &lt;web:GenPage view=&quot;NopAuthUser.view.xml&quot; page=&quot;main&quot; xpl:lib=&quot;/nop/web/xlib/web.xlib&quot; /&gt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="attr">title:</span> <span class="string">修改后的标题</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">x:gen-extends:</span> <span class="hljs-string">|</span><br><span class="hljs-string">  &lt;web:GenPage view=&quot;NopAuthUser.view.xml&quot; page=&quot;main&quot; xpl:lib=&quot;/nop/web/xlib/web.xlib&quot; /&gt;</span><br><span class="hljs-string"></span><br><span class="hljs-attr">title:</span> <span class="hljs-string">修改后的标题</span><br></code></pre></td></tr></table></figure>
 
 <h2 id="四-可逆变换"><a href="#四-可逆变换" class="headerlink" title="四. 可逆变换"></a>四. 可逆变换</h2><p>目前主流的软件构造理论都是基于组合、组装的观点，而少有系统化的基于变换的观点来考察软件系统的构造问题。但是正如我在知乎的文章<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/550923860">解耦的方法远不止依赖注入</a>中所指出的，<strong>为了实现解耦，最本质、最强大的手段应该是表象变换，接口只是表象变换的最简单的一种形式而已</strong>。</p>
 <blockquote>
@@ -1277,10 +1277,10 @@
 <p>甚至，在理论层面上说，我们可以在可逆变换的框架下解决所有计算问题，毕竟量子计算就是一种可逆变换。</p>
 </blockquote>
 <p>假设变换G存在逆变换F，则我们可以实现A和B之间的双向转换</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">B = G(A), A = F(B)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">B = G(A), A = F(B)<br></code></pre></td></tr></table></figure>
 
 <p>低代码平台中的<strong>可视化设计问题可以在可逆变换的框架下自动被解决</strong>。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">可视化表象 = Designer(文本表象),   文本表象 = Serializer(可视化表象)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">可视化表象 = Designer(文本表象),   文本表象 = Serializer(可视化表象)<br></code></pre></td></tr></table></figure>
 
 <p>可视化设计器读取文本表象，产生可视化表象，从而支持用户通过可视化手段编辑模型，然后用户保存时，再将可视化设计器中的模型信息序列化成文本，导出到文件中就成为DSL模型文件。</p>
 <p><strong>可逆性可以复合</strong>：如果结构的每个子部分都支持可逆变换，则我们可以自动推导得到一个应用于结构整体的可逆变换。例如，如果我们对每个字段级别的结构定义了可视化表象和对应的文本表象，那么我们就可以自动推导得到整个DSL文本和可视化设计表单之间的双向转换。</p>
@@ -1290,24 +1290,24 @@
 <p>$$<br>B \approx G (A) , A \approx F(B) \Longrightarrow<br>B + dB &#x3D; G(A + dA), A + dA &#x3D; F(B + dB)<br>$$</p>
 <p>在Nop平台中，充分贯彻了差量化设计的思想，在所有的结构中都内置了扩展属性机制，也就是说，永远采用 <code>(data, ext_data)</code>这种配对设计。在技术形式上，ext_data经常作为元数据来存储。比如在消息对象设计中体现为 <code>data + headers</code>，而在Java类设计中，体现为  <code>field + annotations</code>，在DSL模型设计中，体现为 <code>props + ext_props</code>。</p>
 <p>另外需要强调的是，数学上的可逆变换远比一般人想象中的函数可逆映射要复杂、强大得多。在Nop平台中的可逆变换大部分相当于是范畴论中的函子变换（Functor）。也就是说，它不是作用于单一的某个对象上，而是<strong>定义在领域（所谓的范畴）中的每个对象上</strong>。举例来说，Nop平台提供了DSL对象和Excel之间的可逆转换：无需编程，可以解析Excel文件得到DSL对象，同时也可以将DSL对象导出为Excel文件。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DslModel = Importor&lt;Excel&gt;, Excel = ReportExporter&lt;DslModel&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">DslModel = Importor&lt;Excel&gt;, Excel = ReportExporter&lt;DslModel&gt;<br></code></pre></td></tr></table></figure>
 
 <p>传统的编程实践中，我们总是针对某一个具体的Excel文件编写解析代码，然后解析得到某一个特殊的数据对象，反向也是同样的情况，我们针对某个具体的业务对象编程，实现一个Excel导出函数。如果我们现在针对某个需求编写了这里的双向转换函数，后来需求变了，或者我们开发一个新的产品，那么我们只能是参考以前的导入导出代码，但是没法直接复用它们，必须针对新的对象结构重新编写。</p>
 <p>但是，在Nop平台中导入模型和报表模型构成一对非常通用的可逆变换，它可以自动实现将<strong>任意的数据对象</strong>导出为Excel文件，同时也可以解析<strong>任意的一个Excel</strong>(只要满足相当宽泛的Tree结构条件即可)得到对应的数据对象。用范畴论的术语来描述，相当于Nop平台是建立了 DSL范畴和Excel范畴之间的一对伴随函子(Adjoint Functor)。这种函子化的可逆变换如果进一步进行复合，可以形成一种前所未有的强大技术手段。</p>
 <p>在实际的业务应用中，如果我们总是追求最小化信息表达，强调业务开发的框架中立性，那么很自然的就会导向可逆形式变换。具体分析参见我的文章<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/682910525">业务开发自由之路：如何打破框架束缚，实现真正的框架中立性</a>。</p>
 <h2 id="五-沿时间线逆行"><a href="#五-沿时间线逆行" class="headerlink" title="五. 沿时间线逆行"></a>五. 沿时间线逆行</h2><p>传统软件工程中的构造手段都是沿着时间线正向进行的。比如说，在概念层面上，我们需要先开发基类A，然后再开发派生类B，基类A总是先于派生类B存在。当我们进行扩展时，我们一般是增加不同的派生类来引入新的信息结构。少数情况下，我们会修改基类A，然后就需要重新编译，相当于重新构造所有的派生类。如果放到时间线上去考量，我们会看到信息是逐层堆叠，层层累进的，旧的信息在下方，而新的信息在上方。如果我们要把新的信息注入到系统的根基中，那么就<strong>必须要修改源码，相当于是把结构打碎然后重新构建</strong>。</p>
 <p>可逆计算的构造公式作为一个纯数学的形式表达，它的各个部分并没有明确的时间依赖假定。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">App[t] = Delta[t-1] x-extends Generator[t]&lt;DSL[t]&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">App[t] = Delta[t-1] x-extends Generator[t]&lt;DSL[t]&gt;<br></code></pre></td></tr></table></figure>
 
 <p>t时刻需要构建的系统，可以由t-1时刻确定的Delta，作用到t时刻才确定的<code>Generator[t]&lt;DSL[t]&gt;</code>结构上，合成为一个整体构成。因为t时刻（比如部署时刻）我们已经知道所有业务相关信息，可以避免猜测用户应用场景中的大量可能情况，从而只需要描述当前需要用到的信息，继而我们可以用一个根据t时刻信息定制的Generator来动态展开这些信息。</p>
 <p>落实到具体的代码实现中，Nop平台提供了一种非常独特的Delta定制能力。它可以在完全不修改现有源码的情况下，对系统中所有用到的DSL结构进行差量化调整。类比Java中的实现我们可以更清楚的看到Delta定制的独特性。假设我们现在已经构建了一个系统 <code>A extends B extends C</code>，把它们打成了jar包。现在在完全不修改这个jar包的情况下，Java中是没有任何手段修改这个已有的结构的，我们只能是在外部补充新的信息</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">E extends A extends B extends C</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">E extends A extends B extends C<br></code></pre></td></tr></table></figure>
 
 <p>但是如果利用Delta定制机制，我们可以通过补充一个delta描述，任意替换已有的代码结构。例如将替换B为<code>E+F</code>，得到 <code>A extends E extends F extends C</code>。在数学层面上相当于是</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">X = A + B + C</span><br><span class="line">Y = X + (-B + E + F) = A + E + F +C</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">X = A + B + C<br>Y = X + (-B + E + F) = A + E + F +C<br></code></pre></td></tr></table></figure>
 
 <p>Delta定制的能力体现在可逆计算公式的如下推演中</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">App = B + G&lt;S&gt;</span><br><span class="line">App + dApp = B + G&lt;S&gt; + dApp = B + dB + (G + dG)&lt;S + dS&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">App = B + G&lt;S&gt;<br>App + dApp = B + G&lt;S&gt; + dApp = B + dB + (G + dG)&lt;S + dS&gt;<br></code></pre></td></tr></table></figure>
 
 <p>在可逆计算理论的构造公式中，扰动差量可以产生于任何部分，然后这些差量可以跨越当前已有的结构，统一汇总为一个外部修正dApp。这种数学上的构造要求扰动信息可以在已有结构之间自由流动。它的一个特殊应用就是将t时刻才知晓的信息，以差量化的形式直接注入到已有的、t-1时刻就固化的程序结构中，此时无需修改已有的源代码。<strong>类似于我们永远可以有一枚后悔药，让我们穿越到t-1时刻，对程序结构进行任意的适配调整，最终解决我们在t时刻遇到的问题</strong>。</p>
 <p>需要注意的是，虽然Docker技术也采用了<code>App = Delta x-extends Generator&lt;DSL&gt;</code>这样一种计算模式，是可逆计算理论的一个典型应用实例，但是它并不支持Nop平台中的这种动态Delta定制。Docker的镜像是不可变的，而且前后层的关系是绑定的，后一层会明确指定所依赖的前一层的hash摘要，类似于区块链，形成一个不可被篡改的时间线。</p>
@@ -1348,8 +1348,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

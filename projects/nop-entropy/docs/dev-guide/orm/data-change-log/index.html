@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1245,7 +1245,7 @@
 </blockquote>
 <h2 id="通过Xpl配置OrmInterceptor"><a href="#通过Xpl配置OrmInterceptor" class="headerlink" title="通过Xpl配置OrmInterceptor"></a>通过Xpl配置OrmInterceptor</h2><p>NopOrm内置引入的XplOrmInterceptorFactoryBean提供了一种灵活的OrmInterceptor定义机制。它的作用类似于是实现了实体级别的触发器机制。</p>
 <p>只需要在各个模块增加<code>/&#123;moduleId&#125;/orm/app.orm-interceptor.xml</code>文件，就可以使用Xpl模板语言来实现OrmInterceptor。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">interceptor</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">entity</span> <span class="attr">name</span>=<span class="string">&quot;io.nop.auth.dao.entity.NopAuthUser&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">post-save</span> <span class="attr">id</span>=<span class="string">&quot;syncToEs&quot;</span>&gt;</span></span><br><span class="line">            // 在这里可以写xpl脚本，entity对应于当前实体</span><br><span class="line">        <span class="tag">&lt;/<span class="name">post-save</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">entity</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">interceptor</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><br><span class="hljs-tag">&lt;<span class="hljs-name">interceptor</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">entity</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;io.nop.auth.dao.entity.NopAuthUser&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">post-save</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;syncToEs&quot;</span>&gt;</span><br>            // 在这里可以写xpl脚本，entity对应于当前实体<br>        <span class="hljs-tag">&lt;/<span class="hljs-name">post-save</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">entity</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">interceptor</span>&gt;</span><br></code></pre></td></tr></table></figure>
 </div>
       <footer class="Article-footer col-md-3">
         
@@ -1282,8 +1282,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

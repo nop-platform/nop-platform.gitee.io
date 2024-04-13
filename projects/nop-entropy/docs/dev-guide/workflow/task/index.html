@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1240,10 +1240,10 @@
 <li>堆栈结构基本可以看作是线性执行，每个步骤有唯一的父步骤。</li>
 <li>每个步骤具有一个IEvalScope，子步骤通过input从父scope中获取变量，通过output将数据返回到父scope中。相当于是函数调用</li>
 </ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var &#123; outVar &#125; = child( &#123;inputVar: expr_eval_in_parent_scope &#125;) </span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">var &#123; outVar &#125; = child( &#123;inputVar: expr_eval_in_parent_scope &#125;) <br></code></pre></td></tr></table></figure>
 
 <p><strong>每个Step就相当于是一个可配置的、异步执行、可中断重启、可插入interceptor的函数</strong></p>
-<h2 id="任务步骤接口"><a href="#任务步骤接口" class="headerlink" title="任务步骤接口"></a>任务步骤接口</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">ITaskStep</span> &#123;</span><br><span class="line">    String <span class="title function_">getStepType</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line">    List&lt;? <span class="keyword">extends</span> <span class="title class_">ITaskInputModel</span>&gt; getInputs();</span><br><span class="line"></span><br><span class="line">    List&lt;? <span class="keyword">extends</span> <span class="title class_">ITaskOutputModel</span>&gt; getOutputs();</span><br><span class="line"></span><br><span class="line">    TaskStepResult <span class="title function_">execute</span><span class="params">(ITaskStepRuntime stepRt)</span>;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+<h2 id="任务步骤接口"><a href="#任务步骤接口" class="headerlink" title="任务步骤接口"></a>任务步骤接口</h2><figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">ITaskStep</span> &#123;<br>    String <span class="hljs-title function_">getStepType</span><span class="hljs-params">()</span>;<br><br>    List&lt;? <span class="hljs-keyword">extends</span> <span class="hljs-title class_">ITaskInputModel</span>&gt; getInputs();<br><br>    List&lt;? <span class="hljs-keyword">extends</span> <span class="hljs-title class_">ITaskOutputModel</span>&gt; getOutputs();<br><br>    TaskStepResult <span class="hljs-title function_">execute</span><span class="hljs-params">(ITaskStepRuntime stepRt)</span>;<br>&#125; <br></code></pre></td></tr></table></figure>
 
 <ul>
 <li>stepId: 每个步骤具有唯一的定义id，它在整个流程图定义中唯一</li>
@@ -1264,7 +1264,7 @@
 <li>执行步骤body</li>
 <li>根据output设置将步骤scope中的变量保存到parentScope或者全局scope中。抛出异常的时候不会执行output处理。</li>
 </ol>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(task.<span class="property">cancelled</span>) stop;</span><br><span class="line"></span><br><span class="line">stepRt = taskRt.<span class="title function_">newStepRunTime</span>(stepName);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(第一次执行)&#123;</span><br><span class="line">  <span class="keyword">if</span>(不满足条件) <span class="keyword">return</span> <span class="variable constant_">SUCCESS</span>;</span><br><span class="line">  根据parentScope初始化inputs</span><br><span class="line">  执行输入验证</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">  从持久化存储中恢复stepState</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">registerTimeout</span>()</span><br><span class="line"></span><br><span class="line">retry&#123;</span><br><span class="line">  <span class="keyword">try</span>&#123;</span><br><span class="line">     <span class="title function_">rateLimit</span>()</span><br><span class="line">     result = <span class="title function_">execute</span>(stepRt)</span><br><span class="line">  &#125;<span class="keyword">catch</span>(e)&#123;</span><br><span class="line">     <span class="title function_">onException</span>(e)</span><br><span class="line">  &#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">     <span class="title function_">onFinally</span>()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">将result中的变量按照输出配置拷贝到parentScope中</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">if</span>(task.<span class="hljs-property">cancelled</span>) stop;<br><br>stepRt = taskRt.<span class="hljs-title function_">newStepRunTime</span>(stepName);<br><br><span class="hljs-keyword">if</span>(第一次执行)&#123;<br>  <span class="hljs-keyword">if</span>(不满足条件) <span class="hljs-keyword">return</span> <span class="hljs-variable constant_">SUCCESS</span>;<br>  根据parentScope初始化inputs<br>  执行输入验证<br>&#125;<span class="hljs-keyword">else</span>&#123;<br>  从持久化存储中恢复stepState<br>&#125;<br><br><span class="hljs-title function_">registerTimeout</span>()<br><br>retry&#123;<br>  <span class="hljs-keyword">try</span>&#123;<br>     <span class="hljs-title function_">rateLimit</span>()<br>     result = <span class="hljs-title function_">execute</span>(stepRt)<br>  &#125;<span class="hljs-keyword">catch</span>(e)&#123;<br>     <span class="hljs-title function_">onException</span>(e)<br>  &#125;<span class="hljs-keyword">finally</span>&#123;<br>     <span class="hljs-title function_">onFinally</span>()<br>  &#125;<br>&#125;<br><br>将result中的变量按照输出配置拷贝到parentScope中<br></code></pre></td></tr></table></figure>
 
 <h2 id="状态管理"><a href="#状态管理" class="headerlink" title="状态管理"></a>状态管理</h2><ul>
 <li>无法直接看见parentScope中的变量，所有可用变量都是通过input传入</li>
@@ -1285,7 +1285,7 @@
 <li>实现类似于continuation机制，基本做法是将内部执行状态明确保存在taskState中，这样只需要恢复taskState就恢复了内部执行状态</li>
 <li>inputs + internalStates &#x3D;&#x3D;&gt; change internalStates &#x3D;&#x3D;&gt; outputs when finished</li>
 </ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">internalStates = <span class="title function_">initState</span>(inputs);</span><br><span class="line"><span class="keyword">while</span>(!internalStates.<span class="property">finished</span>)&#123;</span><br><span class="line">   <span class="title function_">doSomething</span>();</span><br><span class="line">   <span class="title function_">update</span>(internalStates,delta);</span><br><span class="line">&#125;</span><br><span class="line">outputs = <span class="title function_">buildOutputs</span>(scope)</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">internalStates = <span class="hljs-title function_">initState</span>(inputs);<br><span class="hljs-keyword">while</span>(!internalStates.<span class="hljs-property">finished</span>)&#123;<br>   <span class="hljs-title function_">doSomething</span>();<br>   <span class="hljs-title function_">update</span>(internalStates,delta);<br>&#125;<br>outputs = <span class="hljs-title function_">buildOutputs</span>(scope)<br></code></pre></td></tr></table></figure>
 
 <h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h2><p>chain&#x2F;pipeline是一个特别常用的模式，应该可以直接通过约定来构建</p>
 <h2 id="数据驱动模式"><a href="#数据驱动模式" class="headerlink" title="数据驱动模式"></a>数据驱动模式</h2><p>在非流式处理的情况下，数据之间的依赖关系本质上是由步骤之间的依赖关系所衍生得到的。因为步骤的输出是整体性输出，必须整个步骤结束之后才能得到步骤的输出。</p>
@@ -1346,8 +1346,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

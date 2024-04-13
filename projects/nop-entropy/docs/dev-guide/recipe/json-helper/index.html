@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1230,24 +1230,24 @@
 
 
       </header>
-      <div class="Article-content col-md-9"><h2 id="1-解析JSON文本"><a href="#1-解析JSON文本" class="headerlink" title="1. 解析JSON文本"></a>1. 解析JSON文本</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">JsonTool</span>.<span class="title function_">parseNonStrict</span>(text);</span><br><span class="line"></span><br><span class="line"><span class="title class_">JsonTool</span>.<span class="title function_">parse</span>(text); <span class="comment">// 解析标准JSON格式</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+      <div class="Article-content col-md-9"><h2 id="1-解析JSON文本"><a href="#1-解析JSON文本" class="headerlink" title="1. 解析JSON文本"></a>1. 解析JSON文本</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-title class_">JsonTool</span>.<span class="hljs-title function_">parseNonStrict</span>(text);<br><br><span class="hljs-title class_">JsonTool</span>.<span class="hljs-title function_">parse</span>(text); <span class="hljs-comment">// 解析标准JSON格式</span><br><br></code></pre></td></tr></table></figure>
 
-<h2 id="2-解析JSON文件"><a href="#2-解析JSON文件" class="headerlink" title="2. 解析JSON文件"></a>2. 解析JSON文件</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">JsonTool</span>.<span class="title function_">parseBeanFromResource</span>(resource, beanType);</span><br></pre></td></tr></table></figure>
+<h2 id="2-解析JSON文件"><a href="#2-解析JSON文件" class="headerlink" title="2. 解析JSON文件"></a>2. 解析JSON文件</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-title class_">JsonTool</span>.<span class="hljs-title function_">parseBeanFromResource</span>(resource, beanType);<br></code></pre></td></tr></table></figure>
 
 <p>如果根据文件的后缀名是json、json5或者yaml，采用不同的解析器去解析。返回结果缺省为普通Map或者List对象。如果设置了beanType为具体的Java类型，<br>则尝试将Json对象转换为对应的强类型的Java对象。</p>
 <p>例如</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">JsonTool.parseBeanFromResource(resource, Map.class);</span><br><span class="line">JsonTool.parseBeanFromResource(resource, RuleModel.class);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">JsonTool.parseBeanFromResource(resource, Map.class);<br>JsonTool.parseBeanFromResource(resource, RuleModel.class);<br></code></pre></td></tr></table></figure>
 
-<h2 id="3-加载JSON或者Yaml文件，并自动按照Delta合并规则处理其中的x-extends和x-gen-extends等差量合并算子。"><a href="#3-加载JSON或者Yaml文件，并自动按照Delta合并规则处理其中的x-extends和x-gen-extends等差量合并算子。" class="headerlink" title="3. 加载JSON或者Yaml文件，并自动按照Delta合并规则处理其中的x:extends和x:gen-extends等差量合并算子。"></a>3. 加载JSON或者Yaml文件，并自动按照Delta合并规则处理其中的<code>x:extends</code>和<code>x:gen-extends</code>等差量合并算子。</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JsonTool.loadDeltaBean(resource, beanType, new DeltaJsonOptions());</span><br></pre></td></tr></table></figure>
+<h2 id="3-加载JSON或者Yaml文件，并自动按照Delta合并规则处理其中的x-extends和x-gen-extends等差量合并算子。"><a href="#3-加载JSON或者Yaml文件，并自动按照Delta合并规则处理其中的x-extends和x-gen-extends等差量合并算子。" class="headerlink" title="3. 加载JSON或者Yaml文件，并自动按照Delta合并规则处理其中的x:extends和x:gen-extends等差量合并算子。"></a>3. 加载JSON或者Yaml文件，并自动按照Delta合并规则处理其中的<code>x:extends</code>和<code>x:gen-extends</code>等差量合并算子。</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">JsonTool.loadDeltaBean(resource, beanType, new DeltaJsonOptions());<br></code></pre></td></tr></table></figure>
 
-<h2 id="4-将Java对象转换为普通JSON对象"><a href="#4-将Java对象转换为普通JSON对象" class="headerlink" title="4. 将Java对象转换为普通JSON对象"></a>4. 将Java对象转换为普通JSON对象</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">json = JsonTool.serializeToJson(bean);</span><br></pre></td></tr></table></figure>
+<h2 id="4-将Java对象转换为普通JSON对象"><a href="#4-将Java对象转换为普通JSON对象" class="headerlink" title="4. 将Java对象转换为普通JSON对象"></a>4. 将Java对象转换为普通JSON对象</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">json = JsonTool.serializeToJson(bean);<br></code></pre></td></tr></table></figure>
 
-<h2 id="5-将Java对象序列化为JSON文本"><a href="#5-将Java对象序列化为JSON文本" class="headerlink" title="5. 将Java对象序列化为JSON文本"></a>5. 将Java对象序列化为JSON文本</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">json = JsonTool.serialize(bean, pretty);</span><br></pre></td></tr></table></figure>
+<h2 id="5-将Java对象序列化为JSON文本"><a href="#5-将Java对象序列化为JSON文本" class="headerlink" title="5. 将Java对象序列化为JSON文本"></a>5. 将Java对象序列化为JSON文本</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">json = JsonTool.serialize(bean, pretty);<br></code></pre></td></tr></table></figure>
 
 <p>pretty参数控制生成文本时是否使用缩进。</p>
-<h2 id="6-将Java对象序列化为Yaml文本"><a href="#6-将Java对象序列化为Yaml文本" class="headerlink" title="6. 将Java对象序列化为Yaml文本"></a>6. 将Java对象序列化为Yaml文本</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">json = JsonTool.serializeToYaml(bean);</span><br></pre></td></tr></table></figure>
+<h2 id="6-将Java对象序列化为Yaml文本"><a href="#6-将Java对象序列化为Yaml文本" class="headerlink" title="6. 将Java对象序列化为Yaml文本"></a>6. 将Java对象序列化为Yaml文本</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">json = JsonTool.serializeToYaml(bean);<br></code></pre></td></tr></table></figure>
 
-<h2 id="7-将Java对象序列化为JSON文本，并保存到文件中"><a href="#7-将Java对象序列化为JSON文本，并保存到文件中" class="headerlink" title="7. 将Java对象序列化为JSON文本，并保存到文件中"></a>7. 将Java对象序列化为JSON文本，并保存到文件中</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ResourceHelper.writeJson(resource,obj);</span><br></pre></td></tr></table></figure>
+<h2 id="7-将Java对象序列化为JSON文本，并保存到文件中"><a href="#7-将Java对象序列化为JSON文本，并保存到文件中" class="headerlink" title="7. 将Java对象序列化为JSON文本，并保存到文件中"></a>7. 将Java对象序列化为JSON文本，并保存到文件中</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">ResourceHelper.writeJson(resource,obj);<br></code></pre></td></tr></table></figure>
 </div>
       <footer class="Article-footer col-md-3">
         
@@ -1284,8 +1284,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

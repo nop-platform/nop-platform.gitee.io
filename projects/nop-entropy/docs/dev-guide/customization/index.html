@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1235,7 +1235,7 @@
 <h2 id="定制bean"><a href="#定制bean" class="headerlink" title="定制bean"></a>定制bean</h2><p>Nop平台中所有的bean都由NopIoC容器统一管理，它是一个语法类似Spring1.0，但是增加了类似SpringBoot的条件装配和自动装配机制的，完全声明式的一个IoC容器。</p>
 <p><strong>为了避免命名冲突，Nop平台内置的bean的id一般以nop为前缀，例如nopJdbcTemplate等</strong></p>
 <h3 id="查看bean的定义"><a href="#查看bean的定义" class="headerlink" title="查看bean的定义"></a>查看bean的定义</h3><p>为了定制bean，首先可以查看<code>_dump</code>目录下的&#x2F;nop&#x2F;main&#x2F;beans&#x2F;merged-app.beans.xml文件。系统在调试模式下启动时会自动将所有被激活的bean的配置都输出<br>到这个调试文件中。通过查看这个文件，可以获知系统中所有使用到的bean的配置细节。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">&lt;!--LOC:[15:6:0:0]/nop/auth/beans/auth-service.beans.xml--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;io.nop.auth.service.auth.DefaultActionAuthChecker&quot;</span> <span class="attr">id</span>=<span class="string">&quot;$DEFAULT$nopActionAuthChecker&quot;</span> <span class="attr">ioc:aop</span>=<span class="string">&quot;false&quot;</span></span></span><br><span class="line"><span class="tag">          <span class="attr">name</span>=<span class="string">&quot;nopActionAuthChecker&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;siteMapProvider&quot;</span> <span class="attr">ext:autowired</span>=<span class="string">&quot;true&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">ref</span> <span class="attr">bean</span>=<span class="string">&quot;nopSiteMapProvider&quot;</span> <span class="attr">ext:resolved-loc</span>=<span class="string">&quot;[13:6:0:0]/nop/auth/beans/auth-service.beans.xml&quot;</span></span></span><br><span class="line"><span class="tag">                 <span class="attr">ext:resolved-trace</span>=<span class="string">&quot;/nop/auth/beans/app-service.beans.xml&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><br><span class="hljs-comment">&lt;!--LOC:[15:6:0:0]/nop/auth/beans/auth-service.beans.xml--&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;io.nop.auth.service.auth.DefaultActionAuthChecker&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;$DEFAULT$nopActionAuthChecker&quot;</span> <span class="hljs-attr">ioc:aop</span>=<span class="hljs-string">&quot;false&quot;</span></span><br><span class="hljs-tag">          <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;nopActionAuthChecker&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;siteMapProvider&quot;</span> <span class="hljs-attr">ext:autowired</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">ref</span> <span class="hljs-attr">bean</span>=<span class="hljs-string">&quot;nopSiteMapProvider&quot;</span> <span class="hljs-attr">ext:resolved-loc</span>=<span class="hljs-string">&quot;[13:6:0:0]/nop/auth/beans/auth-service.beans.xml&quot;</span></span><br><span class="hljs-tag">                 <span class="hljs-attr">ext:resolved-trace</span>=<span class="hljs-string">&quot;/nop/auth/beans/app-service.beans.xml&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>这个文件中可以看出每个bean所在的源文件位置，例如上面的示例表示</p>
 <ol>
@@ -1245,13 +1245,13 @@
 <li><code>id=&quot;$DEFAULT$nopActionAuthChecker&quot;</code> 表示它定义的是一个default实现，如果存在一个具有相同名称的bean，则会自动替换这个实现。</li>
 </ol>
 <p>nopActionAuthChecker的原始定义如下，节点上标记了ioc:default&#x3D;’true’。如果存在另外一个bean的name也是nopActionAuthChecker，则会自动<br>覆盖这个缺省定义。ioc:default的作用类似于SpringBoot中的ConditionOnMissingBean</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;nopActionAuthChecker&quot;</span> <span class="attr">class</span>=<span class="string">&quot;io.nop.auth.service.auth.DefaultActionAuthChecker&quot;</span> <span class="attr">ioc:default</span>=<span class="string">&quot;true&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;nopActionAuthChecker&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;io.nop.auth.service.auth.DefaultActionAuthChecker&quot;</span> <span class="hljs-attr">ioc:default</span>=<span class="hljs-string">&quot;true&quot;</span>/&gt;</span><br></code></pre></td></tr></table></figure>
 
 <h3 id="替换或者删除系统中的bean定义"><a href="#替换或者删除系统中的bean定义" class="headerlink" title="替换或者删除系统中的bean定义"></a>替换或者删除系统中的bean定义</h3><p>如果需要替换系统中bean的定义，只需要在&#x2F;_vfs&#x2F;_delta&#x2F;default目录下定义同名的beans.xml文件，然后在其中使用x:extends机制来定制</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">x:schema</span>=<span class="string">&quot;/nop/schema/beans.xdef&quot;</span> <span class="attr">xmlns:x</span>=<span class="string">&quot;/nop/schema/xdsl.xdef&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">x:extends</span>=<span class="string">&quot;super&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 可以通过这种方式删除系统中内置的bean的定义--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;nopActionAuthChecker&quot;</span> <span class="attr">x:override</span>=<span class="string">&quot;remove&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><br><span class="hljs-tag">&lt;<span class="hljs-name">beans</span> <span class="hljs-attr">x:schema</span>=<span class="hljs-string">&quot;/nop/schema/beans.xdef&quot;</span> <span class="hljs-attr">xmlns:x</span>=<span class="hljs-string">&quot;/nop/schema/xdsl.xdef&quot;</span></span><br><span class="hljs-tag">       <span class="hljs-attr">x:extends</span>=<span class="hljs-string">&quot;super&quot;</span>&gt;</span><br>    <span class="hljs-comment">&lt;!-- 可以通过这种方式删除系统中内置的bean的定义--&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;nopActionAuthChecker&quot;</span> <span class="hljs-attr">x:override</span>=<span class="hljs-string">&quot;remove&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">beans</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>也可以替换bean的实现类，例如</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">x:schema</span>=<span class="string">&quot;/nop/schema/beans.xdef&quot;</span> <span class="attr">xmlns:x</span>=<span class="string">&quot;/nop/schema/xdsl.xdef&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">x:extends</span>=<span class="string">&quot;super&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 这里的定义会和平台中的定义节点进行合并 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;nopActionAuthChecker&quot;</span> <span class="attr">claass</span>=<span class="string">&quot;xxx.MyActionAuthChecker&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">beans</span> <span class="hljs-attr">x:schema</span>=<span class="hljs-string">&quot;/nop/schema/beans.xdef&quot;</span> <span class="hljs-attr">xmlns:x</span>=<span class="hljs-string">&quot;/nop/schema/xdsl.xdef&quot;</span></span><br><span class="hljs-tag">       <span class="hljs-attr">x:extends</span>=<span class="hljs-string">&quot;super&quot;</span>&gt;</span><br>    <span class="hljs-comment">&lt;!-- 这里的定义会和平台中的定义节点进行合并 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;nopActionAuthChecker&quot;</span> <span class="hljs-attr">claass</span>=<span class="hljs-string">&quot;xxx.MyActionAuthChecker&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">beans</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <h2 id="扩展Excel模型"><a href="#扩展Excel模型" class="headerlink" title="扩展Excel模型"></a>扩展Excel模型</h2><p>参见<a href="../model/custom-model/">custom-model.md</a></p>
 
@@ -1291,8 +1291,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

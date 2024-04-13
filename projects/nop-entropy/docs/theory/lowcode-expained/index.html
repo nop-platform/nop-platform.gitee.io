@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1232,15 +1232,15 @@
       </header>
       <div class="Article-content col-md-9"><p>传统的代码生成器只是一次性脚手架，不支持持续的增量化改进，所以它不是低码的。典型的，一旦生成代码之后，所有客户化定制工作都需要修改生成代码，从而脱离原有<br>的模型约束，当我们对模型进行了增量调整之后，重新出码会覆盖所有代码，丢失手工修改内容。</p>
 <p>原则上生成代码与基于JSON格式进行解释并没有本质上的差别。例如在形式上，我们可以这样看待amis框架的运行过程：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">result = renderAmis(json, data)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">result = renderAmis(json, data)<br></code></pre></td></tr></table></figure>
 
 <p>renderAmis作为一个解释器接受amis的json文件以及外部传入的data数据，从而在运行时产生最终的结果。</p>
 <p>我们知道，多参数函数可以通过curry化转化为单参数函数，所以这一过程实际上等价于</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">result = (renderAmis(json))(data)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">result = (renderAmis(json))(data)<br></code></pre></td></tr></table></figure>
 
 <p>即 renderAmis与json先结合，产生一个函数，然后再把这个函数作用到data上。</p>
 <p>如果renderAmis(json)的信息在编译期已经能够确定，那么完全可以在编译期经过编译优化得到一个编译后的组件。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">component = renderAmis(json) // 在编译期执行</span><br><span class="line">result = component(data)   // 在运行期执行</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">component = renderAmis(json) // 在编译期执行<br>result = component(data)   // 在运行期执行<br></code></pre></td></tr></table></figure>
 
 <p>在数学上，所谓的编译过程可以看作是将一个原先运行期的函数拆分成了两个部分：编译期的函数生成器 + 运行期的函数。这一过程，可以被看作是将函数提升为了泛函或者物理上我们常说的算子。</p>
 <p>理论上说，生成代码并不是做不到**“持续的可视化编译”**，只要通过即时编译技术实现动态的差量编译（差量化的产生式编程），所有解释模型能做到的事情，多阶段编译技术都能够做到。</p>
@@ -1314,8 +1314,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1231,21 +1231,21 @@
 
       </header>
       <div class="Article-content col-md-9"><p>环境准备： JDK 17+、Maven 3.9.3+、Git</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone https://gitee.com/canonical-entropy/nop-entropy.git</span><br><span class="line">cd nop-entropy</span><br><span class="line">mvn clean install -DskipTests -Dquarkus.package.type=uber-jar</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell">git clone https://gitee.com/canonical-entropy/nop-entropy.git<br>cd nop-entropy<br>mvn clean install -DskipTests -Dquarkus.package.type=uber-jar<br></code></pre></td></tr></table></figure>
 
 <p>注意: <strong>编译运行需要JDK17以上版本，不支持JDK8</strong>, <strong>在PowerShell中执行的时候需要用引号将参数包裹起来</strong></p>
 <p>据反馈，有些JDK版本编译会报错，如jdk:17.0.9-graal会报错IndexOutOfBound异常，所以如果编译出现问题时可以先尝试一下OpenJDK。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn clean install &quot;-DskipTests&quot; &quot;-Dquarkus.package.type=uber-jar&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">mvn clean install &quot;-DskipTests&quot; &quot;-Dquarkus.package.type=uber-jar&quot;<br></code></pre></td></tr></table></figure>
 
 <p>quarkus.package.type参数是quarkus框架所识别的一个参数，指定它为uber-jar将会把nop-quarkus-demo等项目打包成一个包含所有依赖类的单一jar包。可以通过java<br>-jar XXX-runner.jar的方式直接运行。</p>
 <h2 id="PowerShell乱码问题解决"><a href="#PowerShell乱码问题解决" class="headerlink" title="PowerShell乱码问题解决"></a>PowerShell乱码问题解决</h2><p>可以将PowerShell的编码设置为UTF8</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$OutputEncoding = [Console]::OutputEncoding = [Text.Encoding]::UTF8</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">$OutputEncoding = [Console]::OutputEncoding = [Text.Encoding]::UTF8<br></code></pre></td></tr></table></figure>
 
 <p>目前已经升级到quarkus3.0版本，用低版本maven运行nop-auth-app等模块可能会失败。建议升级到maven<br>3.9.3版本，或者使用nop-entropy跟目录下的mvnw指令，它会自动下载并使用maven 3.9.3。</p>
 <ul>
 <li>nop-idea-plugin<br>nop-idea-plugin是IDEA的插件项目，必须采用Gradle编译。</li>
 </ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd nop-idea-plugin</span><br><span class="line">gradlew buildPlugin</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">cd nop-idea-plugin<br>gradlew buildPlugin<br></code></pre></td></tr></table></figure>
 
 <blockquote>
 <p>目前使用的idea打包插件不支持高版本gradle。gradlew会自动下载所需的gradle版本，目前使用的是7.5.1<br>如果想加快gradle下载速度，可以gradle-wrapper.properties中换成<br>distributionUrl&#x3D;<a target="_blank" rel="noopener" href="https://mirrors.cloud.tencent.com/gradle/gradle-7.5.1-bin.zip">https://mirrors.cloud.tencent.com/gradle/gradle-7.5.1-bin.zip</a></p>
@@ -1254,7 +1254,7 @@
 <h2 id="使用说明"><a href="#使用说明" class="headerlink" title="使用说明"></a>使用说明</h2><ul>
 <li>平台内置了一个演示程序，使用H2内存数据库，可以直接启动运行</li>
 </ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd nop-demo/nop-quarkus-demo/target</span><br><span class="line">java -Dquarkus.profile=dev -jar nop-quarkus-demo-2.0.0-SNAPSHOT-runner.jar</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><code class="hljs shell">cd nop-demo/nop-quarkus-demo/target<br>java -Dquarkus.profile=dev -jar nop-quarkus-demo-2.0.0-SNAPSHOT-runner.jar<br></code></pre></td></tr></table></figure>
 
 <blockquote>
 <p>如果不指定profile&#x3D;dev，则会以prod模式启动。prod模式下需要配置application.yaml中的数据库连接，缺省使用本机的MySQL数据库</p>
@@ -1306,8 +1306,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

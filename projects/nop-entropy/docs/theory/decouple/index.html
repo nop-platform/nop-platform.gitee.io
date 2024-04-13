@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1238,10 +1238,10 @@
 <p>但是依赖注入是解耦的关键只是一个过去流行的理解。一方面它确实提供了解耦的一种实用手段：<strong>不依赖对象整体，只依赖于最小化的抽象接口。不同的对象可以实现同样的接口。通过描述式的装配容器延迟装配选择。</strong> 但是，另一方面，它并不是在软件中实现解耦的全部手段，甚至我们可以说它不应该成为解耦的主要手段。</p>
 <h2 id="一-依赖注入什么？同态像"><a href="#一-依赖注入什么？同态像" class="headerlink" title="一. 依赖注入什么？同态像"></a>一. 依赖注入什么？同态像</h2><p>所谓依赖于抽象而不依赖于具体的细节，本质上是说我们<strong>不依赖于对象整体，而只是依赖于它的一个同态像</strong>。</p>
 <p>数学上的同态映射，指的是对象空间中的一种变换，它将原空间O中的对象a和b映射到像空间中的P(a)和P(b)，同时这种映射保持原空间中的某些运算关系f，即原空间中定义的函数可以自然转换为像空间中的函数。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P(f(a,b)) = f(P(a), P(b))</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java">P(f(a,b)) = f(P(a), P(b))<br></code></pre></td></tr></table></figure>
 
 <p>对象实现接口，对象是接口的一个实例，obj is an instance of interfaceA。设计中我们需要保持对象和基类，以及对象和接口之间在概念层面上的“is a”关系，目的是为了保证针对接口编写的代码可以作用于派生对象上，即</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f(interfaceA,interfaceB) == f(objA, objB)</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java">f(interfaceA,interfaceB) == f(objA, objB)<br></code></pre></td></tr></table></figure>
 
 <p>对象上可以有很多函数，一般只有少部分函数是执行业务功能时所必须的功能接口函数，其他大量的函数则是为了支持动态配置、维护生命周期等提供的辅助函数。如果我们坚持对象之间只依赖于功能接口，相当于是将问题同态映射到一个较小的语义空间中，从而实现问题的简化。</p>
 <p>描述式的依赖注入容器知道所有对象之间的依赖关系，因此可以对它们的构造顺序进行全局排序，并且可以通过配置文件实现延迟装配，通过缓存实现延迟加载语义等，相当于是<strong>解耦了不必要的对象创建顺序之间的依赖（只有具有全局知识才能实现全局优化）</strong>。当然，如果我们系统的结构比较简单，本身可以被提取为明确的几个生命周期阶段，则依赖注入容器在此方面的作用会被弱化。</p>
@@ -1252,17 +1252,17 @@
 <p>表象变换，简单的说起来，可以看作是坐标系变换。事物的本质并没有变，但是在不同的坐标系中去考察的时候，我们会误以为它的复杂性，各个部分之间的相互关系在发生激烈的变化。如果反过来思考，当我们设计一个系统的时候，可以选择维度正交的线性系统作为我们的目标模型，尽量保持系统各个层面的线性性，从而实现系统结构的简化。参见</p>
 <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/531474176">从张量积看低代码平台的设计</a></p>
 <p>如果把DSL（领域特定语言, Domain Specific Language）看作是一种全局表象，则表象变换可以表达为 <code>F(DSL)</code>，即针对DSL的一个解释器或者代码生成器。但是一般来说DSL是针对已知领域需求的总结，它的能力总是有限的，为此我们必须补充额外的信息Delta才能生产目标系统。由此得到</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">App = F(DSL) + Delta</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java">App = F(DSL) + Delta<br></code></pre></td></tr></table></figure>
 
 <p>也就是说我们需要把外部提供的差量信息和表象变换得到信息合并在一起。但是合并就意味着混杂，混杂一般会导致熵增（系统混乱度上升）。熵增本质上是因为信息的损失，<strong>如果能够控制不产生熵增，则必须保持信息的完整性，确保信息不损失，而在热力学中这意味系统的演化是可逆的</strong>。</p>
 <p><strong>可逆运算意味着变化量和本体的解耦</strong>。变化量可以脱离本体独立存在，它具有自身的意义。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Delta = App - F(DSL)</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java">Delta = App - F(DSL)<br></code></pre></td></tr></table></figure>
 
 <blockquote>
 <p>在可逆计算理论中，Docker镜像就可以被看作是一种差量结构，应用镜像可以脱离底层的操作系统镜像而被单独的存储、传递、管理等。</p>
 </blockquote>
 <p>引入可逆计算的思想之后，会出现一些有趣的现象。一般概念中，解耦是减少相互作用，那首先应该是减少参与相互作用的对象个数。但是如果存在可逆计算，则可以通过增加新的对象Delta来实现解耦。例如，对象A和对象B对同一个的功能设计存在冲突，它们可以按照最适合自己内部结构的情况进行设计，不用考虑为回避冲突存在而导致的耦合问题。当它们在一起使用时，可以补充Delta差量来解决它们之间的概念冲突。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">App = A + B + (-C - D + E) = A + B + Delta</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java">App = A + B + (-C - D + E) = A + B + Delta<br></code></pre></td></tr></table></figure>
 
 <p>Delta对于A和B而言是完全外置的实体。</p>
 <p>面向对象和组件理论，本质上是试图从人类物质世界的生产活动中汲取经验，但是随着软件生产活动的深化，我们<strong>有必要重新认识软件的抽象本质</strong>。软件是在抽象的逻辑世界中存在的一种信息产品，信息并不是物质。<strong>抽象世界的构造和生产规律与物质世界是有着本质不同的</strong>。物质产品的生产总是有成本的，而复制软件的边际成本却可以是0。将桌子从房间中移走在物质世界中必须要经过门或窗，但在抽象的信息空间中却只需要将桌子的坐标从x改为-x而已。抽象元素之间的运算关系并不受众多物理约束的限制，因此信息空间中最有效的生产方式不是组装，而是掌握和制定运算规则。</p>
@@ -1309,8 +1309,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

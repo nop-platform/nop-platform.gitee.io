@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1232,7 +1232,7 @@
       </header>
       <div class="Article-content col-md-9"><h2 id="debug模式"><a href="#debug模式" class="headerlink" title="debug模式"></a>debug模式</h2><p>设置nop.debug&#x3D;true会开启debug模式，此时才会注册DevDoc等用于调试的后台服务。</p>
 <h2 id="错误定位"><a href="#错误定位" class="headerlink" title="错误定位"></a>错误定位</h2><p>后台抛出异常时一般会统一使用NopException异常类，它具有SourceLocation属性，会提示错误发生时对应的XLang程序源码位置。NopException类上还报错了XLang执行堆栈，打印异常消息时会输出Xpl堆栈信息。例如</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">io.nop.api.core.exceptions.NopException: NopException[seq=<span class="number">4</span>,status=-<span class="number">1</span>,errorCode=nop.err.xui.ref-view-not-exists,params=&#123;viewPath=/app/mall/LitemallGoods/attributes.page.yaml&#125;,desc=view配置不存在：/app/mall/LitemallGoods/attributes.page.yaml]<span class="meta">@_loc</span>=[<span class="number">114</span>:<span class="number">22</span>:<span class="number">0</span>:<span class="number">0</span>]/app/mall/pages/LitemallGoods/LitemallGoods.view.xml</span><br><span class="line">  @<span class="meta">@getFormSelection(formModel,objMeta)</span>@[<span class="number">7</span>:<span class="number">30</span>:<span class="number">0</span>:<span class="number">0</span>]/nop/web/xlib/web/page_simple.xpl</span><br><span class="line">  @@&lt;/_delta/<span class="keyword">default</span>/nop/web/xlib/web.xlib#GenPage&gt;(<span class="string">&quot;/app/mall/pages/LitemallGoods/LitemallGoods.view.xml&quot;</span>,<span class="string">&quot;add&quot;</span>,<span class="literal">null</span>)@[<span class="number">1</span>:<span class="number">17</span>:<span class="number">0</span>:<span class="number">0</span>]/app/mall/pages/LitemallGoods/add.page.yaml</span><br><span class="line">  @<span class="meta">@__fn_1()</span>@[<span class="number">1</span>:<span class="number">17</span>:<span class="number">0</span>:<span class="number">0</span>]/app/mall/pages/LitemallGoods/add.page.yaml</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java">io.nop.api.core.exceptions.NopException: NopException[seq=<span class="hljs-number">4</span>,status=-<span class="hljs-number">1</span>,errorCode=nop.err.xui.ref-view-not-exists,params=&#123;viewPath=/app/mall/LitemallGoods/attributes.page.yaml&#125;,desc=view配置不存在：/app/mall/LitemallGoods/attributes.page.yaml]<span class="hljs-meta">@_loc</span>=[<span class="hljs-number">114</span>:<span class="hljs-number">22</span>:<span class="hljs-number">0</span>:<span class="hljs-number">0</span>]/app/mall/pages/LitemallGoods/LitemallGoods.view.xml<br>  @<span class="hljs-meta">@getFormSelection(formModel,objMeta)</span>@[<span class="hljs-number">7</span>:<span class="hljs-number">30</span>:<span class="hljs-number">0</span>:<span class="hljs-number">0</span>]/nop/web/xlib/web/page_simple.xpl<br>  @@&lt;/_delta/<span class="hljs-keyword">default</span>/nop/web/xlib/web.xlib#GenPage&gt;(<span class="hljs-string">&quot;/app/mall/pages/LitemallGoods/LitemallGoods.view.xml&quot;</span>,<span class="hljs-string">&quot;add&quot;</span>,<span class="hljs-literal">null</span>)@[<span class="hljs-number">1</span>:<span class="hljs-number">17</span>:<span class="hljs-number">0</span>:<span class="hljs-number">0</span>]/app/mall/pages/LitemallGoods/add.page.yaml<br>  @<span class="hljs-meta">@__fn_1()</span>@[<span class="hljs-number">1</span>:<span class="hljs-number">17</span>:<span class="hljs-number">0</span>:<span class="hljs-number">0</span>]/app/mall/pages/LitemallGoods/add.page.yaml<br></code></pre></td></tr></table></figure>
 
 <p>以上异常表示</p>
 <ol>
@@ -1244,45 +1244,45 @@
 <h2 id="日志信息"><a href="#日志信息" class="headerlink" title="日志信息"></a>日志信息</h2><ol>
 <li>配置项信息<br>如果设置了nop.debug&#x3D;true，则系统启动的时候会打印所有配置参数的值以及所在的配置文件（因为可能存在多个配置文件，而且高优先级的文件会覆盖低优先级的文件）</li>
 </ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">quarkus.log.level=INFO</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext"><br>quarkus.log.level=INFO<br></code></pre></td></tr></table></figure>
 
 <ol start="2">
 <li>模型文件解析<br>所有模型文件解析时都会打印日志，并且会打印解析花费时间</li>
 </ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2023-07-11 21:13:16,152 INFO  [io.nop.cor.res.com.par.AbstractResourceParser] (Quarkus Main Thread) nop.core.component.finish-parse-resource:usedTime=10,path=/nop/schema/beans.xdef,parser=class io.nop.core.lang.xml.parse.XNodeParser</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">2023-07-11 21:13:16,152 INFO  [io.nop.cor.res.com.par.AbstractResourceParser] (Quarkus Main Thread) nop.core.component.finish-parse-resource:usedTime=10,path=/nop/schema/beans.xdef,parser=class io.nop.core.lang.xml.parse.XNodeParser<br></code></pre></td></tr></table></figure>
 
 <ol start="3">
 <li>动态装配的bean<br>将io.nop.ioc的调试级别设置为debug，则系统启动的时候会打印出条件bean的执行情况。</li>
 </ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">quarkus:</span><br><span class="line">  log:</span><br><span class="line">    category:</span><br><span class="line">      &quot;io.nop&quot;:</span><br><span class="line">        level: DEBUG</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">quarkus:<br>  log:<br>    category:<br>      &quot;io.nop&quot;:<br>        level: DEBUG<br></code></pre></td></tr></table></figure>
 
 <p>NopIoC容器会先分析所有bean的存在条件，然后再创建bean。分析结果会打印到日志文件中。对于disabled的bean会打印出禁用的原因</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">disabled-bean:id=nopLoginService</span><br><span class="line">    loc=[15:6:0:0]/nop/auth/beans/sso-defaults.beans.xml,trace=null</span><br><span class="line">    check-if-property-fail:nop.auth.sso.enabled=null</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">disabled-bean:id=nopLoginService<br>    loc=[15:6:0:0]/nop/auth/beans/sso-defaults.beans.xml,trace=null<br>    check-if-property-fail:nop.auth.sso.enabled=null<br></code></pre></td></tr></table></figure>
 
 <p>在_dump目录下，&#x2F;nop&#x2F;main&#x2F;beans&#x2F;merged-app.beans.xml中输出了所有最终被激活的bean以及它们所对应的配置文件源码位置。</p>
 <ol start="4">
 <li>数据库访问<br>所有的数据库访问SQL都会记录在日志中，并且显示SQL执行时间</li>
 </ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">2023-07-11 21:14:39,637 INFO  [io.nop.dao.jdb.imp.JdbcTemplateImpl] (Quarkus Main Thread) nop.jdbc.run:usedTime=1,querySpace=default,range=0,1,name=jdbc:null,sql=select o.SEQ_NAME as c1 </span><br><span class="line">from nop_sys_sequence as o </span><br><span class="line"> where o.DEL_FLAG =  0 </span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">2023-07-11 21:14:39,637 INFO  [io.nop.dao.jdb.imp.JdbcTemplateImpl] (Quarkus Main Thread) nop.jdbc.run:usedTime=1,querySpace=default,range=0,1,name=jdbc:null,sql=select o.SEQ_NAME as c1 <br>from nop_sys_sequence as o <br> where o.DEL_FLAG =  0 <br></code></pre></td></tr></table></figure>
 
 <ol start="5">
 <li>成功初始化<br>Nop平台成功初始化之后会打印出初始化总共执行的时间，并且会打印banner</li>
 </ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2023-07-11 21:14:40,562 INFO  [io.nop.cor.ini.CoreInitialization] (Quarkus Main Thread) nop.core.end-initialize:usedTime=87286</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">2023-07-11 21:14:40,562 INFO  [io.nop.cor.ini.CoreInitialization] (Quarkus Main Thread) nop.core.end-initialize:usedTime=87286<br></code></pre></td></tr></table></figure>
 
 <h2 id="日志打印"><a href="#日志打印" class="headerlink" title="日志打印"></a>日志打印</h2><ol>
 <li>XScript脚本中内置了logInfo&#x2F;logDebug等函数</li>
 </ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">logInfo(<span class="string">&quot;nop.err.invalid-name:name=&#123;&#125;&quot;</span>,name);</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java">logInfo(<span class="hljs-string">&quot;nop.err.invalid-name:name=&#123;&#125;&quot;</span>,name);<br></code></pre></td></tr></table></figure>
 
 <p>第一个参数必须是静态字符串，不允许”sss”+yyy这种形式，从而也避免了log注入攻击。</p>
 <ol start="2">
 <li>任意对象调用$函数都会导致打印调试语句</li>
 </ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">b = a.f().$(<span class="string">&quot;test&quot;</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java">b = a.f().$(<span class="hljs-string">&quot;test&quot;</span>)<br></code></pre></td></tr></table></figure>
 
 <p>以上调用等价于 <code>b = DebugHelper.v(location(), &quot;test&quot;,a.f());</code>，其中test参数为自定义的提示信息。<br>所以，当我们想查看任意表达式的值的时候，可以在其后增加$调用。打印出的调试信息如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">21:00:01.686 [main] INFO io.nop.xlang.utils.DebugHelper - test:a.f()=&gt;1,loc=[6:8:0:0]file:/C:/can/nop/nop-entropy-bak/nop-xlang/target/test-classes/io/nop/xlang/expr/exprs/debug.test.md</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">21:00:01.686 [main] INFO io.nop.xlang.utils.DebugHelper - test:a.f()=&gt;1,loc=[6:8:0:0]file:/C:/can/nop/nop-entropy-bak/nop-xlang/target/test-classes/io/nop/xlang/expr/exprs/debug.test.md<br></code></pre></td></tr></table></figure>
 
 <p>test为自定义前缀信息。 a.f()为待查看的表达式源码, <code>=&gt; 1</code>表示表达式的返回值为1。 loc对应于调试语句所对应的源码位置。</p>
 <blockquote>
@@ -1291,7 +1291,7 @@
 <ol start="3">
 <li>在xpl模板语言中</li>
 </ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;c:log info=&quot;$&#123;data&#125;&quot; /&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">&lt;c:log info=&quot;$&#123;data&#125;&quot; /&gt;<br></code></pre></td></tr></table></figure>
 
 <h2 id="模型dump"><a href="#模型dump" class="headerlink" title="模型dump"></a>模型dump</h2><p>Nop平台大量使用了元编程来动态生成代码，为了有效跟踪代码生成的细节过程，让最终运行代码片段的实际来源一目了然，Nop平台在调试模式下会自动输出合并后的结果模型文件到项目根目录下的_dump目录中。当我们启动应用程序后，可以看到<code>_dump</code>目录下存在大量输出文件<br><img src="/knosys/project-nop-entropy/dev-guide/model-dump.png"></p>
 <p>如果结果文件是由多个delta文件合并得来，则在结果文件中我们会看到每个来源节点&#x2F;属性的源码位置信息。</p>
@@ -1300,11 +1300,11 @@
 <h2 id="GraphQL调试工具"><a href="#GraphQL调试工具" class="headerlink" title="GraphQL调试工具"></a>GraphQL调试工具</h2><p>Quarkus框架内置了graphql-ui调试工具。以调试模式启动应用之后，通过链接&#x2F;q&#x2F;graphql-ui可以访问到调试页面。<br>在此页面上可以查看所有后台GraphQL端点和类型的定义，并且输入代码时会自动提示候选文本。</p>
 <p><img src="/knosys/project-nop-entropy/tutorial/graphql-ui.png"></p>
 <h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h2 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h2><h3 id="1-字段对应的前端控件显示为空，无法录入"><a href="#1-字段对应的前端控件显示为空，无法录入" class="headerlink" title="1. 字段对应的前端控件显示为空，无法录入"></a>1. 字段对应的前端控件显示为空，无法录入</h3><p>可能是control.xlib中没有针对该字段定义对应的编辑器。在debug日志级别下，XuiHelper.getControlTag函数会打印控件映射结果。例如:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nop.xui.resolve-control-tag:controlTag=edit-int,prop=id,domain=null,stdDomain=null,stdDataType=int,mode=add</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">nop.xui.resolve-control-tag:controlTag=edit-int,prop=id,domain=null,stdDomain=null,stdDataType=int,mode=add<br></code></pre></td></tr></table></figure>
 
 <h3 id="2-上传文件时提示-415-Unsupported-Media-Type"><a href="#2-上传文件时提示-415-Unsupported-Media-Type" class="headerlink" title="2. 上传文件时提示 415 Unsupported Media Type"></a>2. 上传文件时提示 415 Unsupported Media Type</h3><p>这是Quarkus框架报错，可以将quarkus.log.level设置为DEBUG。<br>后端服务需要引入</p>
 <h2 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h2><h3 id="1-后端的bean未按预期注入"><a href="#1-后端的bean未按预期注入" class="headerlink" title="1. 后端的bean未按预期注入"></a>1. 后端的bean未按预期注入</h3><p>首先查看启动工程的<code>_dump</code>目录下<code>/&#123;appName&#125;/nop/mai/beans/merged-app.beans.xml</code>中的结果是否满足预期。<br>这个文件是IoC容器执行完所有动态判断逻辑之后输出的最终结果，其中还打印了属性和对象的来源文件。例如:</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--LOC:[18:6:0:0]/nop/auth/beans/auth-service.beans.xml--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">&quot;io.nop.auth.service.login.DaoLoginSessionStore&quot;</span> <span class="attr">id</span>=<span class="string">&quot;$DEFAULT$nopLoginSessionStore&quot;</span> <span class="attr">ioc:aop</span>=<span class="string">&quot;false&quot;</span></span></span><br><span class="line"><span class="tag">          <span class="attr">name</span>=<span class="string">&quot;nopLoginSessionStore&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;daoProvider&quot;</span> <span class="attr">ext:autowired</span>=<span class="string">&quot;true&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">ref</span> <span class="attr">bean</span>=<span class="string">&quot;$DEFAULT$nopDaoProvider&quot;</span> <span class="attr">ext:resolved-loc</span>=<span class="string">&quot;[51:6:0:0]/nop/orm/beans/orm-defaults.beans.xml&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;sessionIdGenerator&quot;</span> <span class="attr">ext:autowired</span>=<span class="string">&quot;true&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">ref</span> <span class="attr">bean</span>=<span class="string">&quot;$DEFAULT$nopSessionIdGenerator&quot;</span></span></span><br><span class="line"><span class="tag">                 <span class="attr">ext:resolved-loc</span>=<span class="string">&quot;[34:6:0:0]/nop/auth/beans/auth-core-defaults.beans.xml&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--LOC:[18:6:0:0]/nop/auth/beans/auth-service.beans.xml--&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;io.nop.auth.service.login.DaoLoginSessionStore&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;$DEFAULT$nopLoginSessionStore&quot;</span> <span class="hljs-attr">ioc:aop</span>=<span class="hljs-string">&quot;false&quot;</span></span><br><span class="hljs-tag">          <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;nopLoginSessionStore&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;daoProvider&quot;</span> <span class="hljs-attr">ext:autowired</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">ref</span> <span class="hljs-attr">bean</span>=<span class="hljs-string">&quot;$DEFAULT$nopDaoProvider&quot;</span> <span class="hljs-attr">ext:resolved-loc</span>=<span class="hljs-string">&quot;[51:6:0:0]/nop/orm/beans/orm-defaults.beans.xml&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;sessionIdGenerator&quot;</span> <span class="hljs-attr">ext:autowired</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">ref</span> <span class="hljs-attr">bean</span>=<span class="hljs-string">&quot;$DEFAULT$nopSessionIdGenerator&quot;</span></span><br><span class="hljs-tag">                 <span class="hljs-attr">ext:resolved-loc</span>=<span class="hljs-string">&quot;[34:6:0:0]/nop/auth/beans/auth-core-defaults.beans.xml&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <ol>
 <li>如果节点路径和前一个兄弟节点的路径不同，则会打印LOC信息。</li>
@@ -1361,8 +1361,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

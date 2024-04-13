@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1240,12 +1240,12 @@
 <li>在子表中定义唯一标识属性keyProp，例如keyProp&#x3D;”fieldName”</li>
 <li>EQL对象查询语法（类似于JPA中的对象查询语法）访问子表集合中的元素时可以使用对象属性语法，会自动翻译为表关联条件</li>
 </ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">entity.subEntities.my.status 对应于  entity.getSubEntities().getByKey(&quot;my&quot;).getStatus()</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">entity.subEntities.my.status 对应于  entity.getSubEntities().getByKey(&quot;my&quot;).getStatus()<br></code></pre></td></tr></table></figure>
 
 <ol start="3">
 <li>通过alias机制可以将复杂的属性路径映射为简单属性名。在程序中使用时与表上原生的属性没有任何差别。</li>
 </ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">entity.myStatus ==&gt;  entity.subEntities.my.status</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">entity.myStatus ==&gt;  entity.subEntities.my.status<br></code></pre></td></tr></table></figure>
 
 <p>扩展字段很多性能受影响时，可以通过配置为每一个表指定对应的扩展字段表，甚至可以为每个表的每个扩展字段指定一个单独的存储表。通过alias和keyProp机制对外统一暴露为普通属性，不会影响应用层编程。</p>
 <p>具体介绍可以参见 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/543252423">低代码平台需要什么样的ORM引擎</a></p>
@@ -1291,8 +1291,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

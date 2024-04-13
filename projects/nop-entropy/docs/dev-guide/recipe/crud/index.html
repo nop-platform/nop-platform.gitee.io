@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1232,15 +1232,15 @@
       </header>
       <div class="Article-content col-md-9"><p>在meta中增加prop，然后设置它的virtual属性为true，表示是虚拟字段，就不会自动拷贝到实体上。</p>
 <p>如果不允许读取，则需要配置readable&#x3D;false，这样查询后台的时候就不允许从实体上读取此属性。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">props</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">prop</span> <span class="attr">name</span>=<span class="string">&quot;myProp&quot;</span> <span class="attr">readable</span>=<span class="string">&quot;false&quot;</span> <span class="attr">virtual</span>=<span class="string">&quot;true&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">schema</span> <span class="attr">stdDomain</span>=<span class="string">&quot;string&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">prop</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">props</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">meta</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">meta</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">props</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">prop</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;myProp&quot;</span> <span class="hljs-attr">readable</span>=<span class="hljs-string">&quot;false&quot;</span> <span class="hljs-attr">virtual</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">schema</span> <span class="hljs-attr">stdDomain</span>=<span class="hljs-string">&quot;string&quot;</span> /&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">prop</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">props</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">meta</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>在后台可以通过entityData读取</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyEntityBizModel</span> <span class="keyword">extends</span> <span class="title class_">CrudBizModel</span> &#123;</span><br><span class="line">    <span class="meta">@BizMutation</span></span><br><span class="line">    <span class="keyword">public</span> MyEntity <span class="title function_">myMethod</span><span class="params">(<span class="meta">@Name(&quot;data&quot;)</span> Map&lt;String, Object&gt; data, IServiceContext ctx)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> doSave(data, <span class="literal">null</span>, (entityData, ctx) -&gt; &#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">myProp</span> <span class="operator">=</span> (String) entityData.getData().get(<span class="string">&quot;myProp&quot;</span>);</span><br><span class="line">            <span class="comment">//...</span></span><br><span class="line">        &#125;, ctx);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MyEntityBizModel</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">CrudBizModel</span> &#123;<br>    <span class="hljs-meta">@BizMutation</span><br>    <span class="hljs-keyword">public</span> MyEntity <span class="hljs-title function_">myMethod</span><span class="hljs-params">(<span class="hljs-meta">@Name(&quot;data&quot;)</span> Map&lt;String, Object&gt; data, IServiceContext ctx)</span> &#123;<br>        <span class="hljs-keyword">return</span> doSave(data, <span class="hljs-literal">null</span>, (entityData, ctx) -&gt; &#123;<br>            <span class="hljs-type">String</span> <span class="hljs-variable">myProp</span> <span class="hljs-operator">=</span> (String) entityData.getData().get(<span class="hljs-string">&quot;myProp&quot;</span>);<br>            <span class="hljs-comment">//...</span><br>        &#125;, ctx);<br>    &#125;<br>&#125;  <br></code></pre></td></tr></table></figure>
 
 <h2 id="2-在事务提交成功之后再执行某个操作"><a href="#2-在事务提交成功之后再执行某个操作" class="headerlink" title="2. 在事务提交成功之后再执行某个操作"></a>2. 在事务提交成功之后再执行某个操作</h2><p>使用ITransactionTemplate.afterCommit(null, action)函数。</p>
 <p>CrudBizModel已经注入了transactionTemplate，可以通过this.txn()来使用。</p>
 <h2 id="3-扩展CrudBizModel内置的save-update等操作，增加业务相关的特殊处理"><a href="#3-扩展CrudBizModel内置的save-update等操作，增加业务相关的特殊处理" class="headerlink" title="3. 扩展CrudBizModel内置的save&#x2F;update等操作，增加业务相关的特殊处理"></a>3. 扩展CrudBizModel内置的save&#x2F;update等操作，增加业务相关的特殊处理</h2><p>如果只是少量的更新几个字段，原则上可以使用自定义的bean作为参数，然后直接调用dao().save(entity)即可。<br>但是如果要接收大量字段，并考虑到未来是否有新扩展的字段需要保存，保存的时候需要执行定制的处理逻辑等，这时就<br>不要使用自定义的JavaBean作为参数，应该直接使用内置的doSave等函数。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@<span class="title class_">BizMutation</span></span><br><span class="line">@<span class="title class_">GraphQLReturn</span>(bizObjName = <span class="variable constant_">BIZ_OBJ_NAME_THIS_OBJ</span>)</span><br><span class="line">@<span class="title class_">BizMakerChecker</span>(tryMethod = <span class="variable constant_">METHOD_TRY_SAVE</span>)</span><br><span class="line">public <span class="title class_">MyEntity</span> <span class="title function_">my_save</span>(<span class="params">@Name(<span class="string">&quot;data&quot;</span>) <span class="built_in">Map</span>&lt;<span class="built_in">String</span>, <span class="built_in">Object</span>&gt; data, IServiceContext context</span>) &#123;</span><br><span class="line">    <span class="comment">// 如果需要限制只允许接收部分字段，可以在meta中配置。如果没有特殊限制，inputSelection设置为null即可</span></span><br><span class="line">    <span class="title class_">FieldInputSelection</span> inputSelection = <span class="title function_">getObjMeta</span>().<span class="title function_">getFieldSelection</span>(<span class="string">&quot;my_selectio&quot;</span>); </span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">doSave</span>(data, inputSelection, <span class="attr">this</span>::myPrepareSave, context);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">@<span class="hljs-title class_">BizMutation</span><br>@<span class="hljs-title class_">GraphQLReturn</span>(bizObjName = <span class="hljs-variable constant_">BIZ_OBJ_NAME_THIS_OBJ</span>)<br>@<span class="hljs-title class_">BizMakerChecker</span>(tryMethod = <span class="hljs-variable constant_">METHOD_TRY_SAVE</span>)<br>public <span class="hljs-title class_">MyEntity</span> <span class="hljs-title function_">my_save</span>(<span class="hljs-params">@Name(<span class="hljs-string">&quot;data&quot;</span>) <span class="hljs-built_in">Map</span>&lt;<span class="hljs-built_in">String</span>, <span class="hljs-built_in">Object</span>&gt; data, IServiceContext context</span>) &#123;<br>    <span class="hljs-comment">// 如果需要限制只允许接收部分字段，可以在meta中配置。如果没有特殊限制，inputSelection设置为null即可</span><br>    <span class="hljs-title class_">FieldInputSelection</span> inputSelection = <span class="hljs-title function_">getObjMeta</span>().<span class="hljs-title function_">getFieldSelection</span>(<span class="hljs-string">&quot;my_selectio&quot;</span>); <br>    <span class="hljs-keyword">return</span> <span class="hljs-title function_">doSave</span>(data, inputSelection, <span class="hljs-attr">this</span>::myPrepareSave, context);<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <ul>
 <li>inputSelection参数可以用于限制只接收前端传过来的某些参数</li>
@@ -1283,8 +1283,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

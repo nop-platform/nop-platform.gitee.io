@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1233,7 +1233,7 @@
       <div class="Article-content col-md-9"><p>springcloud中的Feign RPC框架本质上是架构在REST服务调用的基础上，原则上可以调用任何第三方的REST服务。因此NopRPC可以和Feign<br>RPC混合在一起调用。</p>
 <p>NopRPC目前集成了Nacos服务注册中心，因此只要SpringCloud也使用Nacos服务注册，就可以实现NopRPC和SpringCloud的互联互通。对于其他注册中心，<br>原则上只要仿照nop-cluster-nacos模块中的做法，提供一个INamingService接口的实现即可。</p>
 <h2 id="1-Feign客户端调用-NopRPC服务端"><a href="#1-Feign客户端调用-NopRPC服务端" class="headerlink" title="1. Feign客户端调用 NopRPC服务端"></a>1. Feign客户端调用 NopRPC服务端</h2><p>使用Feign的注解，单独编写一个Feign接口即可调用，NopRPC服务端不需要做任何处理。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">@FeignClient(name=&quot;rpc-demo-service&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">MyService</span> &#123;</span><br><span class="line">    <span class="meta">@PostMapping(&quot;/r/MyService__myMethod&quot;)</span></span><br><span class="line">    ApiResponse&lt;MyRespontBean&gt; <span class="title function_">myMethod</span><span class="params">(<span class="meta">@RequestBody</span> MyRequest request, <span class="meta">@QueryParam(&quot;%40selection&quot;)</span> String selection)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><br><span class="hljs-meta">@FeignClient(name=&quot;rpc-demo-service&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">MyService</span> &#123;<br>    <span class="hljs-meta">@PostMapping(&quot;/r/MyService__myMethod&quot;)</span><br>    ApiResponse&lt;MyRespontBean&gt; <span class="hljs-title function_">myMethod</span><span class="hljs-params">(<span class="hljs-meta">@RequestBody</span> MyRequest request, <span class="hljs-meta">@QueryParam(&quot;%40selection&quot;)</span> String selection)</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <ul>
 <li>NopRPC返回的结果类型固定为<code>ApiResponse&lt;T&gt;</code>类型, ApiResponse类定义在nop-api-core模块中。</li>
@@ -1242,17 +1242,17 @@
 </ul>
 <p><strong>需要注意的是，Feign框架要求QueryParam的参数名必须是编码后的参数名，否则无法正常工作，所以@selection需要被替换为<code>%40selection</code></strong></p>
 <h2 id="2-在NopRPC中调用Feign服务"><a href="#2-在NopRPC中调用Feign服务" class="headerlink" title="2. 在NopRPC中调用Feign服务"></a>2. 在NopRPC中调用Feign服务</h2><p>只需要引入普通的服务接口，并使用jaxrs注解来标记REST路径和参数名等</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">EchoService</span> &#123;</span><br><span class="line">    <span class="meta">@Path(&quot;/echo/&#123;id&#125;&quot;)</span></span><br><span class="line">    String <span class="title function_">echo</span><span class="params">(<span class="meta">@QueryParam(&quot;msg&quot;)</span> String msg, <span class="meta">@PathParam(&quot;id&quot;)</span> String id)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">EchoService</span> &#123;<br>    <span class="hljs-meta">@Path(&quot;/echo/&#123;id&#125;&quot;)</span><br>    String <span class="hljs-title function_">echo</span><span class="hljs-params">(<span class="hljs-meta">@QueryParam(&quot;msg&quot;)</span> String msg, <span class="hljs-meta">@PathParam(&quot;id&quot;)</span> String id)</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>NopRPC使用NopIoC管理所有的服务对象，而NopIoC中所有的bean都需要在beans.xml中注册。注册服务对象只需要从AbstractRpcProxyFactoryBean继承，并指定服务名和服务接口即可</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;testEchoService&quot;</span> <span class="attr">parent</span>=<span class="string">&quot;AbstractRpcProxyFactoryBean&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">ioc:type</span>=<span class="string">&quot;io.nop.rpc.client.EchoService&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;serviceName&quot;</span> <span class="attr">value</span>=<span class="string">&quot;rpc-demo-producer&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;testEchoService&quot;</span> <span class="hljs-attr">parent</span>=<span class="hljs-string">&quot;AbstractRpcProxyFactoryBean&quot;</span></span><br><span class="hljs-tag">      <span class="hljs-attr">ioc:type</span>=<span class="hljs-string">&quot;io.nop.rpc.client.EchoService&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;serviceName&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;rpc-demo-producer&quot;</span>/&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <ul>
 <li>serviceName为服务提供端注册的服务名</li>
 <li><code>ioc:type</code>指定在本工程中指定的服务接口类。这种做法与Feign框架类型，客户端使用的接口与服务端使用的接口并没有直接关系，可以独立定义。</li>
 </ul>
 <h2 id="3-在NopRPC中调用NopRPC服务端"><a href="#3-在NopRPC中调用NopRPC服务端" class="headerlink" title="3. 在NopRPC中调用NopRPC服务端"></a>3. 在NopRPC中调用NopRPC服务端</h2><p>可以使用api.xlsx模型文件来定义API接口，然后通过代码生成模板&#x2F;nop&#x2F;templates&#x2F;api来生成客户端接口定义以及服务端实现框架。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@BizModel(&quot;TestRpc&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">TestRpc</span> &#123;</span><br><span class="line">    <span class="meta">@BizMutation</span></span><br><span class="line">    ApiResponse&lt;MyResponse&gt; <span class="title function_">myMethod</span><span class="params">(ApiRequest&lt;MyRequest&gt; req)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@BizMutation</span> </span><br><span class="line">    MyResponse <span class="title function_">myMethod</span><span class="params">(<span class="meta">@RequestBean</span> MyRequest req)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@BizMutation</span></span><br><span class="line">    CompletionStage&lt;ApiResponse&lt;MyResponse&gt;&gt; <span class="title function_">myMethodAsync</span><span class="params">(ApiRequest&lt;MyRequest&gt; req)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@BizModel(&quot;TestRpc&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">TestRpc</span> &#123;<br>    <span class="hljs-meta">@BizMutation</span><br>    ApiResponse&lt;MyResponse&gt; <span class="hljs-title function_">myMethod</span><span class="hljs-params">(ApiRequest&lt;MyRequest&gt; req)</span>;<br><br>    <span class="hljs-meta">@BizMutation</span> <br>    MyResponse <span class="hljs-title function_">myMethod</span><span class="hljs-params">(<span class="hljs-meta">@RequestBean</span> MyRequest req)</span>;<br><br>    <span class="hljs-meta">@BizMutation</span><br>    CompletionStage&lt;ApiResponse&lt;MyResponse&gt;&gt; <span class="hljs-title function_">myMethodAsync</span><span class="hljs-params">(ApiRequest&lt;MyRequest&gt; req)</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <ul>
 <li>在接口上通过<code>@BizModel</code>注解来指定对象名，通过<code>@BizMutation</code>和<code>@BizQuery</code>等注解来标记GraphQL方法类型</li>
@@ -1297,8 +1297,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1233,7 +1233,7 @@
       <div class="Article-content col-md-9"><p>在Excel数据模型中只需要配置子表到父表的外键关联:<br>to-one关联。如果需要在父表实体上增加集合属性，则只需要设置to-one关联上的关联属性名(relatedPropName)即可。</p>
 <p><img src="/knosys/project-nop-entropy/dev-guide/orm/to-one-excel-config.png"></p>
 <p>例如，在nop_auth_user_role表中的user_id字段关联了nop_auth_user表。只需要在nop_auth_user_role的配置中增加to-one关联属性，属性名user，<br>关联的实体对象是NopAuthUser。因为设置了关联属性名roleMappings，代码生成时NopAuthUser对象上会增加一个Set<NopAuthUserRole><br>类型的集合属性，<br>属性名为roleMappings。具体生成的实体类伪代码如下:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">NopAuthUserRole</span> &#123;</span><br><span class="line">    String userId;</span><br><span class="line">    NopAuthUser user;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">NopAuthUser</span> &#123;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">    Set&lt;NopAuthUserRole&gt; roleMappings;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">NopAuthUserRole</span> &#123;<br>    String userId;<br>    NopAuthUser user;<br><br>    <span class="hljs-comment">// ...</span><br>&#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">NopAuthUser</span> &#123;<br>    <span class="hljs-comment">//...</span><br>    Set&lt;NopAuthUserRole&gt; roleMappings;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <h2 id="支持关联查询"><a href="#支持关联查询" class="headerlink" title="支持关联查询"></a>支持关联查询</h2><p>定义了关联属性之后后台代码就可以直接使用关联查询了。但是为了暴露GraphQL服务还需要在meta文件中进行配置</p>
 <blockquote>
@@ -1242,11 +1242,11 @@
 <h3 id="为关联对象增加queryable和sortable标签"><a href="#为关联对象增加queryable和sortable标签" class="headerlink" title="为关联对象增加queryable和sortable标签"></a>为关联对象增加queryable和sortable标签</h3><p>如果关联的to-one属性上具有queryable标签则表示关联对象上的所有属性都可以参与查询。如果具有sortable标签，则表示关联对象上的所有属性都可以作为排序条件<br>在Excel数据模型中增加对应标签即可。</p>
 <h3 id="逐个配置可查询字段"><a href="#逐个配置可查询字段" class="headerlink" title="逐个配置可查询字段"></a>逐个配置可查询字段</h3><p>如果不想开放整个关联对象上的属性，在可以逐个指定。</p>
 <p>具体参见<a target="_blank" rel="noopener" href="https://gitee.com/canonical-entropy/nop-entropy/blob/master/nop-auth/nop-auth-service/src/main/resources/_vfs/nop/auth/model/NopAuthOpLog/NopAuthOpLog.xmeta">NopAuthOpLog.xmeta</a><br>中的配置</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">props</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">prop</span> <span class="attr">name</span>=<span class="string">&quot;session.loginAddr&quot;</span> <span class="attr">displayName</span>=<span class="string">&quot;登录地址&quot;</span> <span class="attr">queryable</span>=<span class="string">&quot;true&quot;</span> <span class="attr">sortable</span>=<span class="string">&quot;true&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">prop</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">props</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">meta</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><br><span class="hljs-tag">&lt;<span class="hljs-name">meta</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">props</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">prop</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;session.loginAddr&quot;</span> <span class="hljs-attr">displayName</span>=<span class="hljs-string">&quot;登录地址&quot;</span> <span class="hljs-attr">queryable</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">sortable</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">prop</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">props</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">meta</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>queryable表示该字段可查询，sortable表示该字段可排序。此外还可以设置insertable,updatable等属性。</p>
 <h3 id="在前端使用关联属性"><a href="#在前端使用关联属性" class="headerlink" title="在前端使用关联属性"></a>在前端使用关联属性</h3><p>在前端的XView模型中就可以使用session.loginAddr这样的字段了。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">grid</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">cols</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">col</span> <span class="attr">id</span>=<span class="string">&quot;sessionId&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">col</span> <span class="attr">id</span>=<span class="string">&quot;session.loginAddr&quot;</span> <span class="attr">sortable</span>=<span class="string">&quot;true&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">cols</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">grid</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><br><span class="hljs-tag">&lt;<span class="hljs-name">grid</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">cols</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">col</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;sessionId&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">col</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;session.loginAddr&quot;</span> <span class="hljs-attr">sortable</span>=<span class="hljs-string">&quot;true&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">cols</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">grid</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>meta中prop的sortable是后台服务是否支持排序，而grid的prop上的sortable则是在前台是否允许排序</p>
 <p>sessionId是列表中已有的字段。session.loginAddr是新增的关联字段，它被插入到sessionId字段的后面。</p>
@@ -1290,8 +1290,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

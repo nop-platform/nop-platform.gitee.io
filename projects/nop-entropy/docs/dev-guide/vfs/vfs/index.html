@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1241,7 +1241,7 @@
 </ol>
 <h2 id="Delta路径"><a href="#Delta路径" class="headerlink" title="Delta路径"></a>Delta路径</h2><p>在虚拟文件系统中，定义了一个特殊的路径模式&#x2F;_delta&#x2F;{deltaName}&#x2F;，例如&#x2F;_vfs&#x2F;_delta&#x2F;default&#x2F;xxx。<br>如果存在delta目录，则会根据指定的nop.core.vfs.delta-layer-ids配置(缺省为default)，构成多个delta层，高层的delta会自动覆盖低层的delta。</p>
 <p>例如nop.core.vfs.delta-layer-ids&#x3D;product,default，则对于如下虚拟文件布局</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/_vfs/_delta</span><br><span class="line">         /product</span><br><span class="line">             /nop</span><br><span class="line">             ...</span><br><span class="line">         /default</span><br><span class="line">             /nop</span><br><span class="line">             ...</span><br><span class="line">     /nop</span><br><span class="line">        ...</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">/_vfs/_delta<br>         /product<br>             /nop<br>             ...<br>         /default<br>             /nop<br>             ...<br>     /nop<br>        ...<br></code></pre></td></tr></table></figure>
 
 <ul>
 <li><p>VirtualFileSystem.instance().getResource(“&#x2F;nop&#x2F;auth&#x2F;xxx”)获取文件时，会先查找&#x2F;_vfs&#x2F;product&#x2F;nop&#x2F;auth&#x2F;xxx，如果不存在，会继续查找<br>&#x2F;_vfs&#x2F;default&#x2F;nop&#x2F;auth&#x2F;xxx。如果仍然不存在，才会访问基础的&#x2F;nop&#x2F;auth&#x2F;xxx文件。</p>
@@ -1317,8 +1317,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

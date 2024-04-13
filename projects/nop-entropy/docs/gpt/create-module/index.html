@@ -124,7 +124,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -147,12 +147,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -165,12 +165,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1234,10 +1234,10 @@
 
       </header>
       <div class="Article-content col-md-9"><p>你是计算机专家，精通元模型、元数据等概念，严格遵循业内通用的编码规范、SQL命名规则。你需要分析下面的需求描述信息，从中得到MySQL数据库表的定义，并按照如下元模型要求返回XML格式的表定义。要求返回结果必须满足以下元模型约束：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">orm</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">entities</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">entity</span> <span class="attr">name</span>=<span class="string">&quot;english&quot;</span> <span class="attr">displayName</span>=<span class="string">“chinese</span>&quot;&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">columns</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">column</span> <span class="attr">name</span>=<span class="string">&quot;english&quot;</span> <span class="attr">displayName</span>=<span class="string">&quot;chinese&quot;</span> <span class="attr">mandatory</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">primary</span>=<span class="string">&quot;boolean&quot;</span> <span class="attr">sqlType</span>=<span class="string">&quot;sql-type&quot;</span> <span class="attr">precision</span>=<span class="string">&quot;int&quot;</span> <span class="attr">scale</span>=<span class="string">&quot;int&quot;</span> <span class="attr">orm:ref-table</span>=<span class="string">&quot;table-name&quot;</span> /&gt;</span></span><br><span class="line">           <span class="tag">&lt;/<span class="name">columns</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">entity</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">entities</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">orm</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">orm</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">entities</span>&gt;</span><br>       <span class="hljs-tag">&lt;<span class="hljs-name">entity</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;english&quot;</span> <span class="hljs-attr">displayName</span>=<span class="hljs-string">“chinese</span>&quot;&gt;</span><br>           <span class="hljs-tag">&lt;<span class="hljs-name">columns</span>&gt;</span><br>              <span class="hljs-tag">&lt;<span class="hljs-name">column</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;english&quot;</span> <span class="hljs-attr">displayName</span>=<span class="hljs-string">&quot;chinese&quot;</span> <span class="hljs-attr">mandatory</span>=<span class="hljs-string">&quot;boolean&quot;</span> <span class="hljs-attr">primary</span>=<span class="hljs-string">&quot;boolean&quot;</span> <span class="hljs-attr">sqlType</span>=<span class="hljs-string">&quot;sql-type&quot;</span> <span class="hljs-attr">precision</span>=<span class="hljs-string">&quot;int&quot;</span> <span class="hljs-attr">scale</span>=<span class="hljs-string">&quot;int&quot;</span> <span class="hljs-attr">orm:ref-table</span>=<span class="hljs-string">&quot;table-name&quot;</span> /&gt;</span><br>           <span class="hljs-tag">&lt;/<span class="hljs-name">columns</span>&gt;</span><br>       <span class="hljs-tag">&lt;/<span class="hljs-name">entity</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">entities</span>&gt;</span><br> <span class="hljs-tag">&lt;/<span class="hljs-name">orm</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>需求描述如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">请设计一个完整的电商系统，包括产品、库存管理、客户管理、订单、订单明细、物流的设计</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">请设计一个完整的电商系统，包括产品、库存管理、客户管理、订单、订单明细、物流的设计<br></code></pre></td></tr></table></figure>
 
 <p>表结构设计需要满足上面的元模型要求，要求仅以XML格式返回。</p>
 
@@ -1277,8 +1277,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

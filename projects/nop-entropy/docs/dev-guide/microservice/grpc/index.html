@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1313,7 +1313,7 @@
 <h2 id="服务注册"><a href="#服务注册" class="headerlink" title="服务注册"></a>服务注册</h2><p>grpc-defaults.beans.xml中通过nopGrpcAutoConfiguration注册类会向nacos注册grpc服务实现。<br>目前Nop平台的grpc服务端口和rest服务端口是分离的，注册的服务名也不同。grpc服务名是<br><code>$&#123;nop.application.name&#125;-rpc</code>，而REST服务名是是<code>$&#123;nop.application.name&#125;</code>，不带http后缀，这样和springcloud的习惯符合</p>
 <h2 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h2><p>在调试模式下，在dump目录下会生成<code>/nop/main/graphql/graphql-api.proto</code>定义文件</p>
 <h2 id="服务函数"><a href="#服务函数" class="headerlink" title="服务函数"></a>服务函数</h2><p>MethodDescriptor提供了generateFullMethodName方法来生成全方法名</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fullMethodName = packageName + &#x27;.&#x27; + serviceName + &#x27;/&#x27; + methodName</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">fullMethodName = packageName + &#x27;.&#x27; + serviceName + &#x27;/&#x27; + methodName<br></code></pre></td></tr></table></figure>
 
 <p>GET方法 ： &#x2F;fullMethodName?base64编码的payload</p>
 <p>content设置为 application&#x2F;grpc</p>
@@ -1360,8 +1360,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

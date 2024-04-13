@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1243,32 +1243,32 @@
 <li><code>require</code>前缀表示返回结果必须不为<code>null</code>，如果为<code>null</code>，则会抛出异常</li>
 <li><code>batch</code>前缀表示批量操作，例如<code>batchDeleteEntities</code>表示批量删除实体</li>
 </ol>
-<h2 id="获取Dao对象"><a href="#获取Dao对象" class="headerlink" title="获取Dao对象"></a>获取Dao对象</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Inject</span></span><br><span class="line">IDaoProvider daoProvider;</span><br><span class="line"></span><br><span class="line">dao = daoProvider.daoFor(MyEntity.class);</span><br></pre></td></tr></table></figure>
+<h2 id="获取Dao对象"><a href="#获取Dao对象" class="headerlink" title="获取Dao对象"></a>获取Dao对象</h2><figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Inject</span><br>IDaoProvider daoProvider;<br><br>dao = daoProvider.daoFor(MyEntity.class);<br></code></pre></td></tr></table></figure>
 
 <p><code>daoProvider</code>统一关系系统中所有的<code>dao</code>对象，可以按照实体名、实体Java类、表名等不同方式获取到对应的<code>dao</code>对象。</p>
 <h2 id="在CrudBizModel的派生类中获取dao"><a href="#在CrudBizModel的派生类中获取dao" class="headerlink" title="在CrudBizModel的派生类中获取dao"></a>在CrudBizModel的派生类中获取dao</h2><ol>
 <li>获取当前实体的dao: <code>this.dao()</code></li>
 <li>获取指定类型实体的dao: <code>this.daoFor(MyEntity.class)</code></li>
 </ol>
-<h2 id="常用函数"><a href="#常用函数" class="headerlink" title="常用函数"></a>常用函数</h2><h2 id="1-按照属性查询"><a href="#1-按照属性查询" class="headerlink" title="1. 按照属性查询"></a>1. 按照属性查询</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">MyEntity</span> <span class="variable">example</span> <span class="operator">=</span> dao.newEntity();</span><br><span class="line">example.setMyField(<span class="string">&quot;a&quot;</span>);</span><br><span class="line"><span class="comment">// 查找满足条件的第一个</span></span><br><span class="line"><span class="type">MyEntity</span> <span class="variable">entity</span> <span class="operator">=</span> dao.findFirstByExample(example);</span><br><span class="line"></span><br><span class="line"><span class="comment">// require表示如果没有找到，则会抛出异常</span></span><br><span class="line">entity = dao.requireFirstByExample(example);</span><br></pre></td></tr></table></figure>
+<h2 id="常用函数"><a href="#常用函数" class="headerlink" title="常用函数"></a>常用函数</h2><h2 id="1-按照属性查询"><a href="#1-按照属性查询" class="headerlink" title="1. 按照属性查询"></a>1. 按照属性查询</h2><figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-type">MyEntity</span> <span class="hljs-variable">example</span> <span class="hljs-operator">=</span> dao.newEntity();<br>example.setMyField(<span class="hljs-string">&quot;a&quot;</span>);<br><span class="hljs-comment">// 查找满足条件的第一个</span><br><span class="hljs-type">MyEntity</span> <span class="hljs-variable">entity</span> <span class="hljs-operator">=</span> dao.findFirstByExample(example);<br><br><span class="hljs-comment">// require表示如果没有找到，则会抛出异常</span><br>entity = dao.requireFirstByExample(example);<br></code></pre></td></tr></table></figure>
 
-<h2 id="2-构造复杂查询条件"><a href="#2-构造复杂查询条件" class="headerlink" title="2. 构造复杂查询条件"></a>2. 构造复杂查询条件</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">QueryBean</span> <span class="variable">query</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">QueryBean</span>();</span><br><span class="line">query.setFilter(and(eq(MyEntity.PROP_NAME_myField,<span class="string">&quot;a&quot;</span>), gt(MyEntity.PROP_NAME_myStatus,<span class="number">3</span>)));</span><br><span class="line">query.setLimit(<span class="number">5</span>);</span><br><span class="line"></span><br><span class="line">List&lt;MyEntity&gt; list = dao.findPageByQuery(query);</span><br></pre></td></tr></table></figure>
+<h2 id="2-构造复杂查询条件"><a href="#2-构造复杂查询条件" class="headerlink" title="2. 构造复杂查询条件"></a>2. 构造复杂查询条件</h2><figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-type">QueryBean</span> <span class="hljs-variable">query</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">QueryBean</span>();<br>query.setFilter(and(eq(MyEntity.PROP_NAME_myField,<span class="hljs-string">&quot;a&quot;</span>), gt(MyEntity.PROP_NAME_myStatus,<span class="hljs-number">3</span>)));<br>query.setLimit(<span class="hljs-number">5</span>);<br><br>List&lt;MyEntity&gt; list = dao.findPageByQuery(query);<br></code></pre></td></tr></table></figure>
 
 <p><code>FilterBeans</code>类中定义了一些辅助函数，如<code>and/or/eq,gt</code>等，可以用于构建过滤条件。<code>gt</code>表示大于，<code>ge</code>表示大于等于，<code>lt</code>表示小于，<code>le</code>表示小于等于，<code>eq</code>表示等于</p>
-<h2 id="3-新建并保存实体"><a href="#3-新建并保存实体" class="headerlink" title="3. 新建并保存实体"></a>3. 新建并保存实体</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">MyEntity</span> <span class="variable">entity</span> <span class="operator">=</span> dao.newEntity();</span><br><span class="line">...</span><br><span class="line">dao.saveEntity(entity);</span><br></pre></td></tr></table></figure>
+<h2 id="3-新建并保存实体"><a href="#3-新建并保存实体" class="headerlink" title="3. 新建并保存实体"></a>3. 新建并保存实体</h2><figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-type">MyEntity</span> <span class="hljs-variable">entity</span> <span class="hljs-operator">=</span> dao.newEntity();<br>...<br>dao.saveEntity(entity);<br></code></pre></td></tr></table></figure>
 
 <p>一般情况下我们应该使用<code>dao.newEntity()</code>函数创建实体，而不要直接使用<code>new MyEntity()</code>这种方式。这是因为当我们通过Delta定制方式来扩展实体类时，<br><code>dao.newEntity()</code>返回的Java对象可能是扩展类的对象，而不是当前实体类的对象。例如，我们在Delta模块中可以定义了<code>class MyEntityEx extends MyEntity</code>,<br>然后配置ORM模型，使得<code>test.MyEntity</code>这个实体类名对应的Java类为<code>MyEntityEx</code>，则<code>dao.newEntity()</code>实际返回的是<code>MyEntityEx</code></p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">orm</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">entity</span> <span class="attr">name</span>=<span class="string">&quot;test.MyEntity&quot;</span> <span class="attr">class</span>=<span class="string">&quot;test.MyEntityEx&quot;</span> &gt;</span>...<span class="tag">&lt;/<span class="name">entity</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">orm</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">orm</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">entity</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;test.MyEntity&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;test.MyEntityEx&quot;</span> &gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">entity</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">orm</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
-<h2 id="4-修改实体"><a href="#4-修改实体" class="headerlink" title="4. 修改实体"></a>4. 修改实体</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dao.saveOrUpdateEntity(entity);</span><br></pre></td></tr></table></figure>
+<h2 id="4-修改实体"><a href="#4-修改实体" class="headerlink" title="4. 修改实体"></a>4. 修改实体</h2><figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java">dao.saveOrUpdateEntity(entity);<br></code></pre></td></tr></table></figure>
 
 <p>按照ORM引擎的一般原理，如果只是修改实体属性是不需要调用<code>dao.updateEntity</code>方法的。因为NopORM会通过<code>OrmSession</code>来管理所有的实体对象，当<code>session.flush</code>的时候<br>会自动检查当前session中所有对象是否被修改，如果有修改，就会自动将修改同步到数据库中。<code>dao.updateEntity()</code>基本上是一个空函数，它只会做一些状态检查工作。</p>
 <p><code>dao.saveOrUpdateEntity</code>会根据实体上的状态标记信息来确定是否是新建的实体（Transient），如果是，则调用<code>saveEntity</code>，否则调用<code>updateEntity</code>。</p>
-<h2 id="5-删除实体"><a href="#5-删除实体" class="headerlink" title="5. 删除实体"></a>5. 删除实体</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dao.deleteEntity(entity);</span><br></pre></td></tr></table></figure>
+<h2 id="5-删除实体"><a href="#5-删除实体" class="headerlink" title="5. 删除实体"></a>5. 删除实体</h2><figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java">dao.deleteEntity(entity);<br></code></pre></td></tr></table></figure>
 
 <p>删除实体的时候，如果它的关联子表集合配置了<code>cascade-delete</code>，则子表集合中的元素也会被自动删除。</p>
 <h2 id="6-批量加载属性"><a href="#6-批量加载属性" class="headerlink" title="6. 批量加载属性"></a>6. 批量加载属性</h2><p>JPA的一个常见性能问题是关联对象延迟加载导致出现N+1问题。<code>IEntityDao</code>提供了一个<code>batchLoadProperties</code>函数用于一次性加载所有关联属性。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List&lt;MyEntity&gt; list = dao.findAll();</span><br><span class="line">dao.batchLoadProps(list, Arrays.asList(<span class="string">&quot;parent&quot;</span>,<span class="string">&quot;children&quot;</span>,<span class="string">&quot;parent.parent&quot;</span>));</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java">List&lt;MyEntity&gt; list = dao.findAll();<br>dao.batchLoadProps(list, Arrays.asList(<span class="hljs-string">&quot;parent&quot;</span>,<span class="hljs-string">&quot;children&quot;</span>,<span class="hljs-string">&quot;parent.parent&quot;</span>));<br></code></pre></td></tr></table></figure>
 
 <p>内部实现方式有些类似于GraphQL的<code>BatchDataLoader</code>，只是它针对ORM实体的情况做了特别的优化。</p>
 
@@ -1308,8 +1308,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

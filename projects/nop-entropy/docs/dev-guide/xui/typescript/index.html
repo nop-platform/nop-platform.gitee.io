@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1231,7 +1231,7 @@
 
       </header>
       <div class="Article-content col-md-9"><p>要声明一个类型，它表示从类型A中提取字段”a”和”b”的定义，并将字段”b”的类型修改为可空类型，您可以使用”Pick”和”Partial”内置类型的组合。以下是示例代码：</p>
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> A = &#123; <span class="attr">a</span>: <span class="built_in">number</span>, <span class="attr">b</span>: <span class="built_in">string</span>, <span class="attr">c</span>: <span class="built_in">boolean</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">ExtractAB</span> = <span class="title class_">Pick</span>&lt;A, <span class="string">&#x27;a&#x27;</span> | <span class="string">&#x27;b&#x27;</span>&gt; &amp; <span class="title class_">Partial</span>&lt;<span class="title class_">Pick</span>&lt;A, <span class="string">&#x27;b&#x27;</span>&gt;&gt;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 示例用法</span></span><br><span class="line"><span class="keyword">const</span> <span class="attr">obj</span>: <span class="title class_">ExtractAB</span> = &#123;</span><br><span class="line"><span class="attr">a</span>: <span class="number">1</span>,</span><br><span class="line"><span class="attr">b</span>: <span class="literal">null</span> <span class="comment">// b现在是可空类型</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">type</span> A = &#123; <span class="hljs-attr">a</span>: <span class="hljs-built_in">number</span>, <span class="hljs-attr">b</span>: <span class="hljs-built_in">string</span>, <span class="hljs-attr">c</span>: <span class="hljs-built_in">boolean</span> &#125;;<br><br><span class="hljs-keyword">type</span> <span class="hljs-title class_">ExtractAB</span> = <span class="hljs-title class_">Pick</span>&lt;A, <span class="hljs-string">&#x27;a&#x27;</span> | <span class="hljs-string">&#x27;b&#x27;</span>&gt; &amp; <span class="hljs-title class_">Partial</span>&lt;<span class="hljs-title class_">Pick</span>&lt;A, <span class="hljs-string">&#x27;b&#x27;</span>&gt;&gt;;<br><br><span class="hljs-comment">// 示例用法</span><br><span class="hljs-keyword">const</span> <span class="hljs-attr">obj</span>: <span class="hljs-title class_">ExtractAB</span> = &#123;<br><span class="hljs-attr">a</span>: <span class="hljs-number">1</span>,<br><span class="hljs-attr">b</span>: <span class="hljs-literal">null</span> <span class="hljs-comment">// b现在是可空类型</span><br>&#125;;<br></code></pre></td></tr></table></figure>
 
 <p>在上面的代码中，我们首先使用”Pick”类型从类型A中提取字段”a”和”b”的定义。然后，我们使用”Partial”类型将字段”b”的类型修改为可空类型。最后，我们将这两个类型组合在一起，得到一个新的类型ExtractAB。</p>
 <p>现在，类型ExtractAB将只包含字段”a”和可空字段”b”的定义。其他字段将不包含在该类型中。</p>
@@ -1272,8 +1272,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

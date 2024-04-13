@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1279,7 +1279,7 @@
 <li><p>代码：如果配置了这个属性，则会在<code>DaoConstants</code>常量类中生成一个常量定义，例如<code>mall/order-status</code>中<code>CREATED</code>代码对应于生成</p>
 </li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">_AppMallDaoConstants</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 订单状态: 未付款</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">  <span class="type">int</span> <span class="variable">ORDER_STATUS_CREATED</span> <span class="operator">=</span> <span class="number">101</span>;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">_AppMallDaoConstants</span> &#123;<br><br>  <span class="hljs-comment">/**</span><br><span class="hljs-comment">    * 订单状态: 未付款</span><br><span class="hljs-comment">    */</span><br>  <span class="hljs-type">int</span> <span class="hljs-variable">ORDER_STATUS_CREATED</span> <span class="hljs-operator">=</span> <span class="hljs-number">101</span>;<br>  ...<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <h2 id="数据表"><a href="#数据表" class="headerlink" title="数据表"></a>数据表</h2><p>表名会直接按照驼峰规则映射为GraphQL中的对象名，所以表名原则上需要全局唯一（不同模块之间的表名不应该冲突）。建议每个模块具有自己特殊的表名前缀，比如<code>litemall_xxx</code>,<code>nop_wf_xxx</code>等。<br>Nop平台内置的表名都具有前缀<code>nop_</code>。</p>
 <h2 id="数据表标签"><a href="#数据表标签" class="headerlink" title="数据表标签"></a>数据表标签</h2><ul>
@@ -1394,8 +1394,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1253,7 +1253,7 @@
 <p>Nop平台内置了强大的模板驱动的代码生成器，可以实现NoCode开发与ProCode开发共享一部分代码生成模板。参见<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/540022264">数据驱动的差量化代码生成器</a>。</p>
 <p>在另一个方向上，<strong>解析DSL得到模型对象的过程在Nop平台中被标准化了</strong>：只需要定义DSL所对应的XDef元模型，即可自动实现模型对象解析。参见<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/652191061">替代XSD的统一元模型定义语言:XDef</a>。</p>
 <p>在Nop平台中，我们可以使用如下方式来根据虚拟文件路径加载任意模型对象</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">DslModel</span> = <span class="title class_">ResourceComponentManager</span>.<span class="title function_">instance</span>().<span class="title function_">loadComponentModel</span>(modelPath)</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-title class_">DslModel</span> = <span class="hljs-title class_">ResourceComponentManager</span>.<span class="hljs-title function_">instance</span>().<span class="hljs-title function_">loadComponentModel</span>(modelPath)<br></code></pre></td></tr></table></figure>
 
 <p>加载过程中会自动实现模型缓存，并跟踪模型文件之间的依赖关系：当某个模型文件被修改之后，所有依赖于该模型文件的模型缓存会自动失效。统一模型加载器所做的工作本质上类似于前端的webpack、vite这种支持依赖跟踪的打包工具。详细介绍视频参见<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1rH4y117hd/">低代码平台中的统一模型加载器</a>。</p>
 <h2 id="二-通用的Delta差量化机制"><a href="#二-通用的Delta差量化机制" class="headerlink" title="二. 通用的Delta差量化机制"></a>二. 通用的Delta差量化机制</h2><p><strong>任何一种动态更新(扩展)技术本质上都是在定义一种Delta差量空间以及这个空间中可行的结构合成运算</strong>。仔细思考一下就知道，一般人眼中所谓的动态更新无非就是在已经构造好的结构上定义扩展点，然后将符合接口规范的结构插入到扩展点中。实现动态的差量化更新的复杂性体现在如下三点：</p>
@@ -1290,19 +1290,19 @@
 </tbody></table>
 <p>Nop平台的XLang相当于是发展了一整套系统化的对Tree结构的定义、解析、转换、分析的工具集。Nop平台之所以能够实现标准化的、与业务无关的差量合并运算，原因在于它是在通用的XDSL结构层定义差量运算，而不是在XDSL解析得到的模型对象层。</p>
 <p>回顾一下Nop平台中的模型加载过程</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">DslModel</span> = <span class="title class_">ResourceComponentManager</span>.<span class="title function_">instance</span>().<span class="title function_">loadComponentModel</span>(modelPath)</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-title class_">DslModel</span> = <span class="hljs-title class_">ResourceComponentManager</span>.<span class="hljs-title function_">instance</span>().<span class="hljs-title function_">loadComponentModel</span>(modelPath)<br></code></pre></td></tr></table></figure>
 
 <p>如果采用函数式语言的抽象表达形式，它对应于</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">modelPath =&gt; XDSL =&gt; DslModel </span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">modelPath =&gt; XDSL =&gt; DslModel <br></code></pre></td></tr></table></figure>
 
 <p>XDSL是无冗余的、标准化的、面向信息存储和传递的结构化信息表达形式，而DslModel是经过编译优化、提供大量衍生数据的、面向对外使用的信息表达形式。它们两者之间通过一个动态的响应式计算过程联系起来：一旦DSL文件被修改，DslModel就自动重新解析。</p>
 <h2 id="微服务架构的成功经验"><a href="#微服务架构的成功经验" class="headerlink" title="微服务架构的成功经验"></a>微服务架构的成功经验</h2><p>差量化更新时如何保证运行时状态在更新前后的一致性？对于这个问题的回答，我们可以参考一下微服务架构的解决方案。</p>
 <p>微服务架构之所以能够实现动态滚动更新，依赖于所谓的无状态设计。面向对象的传统做法是函数和它所处理的函数封装到所谓的对象中，最后函数和数据相互纠缠，形成意大利面条般盘根错解的混乱结构，难以进行拆解，自然也难以做到局部更新。理想的情况下，最好形成类似千层饼的切片结构，随时可以一层层的叠加或者削减。<br>无状态设计的本质是实现逻辑处理和运行时状态空间的解耦。清气上升，浊气下沉，运行时的动态状态数据从静态的纯逻辑处理结构中被排挤出去，一部分成为被传递的参数数据，另一部分成为保存在共享存储中的持久化数据，这样微服务本身的运行时结构中就不再明确包含状态数据，因此它的动态更新也就不和状态空间的数据迁移纠缠在一起，成为一个可以被独立解决的问题。</p>
 <p>访问微服务的时候我们会先访问服务注册中心，通过服务名动态查找得到服务实例，然后再向它发送输入参数，服务实例根据输入参数再自动加载持久化状态数据。如果采用函数式语言的抽象表达形式，微服务的处理过程对应于</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">serviceName =&gt; Service =&gt; input =&gt; state =&gt; Result</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">serviceName =&gt; Service =&gt; input =&gt; state =&gt; Result<br></code></pre></td></tr></table></figure>
 
 <p>类似的，在Nop平台中，所有模型的处理过程都采用同样的逻辑结构</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">modelPath =&gt; XDSL =&gt; DslModel =&gt; arguments =&gt; scope =&gt; Result</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">modelPath =&gt; XDSL =&gt; DslModel =&gt; arguments =&gt; scope =&gt; Result<br></code></pre></td></tr></table></figure>
 
 <p>类似于微服务，DSL模型的动态更新可以独立于状态空间的结构迁移。</p>
 <h2 id="三-DSL"><a href="#三-DSL" class="headerlink" title="三. DSL"></a>三. DSL</h2>
@@ -1342,8 +1342,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

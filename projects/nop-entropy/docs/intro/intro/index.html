@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1233,10 +1233,10 @@
       <div class="Article-content col-md-9"><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/64004026">https://zhuanlan.zhihu.com/p/64004026</a></p>
 <p>组件技术的内在假定是“相同可以复用”，但是A和B的公共部分是比A和B都要小的，这使得组件技术在理论层面就难以解决粗粒度软件复用的问题。<br>要解决系统级别的软件复用，我们需要在软件构造理论方面做出新的发展。</p>
 <p>在最近几年的技术实践中，Docker、React、k8s的Kustomize等基于差量概念的技术层出不穷，在所有这些Ad Hoc的实践背后存在统一的软件构造规律。<br>可逆计算提出了一个基于可逆差量运算的软件构造公式：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">App = Delta x-extends Generator&lt;DSL&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">App = Delta x-extends Generator&lt;DSL&gt;<br></code></pre></td></tr></table></figure>
 
 <p>它可以为各种实践提供统一的理论解释，并为它们指明进一步发展的方向。比如</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DockerApp = DockerBuilder&lt;DockerFile&gt; overlay-fs BaseImage</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">DockerApp = DockerBuilder&lt;DockerFile&gt; overlay-fs BaseImage<br></code></pre></td></tr></table></figure>
 
 <p>为了更好的展示可逆计算理论的具体技术内涵，我开源了一个面向DSL开发的低代码平台Nop Platform 2.0，它的目标类似于JetBrains公司的MPS产品，希望实现一个快速开发和扩展DSL的领域语言工作台(Domain Language Workbench )，但它的具体实现方式与MPS有本质不同。<br><a target="_blank" rel="noopener" href="https://github.com/entropy-cloud/nop-entropy">https://github.com/entropy-cloud/nop-entropy</a></p>
 <p>Nop平台现在内置了一个演示用的软件生产线，可以从Excel格式的数据模型自动生成GraphQL服务以及前端页面，然后在自动生成的代码基础上我们可以手工调整，手工编写的差量代码与自动生成的代码相互隔离，不会相互影响。<br><img src="/knosys/project-nop-entropy/tutorial/delta-pipeline.png" alt="delta-pipeline"></p>
@@ -1283,8 +1283,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

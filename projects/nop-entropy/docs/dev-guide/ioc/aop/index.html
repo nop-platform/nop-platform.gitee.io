@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1233,16 +1233,16 @@
       <div class="Article-content col-md-9"><p>Nop平台的AOP机制依赖于编译期代码生成，并不是在运行期动态生成字节码。</p>
 <p>注意：<strong>必须先生成AOP包装类，然后NopIoC中的aop配置才能起作用</strong></p>
 <h2 id="AOP包装类生成器"><a href="#AOP包装类生成器" class="headerlink" title="AOP包装类生成器"></a>AOP包装类生成器</h2><p>GenAopProxy扫描指定工程下的target&#x2F;classes目录以及target&#x2F;test-classes目录，对其中的每个Java类生成aop包装类，<br>生成代码输出到target&#x2F;generated-sources目录和target&#x2F;generated-test-sources目录。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">File</span> projectDir = ...;</span><br><span class="line"><span class="keyword">new</span> <span class="title class_">GenAopProxy</span>().<span class="title function_">execute</span>(projectDir, generateForTestFile);</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-title class_">File</span> projectDir = ...;<br><span class="hljs-keyword">new</span> <span class="hljs-title class_">GenAopProxy</span>().<span class="hljs-title function_">execute</span>(projectDir, generateForTestFile);<br></code></pre></td></tr></table></figure>
 
 <p>在test目录下的XXXCodeGen.java中可以增加GenAopProxy调用。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">AuthCodeGen</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        CoreInitialization.initialize();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="type">File</span> <span class="variable">projectDir</span> <span class="operator">=</span> MavenDirHelper.projectDir(AuthCodeGen.class);</span><br><span class="line">            XCodeGenerator.runPrecompile(projectDir, <span class="string">&quot;/&quot;</span>, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">new</span> <span class="title class_">GenAopProxy</span>().execute(projectDir, <span class="literal">false</span>);</span><br><span class="line">            <span class="keyword">new</span> <span class="title class_">GenAopProxy</span>().execute(projectDir, <span class="literal">true</span>);</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            CoreInitialization.destroy();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AuthCodeGen</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        CoreInitialization.initialize();<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-type">File</span> <span class="hljs-variable">projectDir</span> <span class="hljs-operator">=</span> MavenDirHelper.projectDir(AuthCodeGen.class);<br>            XCodeGenerator.runPrecompile(projectDir, <span class="hljs-string">&quot;/&quot;</span>, <span class="hljs-literal">false</span>);<br><br>            <span class="hljs-keyword">new</span> <span class="hljs-title class_">GenAopProxy</span>().execute(projectDir, <span class="hljs-literal">false</span>);<br>            <span class="hljs-keyword">new</span> <span class="hljs-title class_">GenAopProxy</span>().execute(projectDir, <span class="hljs-literal">true</span>);<br>        &#125; <span class="hljs-keyword">finally</span> &#123;<br>            CoreInitialization.destroy();<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <h2 id="通过maven工具生成AOP包装类"><a href="#通过maven工具生成AOP包装类" class="headerlink" title="通过maven工具生成AOP包装类"></a>通过maven工具生成AOP包装类</h2><p>在pom.xml中增加exec-maven-plugin配置，为了简单一般从nop-entropy的pom.xml继承，其中已经为exec-maven-plugin配置了aop代理生成功能。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.codehaus.mojo<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>exec-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">build</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">plugins</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">plugin</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.codehaus.mojo<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>exec-maven-plugin<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">plugin</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">plugins</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">build</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <h2 id="NopIoC配置"><a href="#NopIoC配置" class="headerlink" title="NopIoC配置"></a>NopIoC配置</h2><p>在beans.xml中配置Interceptor，声明它可以应用到哪些注解以及它的应用优先级。<br>NopIoC解析bean配置之后会检查所有的interceptor可以应用到容器中的哪些bean中，并将bean的class属性替换为对应的AOP包装类。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;nopTransactionalMethodInterceptor&quot;</span> <span class="attr">ioc:default</span>=<span class="string">&quot;true&quot;</span></span></span><br><span class="line"><span class="tag">      <span class="attr">class</span>=<span class="string">&quot;io.nop.dao.txn.interceptor.TransactionalMethodInterceptor&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">index</span>=<span class="string">&quot;0&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;nopTransactionTemplate&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">ioc:pointcut</span> <span class="attr">annotations</span>=<span class="string">&quot;io.nop.api.core.annotations.txn.Transactional&quot;</span></span></span><br><span class="line"><span class="tag">                  <span class="attr">order</span>=<span class="string">&quot;#&#123;ApiConstants.INTERCEPTOR_PRIORITY_TRANSACTIONAL&#125;&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;nopTransactionalMethodInterceptor&quot;</span> <span class="hljs-attr">ioc:default</span>=<span class="hljs-string">&quot;true&quot;</span></span><br><span class="hljs-tag">      <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;io.nop.dao.txn.interceptor.TransactionalMethodInterceptor&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">constructor-arg</span> <span class="hljs-attr">index</span>=<span class="hljs-string">&quot;0&quot;</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;nopTransactionTemplate&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">ioc:pointcut</span> <span class="hljs-attr">annotations</span>=<span class="hljs-string">&quot;io.nop.api.core.annotations.txn.Transactional&quot;</span></span><br><span class="hljs-tag">                  <span class="hljs-attr">order</span>=<span class="hljs-string">&quot;#&#123;ApiConstants.INTERCEPTOR_PRIORITY_TRANSACTIONAL&#125;&quot;</span>/&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span><br></code></pre></td></tr></table></figure>
 </div>
       <footer class="Article-footer col-md-3">
         
@@ -1279,8 +1279,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

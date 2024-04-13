@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1270,7 +1270,7 @@
 </ul>
 <h2 id="SpringSecurity集成"><a href="#SpringSecurity集成" class="headerlink" title="SpringSecurity集成"></a>SpringSecurity集成</h2><p>SpringSecurity的架构是使用唯一的一个HttpServletFilter，但是内部建立自己的FilterChain。SpringSecurity的这个Filter的order的值是Integer.MIN_VALUE+50,<br>所以如果想在SpringSecurity的filter之前执行代码，需要把order设置为很小的值。缺省配置下Nop平台注册的filter会在SpringSecurity的filter之后执行。</p>
 <p>另外一种做法是在SpringSecurity的SecurityFilterChain中插入自定义的Filter，比如如下方式:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@Inject</span><br><span class="line">SpringHttpServerFilterConfiguration config;</span><br><span class="line"></span><br><span class="line">@Bean</span><br><span class="line">public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception &#123;</span><br><span class="line">    http</span><br><span class="line">            .csrf(Customizer.withDefaults())</span><br><span class="line">            .addFilter(config.registerSysFilter().getFilter());</span><br><span class="line">    return http.build();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">@Inject<br>SpringHttpServerFilterConfiguration config;<br><br>@Bean<br>public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception &#123;<br>    http<br>            .csrf(Customizer.withDefaults())<br>            .addFilter(config.registerSysFilter().getFilter());<br>    return http.build();<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>SpringHttpServerFilterConfiguration中创建的Nop平台的filter选择了从OncePerRequestFilter继承，因此在整个filterChain中只会执行一次。<br>如果在SpringSecurity的SecurityFilterChain中注册了<code>registerSysFilter()</code>，则这个filter会提前执行。缺省情况下它应该是在SpringSecurity的<br>filter执行完毕之后才执行（因为它的order缺省为0，比SpringSecurity的order大）</p>
 
@@ -1310,8 +1310,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

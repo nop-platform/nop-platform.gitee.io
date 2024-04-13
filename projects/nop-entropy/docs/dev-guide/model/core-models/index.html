@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1284,7 +1284,7 @@
 <ul>
 <li>在XMeta中，也可以直接在prop配置中直接指定getter，用于返回一个动态计算的值</li>
 </ul>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">props</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">prop</span> <span class="attr">name</span>=<span class="string">&quot;myField&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">getter</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">c:script</span>&gt;</span></span><br><span class="line">                    return entity.name + &#x27;123&#x27;</span><br><span class="line">                <span class="tag">&lt;/<span class="name">c:script</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">getter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">prop</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">props</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">meta</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><br><span class="hljs-tag">&lt;<span class="hljs-name">meta</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">props</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">prop</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;myField&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">getter</span>&gt;</span><br>                <span class="hljs-tag">&lt;<span class="hljs-name">c:script</span>&gt;</span><br>                    return entity.name + &#x27;123&#x27;<br>                <span class="hljs-tag">&lt;/<span class="hljs-name">c:script</span>&gt;</span><br>            <span class="hljs-tag">&lt;/<span class="hljs-name">getter</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">prop</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">props</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">meta</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <h2 id="业务行为模型-xbiz"><a href="#业务行为模型-xbiz" class="headerlink" title="业务行为模型: xbiz"></a>业务行为模型: xbiz</h2><p>XBiz模型可以定义后台业务对象上允许执行的业务方法，这些业务方法可以通过GraphQL协议和REST协议调用到。</p>
 <blockquote>
@@ -1292,15 +1292,15 @@
 </blockquote>
 <p>在XBiz模型和Java类中都可以为业务对象定义业务方法，但是XBiz模型中定义的方法优先级更高，它会覆盖Java中定义的方法。</p>
 <p>如果同时定义了如下方法和xbiz模型，则实际调用的是xbiz模型中定义的getUserInfo函数。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">NopAuthUserBizModel</span> &#123;</span><br><span class="line">    <span class="meta">@BizQuery</span></span><br><span class="line">    <span class="keyword">public</span> LoginUserInfo <span class="title function_">getUserInfo</span><span class="params">(<span class="meta">@Name(&quot;id&quot;)</span> String id)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">NopAuthUserBizModel</span> &#123;<br>    <span class="hljs-meta">@BizQuery</span><br>    <span class="hljs-keyword">public</span> LoginUserInfo <span class="hljs-title function_">getUserInfo</span><span class="hljs-params">(<span class="hljs-meta">@Name(&quot;id&quot;)</span> String id)</span> &#123;<br>        <span class="hljs-keyword">return</span> ...<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">biz</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">actions</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">query</span> <span class="attr">name</span>=<span class="string">&quot;getUserInfo&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">arg</span> <span class="attr">name</span>=<span class="string">&quot;id&quot;</span> <span class="attr">type</span>=<span class="string">&quot;String&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">source</span>&gt;</span></span><br><span class="line">                ...</span><br><span class="line">            <span class="tag">&lt;/<span class="name">source</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">query</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">actions</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">biz</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><br><span class="hljs-tag">&lt;<span class="hljs-name">biz</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">actions</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">query</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;getUserInfo&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">arg</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;id&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;String&quot;</span>/&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">source</span>&gt;</span><br>                ...<br>            <span class="hljs-tag">&lt;/<span class="hljs-name">source</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">query</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">actions</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">biz</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <h2 id="视图大纲模型-xview"><a href="#视图大纲模型-xview" class="headerlink" title="视图大纲模型: xview"></a>视图大纲模型: xview</h2><p>XView主要描述从业务角度看到的界面核心信息，即页面上有哪些字段、字段的布局大致是什么，有哪些按钮，点击了按钮会调用后台的什么函数。</p>
 <p>XView模型与具体的技术实现无关，可以引入不同的<code>control.xlib</code><br>库，将XView模型翻译为不同的前端框架实现。缺省的control.xlib将XView模型翻译为百度AMIS框架对应的json格式。</p>
 <h2 id="页面模型-page-yaml"><a href="#页面模型-page-yaml" class="headerlink" title="页面模型: page.yaml"></a>页面模型: page.yaml</h2><p>YAML格式和JSON格式可以互相转化。在YAML格式中，可以比较方面的嵌入XML，便于元编程代码的编写。另外YAML允许添加注释，使用起来也比JSON要更加友好。</p>
 <p>Nop平台为任意的JSON和YAML格式增加了Delta差量运算机制，可以支持JSON对象的动态分解、合并。一般我们可以利用XView模型来自动生成页面模型，避免手工编写。</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="attr">x:gen-extends:</span> <span class="string">|</span></span><br><span class="line"><span class="string">  &lt;web:GenPage view=&quot;NopWfAction.view.xml&quot; page=&quot;picker&quot; xpl:lib=&quot;/nop/web/xlib/web.xlib&quot; /&gt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="attr">title:</span> <span class="string">自动生成的页面内容可以被这里手工编写的内容覆盖</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><code class="hljs yaml"><br><span class="hljs-attr">x:gen-extends:</span> <span class="hljs-string">|</span><br><span class="hljs-string">  &lt;web:GenPage view=&quot;NopWfAction.view.xml&quot; page=&quot;picker&quot; xpl:lib=&quot;/nop/web/xlib/web.xlib&quot; /&gt;</span><br><span class="hljs-string"></span><br><span class="hljs-attr">title:</span> <span class="hljs-string">自动生成的页面内容可以被这里手工编写的内容覆盖</span><br></code></pre></td></tr></table></figure>
 </div>
       <footer class="Article-footer col-md-3">
         
@@ -1337,8 +1337,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

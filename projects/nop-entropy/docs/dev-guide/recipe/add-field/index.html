@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1234,10 +1234,10 @@
 <h2 id="2-为xmeta中定义的prop提供Loader"><a href="#2-为xmeta中定义的prop提供Loader" class="headerlink" title="2. 为xmeta中定义的prop提供Loader"></a>2. 为xmeta中定义的prop提供Loader</h2><p>xmeta定义会自动转化为GraphQL的类型定义，后台还需要增加GraphQL所要求的Fetcher定义才能实际返回数据</p>
 <h3 id="2-1-在Java实体上增加get方法"><a href="#2-1-在Java实体上增加get方法" class="headerlink" title="2.1 在Java实体上增加get方法"></a>2.1 在Java实体上增加get方法</h3><p>直接在NopAuthUser.java类中增加对应的get&#x2F;set方法即可实现数据存取。xmeta仅仅涉及到接口层，对底层存储机制没有任何假定。</p>
 <h3 id="2-2-在BizModel上增加方法，并设置-BizLoader注解"><a href="#2-2-在BizModel上增加方法，并设置-BizLoader注解" class="headerlink" title="2.2 在BizModel上增加方法，并设置@BizLoader注解"></a>2.2 在BizModel上增加方法，并设置@BizLoader注解</h3><p>例如为NopAuthUser增加roleUsers属性对应的fetcher</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@BizModel(&quot;NopAuthRole&quot;)</span><br><span class="line">public class NopAuthRoleBizModel extends CrudBizModel&lt;NopAuthRole&gt; &#123;</span><br><span class="line"></span><br><span class="line">    @BizLoader</span><br><span class="line">    @GraphQLReturn(bizObjName = &quot;NopAuthUser&quot;)</span><br><span class="line">    public List&lt;NopAuthUser&gt; roleUsers(@ContextSource NopAuthRole role) &#123;</span><br><span class="line">        return role.getUserMappings().stream().map(NopAuthUserRole::getUser)</span><br><span class="line">                .sorted(comparing(NopAuthUser::getUserName)).collect(Collectors.toList());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;   </span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">@BizModel(&quot;NopAuthRole&quot;)<br>public class NopAuthRoleBizModel extends CrudBizModel&lt;NopAuthRole&gt; &#123;<br><br>    @BizLoader<br>    @GraphQLReturn(bizObjName = &quot;NopAuthUser&quot;)<br>    public List&lt;NopAuthUser&gt; roleUsers(@ContextSource NopAuthRole role) &#123;<br>        return role.getUserMappings().stream().map(NopAuthUserRole::getUser)<br>                .sorted(comparing(NopAuthUser::getUserName)).collect(Collectors.toList());<br>    &#125;<br>&#125;   <br></code></pre></td></tr></table></figure>
 
 <h3 id="2-3-在XBiz模型中定义loader"><a href="#2-3-在XBiz模型中定义loader" class="headerlink" title="2.3 在XBiz模型中定义loader"></a>2.3 在XBiz模型中定义loader</h3><h3 id="2-4-在XMeta模型中直接定义getter-setter"><a href="#2-4-在XMeta模型中直接定义getter-setter" class="headerlink" title="2.4 在XMeta模型中直接定义getter&#x2F;setter"></a>2.4 在XMeta模型中直接定义getter&#x2F;setter</h3><p>对于比较简单的情况，我们不需要修改BizModel或者实体类，可以直接在后台接口层的xmeta模型中直接定义存取器。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta&gt;</span><br><span class="line">  &lt;props&gt;</span><br><span class="line">     &lt;prop name=&quot;createDate&quot;&gt;</span><br><span class="line">        &lt;getter&gt;</span><br><span class="line">           entity.createTime.$toLocalDate()</span><br><span class="line">        &lt;/getter&gt;</span><br><span class="line">     &lt;/prop&gt;</span><br><span class="line">  &lt;/props&gt;</span><br><span class="line">&lt;/meta&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">&lt;meta&gt;<br>  &lt;props&gt;<br>     &lt;prop name=&quot;createDate&quot;&gt;<br>        &lt;getter&gt;<br>           entity.createTime.$toLocalDate()<br>        &lt;/getter&gt;<br>     &lt;/prop&gt;<br>  &lt;/props&gt;<br>&lt;/meta&gt;<br></code></pre></td></tr></table></figure>
 
 <p>$toLocalDate是扩展类型转换函数。所有的表达式最后都可以通过$toLocalDate&#x2F;toInt()等方式调用ConvertHelper上的类型转换函数。</p>
 <p>对于一些常见的可复用转换函数等，我们可以利用Nop平台内置的<code>x:gen-extends</code>、<code>x:post-extends</code>等元编程机制自动生成属性定义。<br>参见<a target="_blank" rel="noopener" href="https://gitee.com/canonical-entropy/nop-entropy/blob/master/nop-xlang/src/main/resources/_vfs/nop/core/xlib/biz-gen.xlib">biz-gen.xlib</a></p>
@@ -1278,8 +1278,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

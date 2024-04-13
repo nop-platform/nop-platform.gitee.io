@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1230,19 +1230,19 @@
 
 
       </header>
-      <div class="Article-content col-md-9"><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ExcelWorkbook wk = new ExcelWorkbookParser().parseFromVirtualPath(path);</span><br><span class="line">或者</span><br><span class="line">wk = new ExcelWorkbookParser().parseFromResource(new FileResource(file));</span><br></pre></td></tr></table></figure>
+      <div class="Article-content col-md-9"><figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">ExcelWorkbook wk = new ExcelWorkbookParser().parseFromVirtualPath(path);<br>或者<br>wk = new ExcelWorkbookParser().parseFromResource(new FileResource(file));<br></code></pre></td></tr></table></figure>
 
 <h2 id="2-解析Excel文件得到领域对象"><a href="#2-解析Excel文件得到领域对象" class="headerlink" title="2. 解析Excel文件得到领域对象"></a>2. 解析Excel文件得到领域对象</h2><p>根据imp.xml导入配置来实现自动解析Excel文件为领域模型对象。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">FileResource resource = new FileResource(new File(&quot;c:/test.orm.xlsx&quot;));</span><br><span class="line">OrmModel ormModel = (OrmModel) new XlsxObjectLoader(&quot;/nop/orm/imp/orm.imp.xml&quot;).parseFromResource(resource);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">FileResource resource = new FileResource(new File(&quot;c:/test.orm.xlsx&quot;));<br>OrmModel ormModel = (OrmModel) new XlsxObjectLoader(&quot;/nop/orm/imp/orm.imp.xml&quot;).parseFromResource(resource);<br></code></pre></td></tr></table></figure>
 
-<h2 id="3-保存Workbook对象到文件中"><a href="#3-保存Workbook对象到文件中" class="headerlink" title="3. 保存Workbook对象到文件中"></a>3. 保存Workbook对象到文件中</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">new ExcelTemplate(workbook).generateToFile(file, DisabledEvalScope.INSTANCE);</span><br></pre></td></tr></table></figure>
+<h2 id="3-保存Workbook对象到文件中"><a href="#3-保存Workbook对象到文件中" class="headerlink" title="3. 保存Workbook对象到文件中"></a>3. 保存Workbook对象到文件中</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">new ExcelTemplate(workbook).generateToFile(file, DisabledEvalScope.INSTANCE);<br></code></pre></td></tr></table></figure>
 
-<h2 id="4-将Workbook转换为HTML格式"><a href="#4-将Workbook转换为HTML格式" class="headerlink" title="4. 将Workbook转换为HTML格式"></a>4. 将Workbook转换为HTML格式</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ITemplateOutput output = reportEngine.getRendererForExcel(workbook, XptConstants.RENDER_TYPE_HTML);</span><br><span class="line">output.generateToFile(file, DisabledEvalScope.INSTANCE);</span><br><span class="line"></span><br><span class="line">或者</span><br><span class="line"></span><br><span class="line">ITextTemplateOutput output = reportEngine.getHtmlRenderer(workbook);</span><br><span class="line">String html = output.generateText(DisabledEvalScope.INSTANCE);</span><br></pre></td></tr></table></figure>
+<h2 id="4-将Workbook转换为HTML格式"><a href="#4-将Workbook转换为HTML格式" class="headerlink" title="4. 将Workbook转换为HTML格式"></a>4. 将Workbook转换为HTML格式</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">ITemplateOutput output = reportEngine.getRendererForExcel(workbook, XptConstants.RENDER_TYPE_HTML);<br>output.generateToFile(file, DisabledEvalScope.INSTANCE);<br><br>或者<br><br>ITextTemplateOutput output = reportEngine.getHtmlRenderer(workbook);<br>String html = output.generateText(DisabledEvalScope.INSTANCE);<br></code></pre></td></tr></table></figure>
 
 <h2 id="5-将领域对象保存为XLSX格式"><a href="#5-将领域对象保存为XLSX格式" class="headerlink" title="5. 将领域对象保存为XLSX格式"></a>5. 将领域对象保存为XLSX格式</h2><p>参考GenOrmHelper.saveOrmToExcel函数</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">IEvalScope scope = XLang.newEvalScope();</span><br><span class="line">scope.setLocalValue(null, XptConstants.VAR_ENTITY, ormModel);</span><br><span class="line"></span><br><span class="line">ExcelWorkbook workbook = reportEngine.buildXptModelFromImpModel(&quot;/nop/orm/imp/orm.imp.xml&quot;);</span><br><span class="line">ITemplateOutput output = reportEngine.getRendererForXptModel(workbook, &quot;xlsx&quot;);</span><br><span class="line">output.generateToFile(outputFile, scope);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">IEvalScope scope = XLang.newEvalScope();<br>scope.setLocalValue(null, XptConstants.VAR_ENTITY, ormModel);<br><br>ExcelWorkbook workbook = reportEngine.buildXptModelFromImpModel(&quot;/nop/orm/imp/orm.imp.xml&quot;);<br>ITemplateOutput output = reportEngine.getRendererForXptModel(workbook, &quot;xlsx&quot;);<br>output.generateToFile(outputFile, scope);<br></code></pre></td></tr></table></figure>
 
-<h2 id="6-解析ExcelSheet得到领域对象"><a href="#6-解析ExcelSheet得到领域对象" class="headerlink" title="6. 解析ExcelSheet得到领域对象"></a>6. 解析ExcelSheet得到领域对象</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ExcelSheet configSheet = workbook.getSheet(&quot;Config&quot;);</span><br><span class="line">XLangCompileTool compileTool = XLang.newCompileTool().allowUnregisteredScopeVar(true);</span><br><span class="line"></span><br><span class="line">ImportModel importModel = ImportModelHelper.getImportModel(RuleConstants.IMP_PATH_RULE);</span><br><span class="line">ImportSheetModel sheetModel = importModel.getSheet(RuleConstants.SHEET_NAME_CONFIG);</span><br><span class="line">RuleModel rule = ImportModelHelper.parseSheet(sheetModel, configSheet, compileTool, RuleModel.class);</span><br></pre></td></tr></table></figure>
+<h2 id="6-解析ExcelSheet得到领域对象"><a href="#6-解析ExcelSheet得到领域对象" class="headerlink" title="6. 解析ExcelSheet得到领域对象"></a>6. 解析ExcelSheet得到领域对象</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">ExcelSheet configSheet = workbook.getSheet(&quot;Config&quot;);<br>XLangCompileTool compileTool = XLang.newCompileTool().allowUnregisteredScopeVar(true);<br><br>ImportModel importModel = ImportModelHelper.getImportModel(RuleConstants.IMP_PATH_RULE);<br>ImportSheetModel sheetModel = importModel.getSheet(RuleConstants.SHEET_NAME_CONFIG);<br>RuleModel rule = ImportModelHelper.parseSheet(sheetModel, configSheet, compileTool, RuleModel.class);<br></code></pre></td></tr></table></figure>
 </div>
       <footer class="Article-footer col-md-3">
         
@@ -1279,8 +1279,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

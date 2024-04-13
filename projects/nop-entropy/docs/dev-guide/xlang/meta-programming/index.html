@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1237,15 +1237,15 @@
 <blockquote>
 <p>EvalGlobalRegistry.instance().registerStaticFunctions(GlobalFunctions.class) 会将类中的所有静态函数注册为XScript脚本语言中可用的全局函数</p>
 </blockquote>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@<span class="title class_">Macro</span></span><br><span class="line">public <span class="keyword">static</span> <span class="title class_">Expression</span> <span class="title function_">xpl</span>(<span class="params">@Name(<span class="string">&quot;scope&quot;</span>) IXLangCompileScope scope, @Name(<span class="string">&quot;expr&quot;</span>) CallExpression expr</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title class_">TemplateMacroImpls</span>.<span class="title function_">xpl</span>(scope, expr);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">@<span class="hljs-title class_">Macro</span><br>public <span class="hljs-keyword">static</span> <span class="hljs-title class_">Expression</span> <span class="hljs-title function_">xpl</span>(<span class="hljs-params">@Name(<span class="hljs-string">&quot;scope&quot;</span>) IXLangCompileScope scope, @Name(<span class="hljs-string">&quot;expr&quot;</span>) CallExpression expr</span>) &#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-title class_">TemplateMacroImpls</span>.<span class="hljs-title function_">xpl</span>(scope, expr);<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>宏函数的第一个参数必须是IXLangCompileScope类型，第二个参数必须是CallExpression类型，返回值必须是Expression类型。</p>
 <p>编译宏函数的时候，会把函数调用所对应的AST作为CallExpression传入。例如</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let result = xpl `&lt;c:if test=&quot;$&#123;x&#125;&quot;&gt;aaa&lt;/c:if&gt;`</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">let result = xpl `&lt;c:if test=&quot;$&#123;x&#125;&quot;&gt;aaa&lt;/c:if&gt;`<br></code></pre></td></tr></table></figure>
 
 <p>编译xpl宏函数的时候CallExpression的第一个参数是TemplateStringLiteral，也就是上面调用中的XML文本 <code>&lt;c:if test=&quot;$&#123;x&#125;&quot;&gt;aaa&lt;/c:if&gt;</code>。<br>在宏函数中我们可以自行解析这个XML文本，然后构造出新的Expression对象返回。</p>
 <p>利用宏函数机制，结合XScript语言中的TemplateStringLiteral，我们可以很容易的将不同语法格式的DSL嵌入到XScript语言中。例如，*<br><em>提供类似C# LinQ的SQL查询语法</em>*。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let result = linq `select ff from myObject o  where o.value &gt; 3`</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">let result = linq `select ff from myObject o  where o.value &gt; 3`<br></code></pre></td></tr></table></figure>
 
 <p>目前在Nop平台中，内置了如下宏函数</p>
 <table>
@@ -1297,7 +1297,7 @@
 </tr>
 </tbody></table>
 <p>因为宏函数在编译期执行，因此用宏函数来实现解析功能可以优化系统执行性能。例如从XNode中读取子节点a的b属性时</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node.selectOne(xpath `a/@b`) </span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">node.selectOne(xpath `a/@b`) <br></code></pre></td></tr></table></figure>
 
 <p>因为xpath是一个宏函数，所以它在编译期就会完成解析，在运行期相当于是传送一个常量对象给selectOne函数。</p>
 <p>通过宏函数可以实现自定义的语法结构，例如IF(X,Y,Z)会被转换为if语句。</p>
@@ -1312,14 +1312,14 @@
 <li>sql模式：输出SQL语句，对于表达式输出结果，自动变换为SQL参数</li>
 </ol>
 <p>例如对于以下SQL输出，</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;filter:sql&gt;</span><br><span class="line">  o.id in (select o.id from MyTable o where o.id = $&#123;entity.id&#125;) </span><br><span class="line">&lt;/filter:sql&gt; </span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">&lt;filter:sql&gt;<br>  o.id in (select o.id from MyTable o where o.id = $&#123;entity.id&#125;) <br>&lt;/filter:sql&gt; <br></code></pre></td></tr></table></figure>
 
 <p>实际会生成 <code>o.id in (select o.id from MyTable o where o.id = ? )</code>，表达式的值不会直接拼接到SQL文本中，而是会被替换为SQL参数。</p>
 <h2 id="编译期表达式"><a href="#编译期表达式" class="headerlink" title="编译期表达式"></a>编译期表达式</h2><p>Xpl模板语言内置了<code>&lt;macro:gen&gt;</code>和<code>&lt;macro:script&gt;</code>等标签，它们会在编译期自动执行。</p>
 <ul>
 <li><code>&lt;macro:script&gt;</code>表示在编译期执行表达式，比如可以在编译期动态解析Excel模型文件得到一个模型对象等</li>
 </ul>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">macro:script</span>&gt;</span></span><br><span class="line">    import test.MyModelHelper;</span><br><span class="line"></span><br><span class="line">    const myModel = MyModelHelper.loadModel(&#x27;/nop/test/test.my-model.xlsx&#x27;);</span><br><span class="line"><span class="tag">&lt;/<span class="name">macro:script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><br><span class="hljs-tag">&lt;<span class="hljs-name">macro:script</span>&gt;</span><br>    import test.MyModelHelper;<br><br>    const myModel = MyModelHelper.loadModel(&#x27;/nop/test/test.my-model.xlsx&#x27;);<br><span class="hljs-tag">&lt;/<span class="hljs-name">macro:script</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>得到编译期变量之后，后续表达式可以使用编译期表达式来访问该对象，例如 <code>#&#123;myModel.myFunc(3)&#125;</code></p>
 <ul>
@@ -1330,10 +1330,10 @@
 <p><code>&lt;macro:gen&gt;</code>的内容是Xpl模板语法，它会先编译body，再执行body，收集输出结果，然后再编译生成的结果。而<code>&lt;macro:script&gt;</code><br>的内容是XScript语法，并且它会丢弃返回结果</p>
 <h2 id="自定义宏标签"><a href="#自定义宏标签" class="headerlink" title="自定义宏标签"></a>自定义宏标签</h2><p>Xpl模板语言中的标签库中可以定义宏标签。宏标签与普通标签的区别在于，宏标签的source段在编译之后会立刻执行，然后再收集执行过程中输出的内容进行编译。</p>
 <p>比如，我们可以定义一个宏标签<code>&lt;sql:filter&gt;</code>,它可以实现如下结构变换</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">sql:filter</span>&gt;</span>and o.fld = :param<span class="tag">&lt;/<span class="name">sql:filter</span>&gt;</span></span><br><span class="line">        变换为</span><br><span class="line"><span class="tag">&lt;<span class="name">c:if</span> <span class="attr">test</span>=<span class="string">&quot;$&#123;!_.isEmpty(param)&#125;&quot;</span>&gt;</span></span><br><span class="line">and o.fld = $&#123;param&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">c:if</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><br><span class="hljs-tag">&lt;<span class="hljs-name">sql:filter</span>&gt;</span>and o.fld = :param<span class="hljs-tag">&lt;/<span class="hljs-name">sql:filter</span>&gt;</span><br>        变换为<br><span class="hljs-tag">&lt;<span class="hljs-name">c:if</span> <span class="hljs-attr">test</span>=<span class="hljs-string">&quot;$&#123;!_.isEmpty(param)&#125;&quot;</span>&gt;</span><br>and o.fld = $&#123;param&#125;<br><span class="hljs-tag">&lt;/<span class="hljs-name">c:if</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>具体实现在<a target="_blank" rel="noopener" href="https://gitee.com/canonical-entropy/nop-entropy/blob/master/nop-orm/src/main/resources/_vfs/nop/orm/xlib/sql.xlib">sql.xlib</a><br>标签库中</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">filter</span> <span class="attr">macro</span>=<span class="string">&quot;true&quot;</span> <span class="attr">outputMode</span>=<span class="string">&quot;node&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">slot</span> <span class="attr">name</span>=<span class="string">&quot;default&quot;</span> <span class="attr">slotType</span>=<span class="string">&quot;node&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">source</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">c:script</span>&gt;</span></span><br><span class="line">            import io.nop.core.lang.sql.SqlHelper;</span><br><span class="line">            import io.nop.core.lang.sql.SQL;</span><br><span class="line"></span><br><span class="line">            const sb = SqlHelper.markNamedParam(slot_default.contentValue);</span><br><span class="line">            const cond = sb.markers.map(marker=&gt; &quot;!_.isEmpty(&quot;+marker.name+&quot;)&quot;).join(&quot; and &quot;);</span><br><span class="line">            const sqlText = sb.renderText(marker =&gt;&#123;</span><br><span class="line">            return &quot;$&#123;&quot; + marker.name + &quot;&#125;&quot;;</span><br><span class="line">            &#125;);</span><br><span class="line">        <span class="tag">&lt;/<span class="name">c:script</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">c:if</span> <span class="attr">xpl:ignoreTag</span>=<span class="string">&quot;true&quot;</span> <span class="attr">test</span>=<span class="string">&quot;$&#123;&#x27;$&#x27;&#125;&#123;$&#123;cond&#125;&#125;&quot;</span>&gt;</span></span><br><span class="line">            $&#123;sqlText&#125;</span><br><span class="line">        <span class="tag">&lt;/<span class="name">c:if</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">source</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><br><span class="hljs-tag">&lt;<span class="hljs-name">filter</span> <span class="hljs-attr">macro</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">outputMode</span>=<span class="hljs-string">&quot;node&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">slot</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;default&quot;</span> <span class="hljs-attr">slotType</span>=<span class="hljs-string">&quot;node&quot;</span>/&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">source</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">c:script</span>&gt;</span><br>            import io.nop.core.lang.sql.SqlHelper;<br>            import io.nop.core.lang.sql.SQL;<br><br>            const sb = SqlHelper.markNamedParam(slot_default.contentValue);<br>            const cond = sb.markers.map(marker=&gt; &quot;!_.isEmpty(&quot;+marker.name+&quot;)&quot;).join(&quot; and &quot;);<br>            const sqlText = sb.renderText(marker =&gt;&#123;<br>            return &quot;$&#123;&quot; + marker.name + &quot;&#125;&quot;;<br>            &#125;);<br>        <span class="hljs-tag">&lt;/<span class="hljs-name">c:script</span>&gt;</span><br><br>        <span class="hljs-tag">&lt;<span class="hljs-name">c:if</span> <span class="hljs-attr">xpl:ignoreTag</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">test</span>=<span class="hljs-string">&quot;$&#123;&#x27;$&#x27;&#125;&#123;$&#123;cond&#125;&#125;&quot;</span>&gt;</span><br>            $&#123;sqlText&#125;<br>        <span class="hljs-tag">&lt;/<span class="hljs-name">c:if</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">source</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">filter</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>上述的宏标签会对节点内容进行结构变换，生成<code>&lt;c:if&gt;</code>节点，然后模板引擎会再对输出的<code>&lt;c:if&gt;</code>节点进行编译，效果等价于手工编写对应节点。</p>
 <ul>
@@ -1343,7 +1343,7 @@
 </ul>
 <p>** 宏标签类似于Lisp语言中的宏，它提供了一种简易的AST语法树变换机制，相当于是一种内嵌的代码生成器 **</p>
 <h2 id="编译得到AST"><a href="#编译得到AST" class="headerlink" title="编译得到AST"></a>编译得到AST</h2><p>通过<code>&lt;c:ast&gt;</code>标签可以得到内容部分所对应的抽象语法树（Expression类型）。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">Validator</span> <span class="attr">ignoreUnknownAttrs</span>=<span class="string">&quot;true&quot;</span> <span class="attr">macro</span>=<span class="string">&quot;true&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--runtime标识是运行期存在的变量。这个属性仅当标签是宏标签的时候起作用--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">attr</span> <span class="attr">name</span>=<span class="string">&quot;obj&quot;</span> <span class="attr">defaultValue</span>=<span class="string">&quot;$scope&quot;</span> <span class="attr">runtime</span>=<span class="string">&quot;true&quot;</span> <span class="attr">optional</span>=<span class="string">&quot;true&quot;</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--slotType=node表示保持XNode节点内容传入到source段中。如果不设置这个属性，则会编译后传入--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">slot</span> <span class="attr">name</span>=<span class="string">&quot;default&quot;</span> <span class="attr">slotType</span>=<span class="string">&quot;node&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span></span><br><span class="line">        利用宏标签机制将XNode按照Validator模型解析，并转化对ModelBasedValidator调用。</span><br><span class="line">        宏标签的source段在编译期执行，它的输出结果才是最终要编译的内容</span><br><span class="line">    <span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">source</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!--在编译期解析标签体得到ValidatorModel, 保存为编译期的变量validatorModel--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">c:script</span>&gt;</span>&lt;![CDATA[</span><br><span class="line">                    import io.nop.biz.lib.BizValidatorHelper;</span><br><span class="line"></span><br><span class="line">                    let validatorModel = BizValidatorHelper.parseValidator(slot_default);</span><br><span class="line">                    // 得到&lt;c:script&gt;对应的抽象语法树</span><br><span class="line">                    let ast = xpl `</span><br><span class="line">                         &lt;c:ast&gt;</span><br><span class="line">                            &lt;c:script&gt;</span><br><span class="line">                               import io.nop.biz.lib.BizValidatorHelper;</span><br><span class="line">                               if(obj == &#x27;$scope&#x27;) obj = $scope;</span><br><span class="line">                               BizValidatorHelper.runValidatorModel(validatorModel,obj,svcCtx);</span><br><span class="line">                            &lt;/c:script&gt;</span><br><span class="line">                         &lt;/c:ast&gt;</span><br><span class="line">                     `</span><br><span class="line">                    // 将抽象语法树中的标识名称替换为编译期解析得到的模型对象。这样在运行期就不需要动态加载模型并解析</span><br><span class="line">                    return ast.replaceIdentifier(&quot;validatorModel&quot;,validatorModel);</span><br><span class="line">                ]]&gt;<span class="tag">&lt;/<span class="name">c:script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">source</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">Validator</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><br><span class="hljs-tag">&lt;<span class="hljs-name">Validator</span> <span class="hljs-attr">ignoreUnknownAttrs</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">macro</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span><br><br>    <span class="hljs-comment">&lt;!--runtime标识是运行期存在的变量。这个属性仅当标签是宏标签的时候起作用--&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">attr</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;obj&quot;</span> <span class="hljs-attr">defaultValue</span>=<span class="hljs-string">&quot;$scope&quot;</span> <span class="hljs-attr">runtime</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">optional</span>=<span class="hljs-string">&quot;true&quot;</span>/&gt;</span><br><br>    <span class="hljs-comment">&lt;!--slotType=node表示保持XNode节点内容传入到source段中。如果不设置这个属性，则会编译后传入--&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">slot</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;default&quot;</span> <span class="hljs-attr">slotType</span>=<span class="hljs-string">&quot;node&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">description</span>&gt;</span><br>        利用宏标签机制将XNode按照Validator模型解析，并转化对ModelBasedValidator调用。<br>        宏标签的source段在编译期执行，它的输出结果才是最终要编译的内容<br>    <span class="hljs-tag">&lt;/<span class="hljs-name">description</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">source</span>&gt;</span><br><br>        <span class="hljs-comment">&lt;!--在编译期解析标签体得到ValidatorModel, 保存为编译期的变量validatorModel--&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">c:script</span>&gt;</span>&lt;![CDATA[<br>                    import io.nop.biz.lib.BizValidatorHelper;<br><br>                    let validatorModel = BizValidatorHelper.parseValidator(slot_default);<br>                    // 得到&lt;c:script&gt;对应的抽象语法树<br>                    let ast = xpl `<br>                         &lt;c:ast&gt;<br>                            &lt;c:script&gt;<br>                               import io.nop.biz.lib.BizValidatorHelper;<br>                               if(obj == &#x27;$scope&#x27;) obj = $scope;<br>                               BizValidatorHelper.runValidatorModel(validatorModel,obj,svcCtx);<br>                            &lt;/c:script&gt;<br>                         &lt;/c:ast&gt;<br>                     `<br>                    // 将抽象语法树中的标识名称替换为编译期解析得到的模型对象。这样在运行期就不需要动态加载模型并解析<br>                    return ast.replaceIdentifier(&quot;validatorModel&quot;,validatorModel);<br>                ]]&gt;<span class="hljs-tag">&lt;/<span class="hljs-name">c:script</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">source</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">Validator</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <ul>
 <li>宏标签的source段在编译的时候执行， BizValidatorHelper.parseValidator(slot_default)<br>表示解析标签节点得到ValidatorModel对象（这个对象是在编译期存在）。</li>
@@ -1353,24 +1353,24 @@
 <li>source段可以直接返回AST语法树节点（对应于Expression类型），而不一定需要通过输出XNode来动态生成AST语法树。（上一节的例子是通过输出来构造AST语法树）</li>
 <li><code>&lt;attr name=&quot;obj&quot; runtime=&quot;true&quot;&gt;</code><br>表示obj属性为运行时属性，在source段中它对应于一个Expression，而不是它的值。如果没有标记runtime&#x3D;true，则在source段中可以使用，但是因为宏标签的source段是在编译期运行，所以调用时属性值只能是固定值或者编译期表达式。</li>
 </ul>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">biz:Validator</span> <span class="attr">obj</span>=<span class="string">&quot;$&#123;entity&#125;&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><br><span class="hljs-tag">&lt;<span class="hljs-name">biz:Validator</span> <span class="hljs-attr">obj</span>=<span class="hljs-string">&quot;$&#123;entity&#125;&quot;</span>/&gt;</span><br></code></pre></td></tr></table></figure>
 
 <h2 id="XDSL的差量生成与合并机制"><a href="#XDSL的差量生成与合并机制" class="headerlink" title="XDSL的差量生成与合并机制"></a>XDSL的差量生成与合并机制</h2><p>Nop平台中所有的DSL都支持x-extends差量合并机制，通过它实现了可逆计算理论所要求的计算模式</p>
 <blockquote>
 <p>App &#x3D; Delta x-extends Generator<DSL></p>
 </blockquote>
 <p>具体来说，所有的DSL都支持<code>x:gen-extends</code>和 <code>x:post-extends</code><br>配置段，它们是编译期执行的Generator，利用XPL模板语言来动态生成模型节点，允许一次性生成多个节点，然后依次进行合并，具体合并顺序定义如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;model x:extends=&quot;A,B&quot;&gt;</span><br><span class="line">    &lt;x:gen-extends&gt;</span><br><span class="line">        &lt;C/&gt;</span><br><span class="line">        &lt;D/&gt;</span><br><span class="line">    &lt;/x:gen-extends&gt;</span><br><span class="line"></span><br><span class="line">    &lt;x:post-extends&gt;</span><br><span class="line">        &lt;E/&gt;</span><br><span class="line">        &lt;F/&gt;</span><br><span class="line">    &lt;/x:post-extends&gt;</span><br><span class="line">&lt;/model&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">&lt;model x:extends=&quot;A,B&quot;&gt;<br>    &lt;x:gen-extends&gt;<br>        &lt;C/&gt;<br>        &lt;D/&gt;<br>    &lt;/x:gen-extends&gt;<br><br>    &lt;x:post-extends&gt;<br>        &lt;E/&gt;<br>        &lt;F/&gt;<br>    &lt;/x:post-extends&gt;<br>&lt;/model&gt;<br></code></pre></td></tr></table></figure>
 
 <p>合并结果为</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">F x-extends E x-extends model x-extends D x-extends C x-extends B x-extends A </span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">F x-extends E x-extends model x-extends D x-extends C x-extends B x-extends A <br></code></pre></td></tr></table></figure>
 
 <p>当前模型会覆盖<code>x:gen-extends</code>和<code>x:extends</code>的结果，而<code>x:post-extends</code>会覆盖当前模型。</p>
 <p>借助于<code>x:extends</code>和<code>x:gen-extends</code><br>我们可以有效的实现DSL的分解和组合。具体介绍参见 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/612512300">XDSL：通用的领域特定语言设计</a></p>
 <h2 id="数据驱动的差量化代码生成器"><a href="#数据驱动的差量化代码生成器" class="headerlink" title="数据驱动的差量化代码生成器"></a>数据驱动的差量化代码生成器</h2><p>为了在系统级别实现可逆计算理论所要求的软件构造模式，Nop平台提供了一个数据驱动的差量化代码生成器XCodeGenerator。</p>
 <p>一般的代码生成器都是针对某个特定目的定制的，比如常见的MyBatis的代码生成器，它的控制逻辑由一个特定的CodeGenerator类来实现，它负责读取模板，构造生成文件路径，并初始化上下文模型变量，执行循环逻辑。如果我们希望调整代码生成的细节，则一般需要修改这个CodeGenerator类。</p>
 <p>XCodeGenerator的做法与传统的代码生成器不同，它将模板路径看作是一种微格式的DSL，把判断和循环逻辑编码在路径格式中，从而由模板自身的组织结构来控制代码生成过程。例如</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/src/&#123;package.name&#125;/&#123;model.webEnabled&#125;&#123;model.name&#125;Controller.java.xgen</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">/src/&#123;package.name&#125;/&#123;model.webEnabled&#125;&#123;model.name&#125;Controller.java.xgen<br></code></pre></td></tr></table></figure>
 
 <p>以上模式可以表示遍历package下的每个model，对每个webEnabled属性设置为true的Model都生成一个Controller.java类。</p>
 <p>基于这种设计，我们只需要调整模板文件的目录结构，就可以控制目标代码的目录结构和生成时机。</p>
@@ -1414,8 +1414,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

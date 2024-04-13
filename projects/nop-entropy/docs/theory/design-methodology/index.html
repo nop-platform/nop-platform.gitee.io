@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1252,7 +1252,7 @@
 <p>到底什么东西适用于文件？什么东西适用于文件夹？什么东西适用于git仓库呢？从完全抽象的角度上说，我们所需要的可能只是一种贯通一致的、在各个层面统一的通用管理手段。但现实是，想要拿来就用的功能只在某些层面存在。比如，我们可能希望权限管控的基本单位是任意目录，但是git不支持啊，当然可以自己搞，但有挺多工作量，还有外围一堆配套工具的问题，还有使用者培训的问题，那还是算了吧。</p>
 <p>文件存储是一种静态的表达，或者说是信息的一种<strong>序列化形式</strong>，它并不是我们知识的全部。比如，分子生物学发现生物的遗传信息本质上由ATGC等少数几个抽象符号构造的DNA序列来保存和传递。但是如果要真正理解这些信息如何起作用，为什么要这样组织，最终我们还是要参考它的运行时结构，发生在不同时空位置的转录、剪切、折叠等等知识。</p>
 <h2 id="三-可逆计算对于拆分的新见解"><a href="#三-可逆计算对于拆分的新见解" class="headerlink" title="三. 可逆计算对于拆分的新见解"></a>三. 可逆计算对于拆分的新见解</h2><p>可逆计算理论提出了一个新的软件构造范式：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">App = Biz x-extends Generator&lt;DSL&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">App = Biz x-extends Generator&lt;DSL&gt;<br></code></pre></td></tr></table></figure>
 
 <p>本质上，它对应于 Y &#x3D; F(X) + Delta 这样一种分解模式。</p>
 <p>首先，这是一种生成式系统。我们所表达的DSL信息并不是被直接使用的，而是<strong>事后</strong>可以通过转换器&#x2F;生成器进行再解释的。当情况发生变化时，我们可以通过简单的将变化信息通过DSL模型输入到系统中，从而自动传播到系统各处。	大范围的信息传导机制便于实现拆分的局域化。</p>
@@ -1268,7 +1268,7 @@
 <p>可逆性表现为加入系统中的信息需要能够很容易的分离并删除，比如很容易的屏蔽或删除某个特性。在开发阶段它可能表现为版本管理，在部署运维阶段则体现为自动回滚、灰度发布等。可逆性可以成为关注点分离的一种评判标准，同时它也能成为一种系统化的结构构造手段。</p>
 <p>大型系统的腐化源于系统结构不断接受各类偶然性需求的冲击，根据热力学第二定律，一个自然发展的系统必然是不断熵增的（除非是不断新陈代谢的耗散系统，比如说不断重写）。但是不能控制熵增，我们仍然可以控制熵增的地点。基于差量机制，我们可以把偶然性需求隔离在某个差量Delta中。在可逆计算的具体实践中，所有逻辑都是可以进行差量定制的，因此在开发完一个产品之后，我们可以在完全不修改主版本代码的情况下，通过存放的差量描述，对主版本逻辑进行细粒度的定制。</p>
 <p>在可逆计算的视角下，软件构造不再是从部分到整体的一种逐步组装的部分-整体构成关系，而是一种基于结构运算的转化关系。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">   App1 = A + B + C</span><br><span class="line">App2 = A + B + D = App1 - C + D = App1 + Delta</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">   App1 = A + B + C<br>App2 = A + B + D = App1 - C + D = App1 + Delta<br></code></pre></td></tr></table></figure>
 
 <p>在完全不拆解App1的情况下，我们可以通过单纯的**“追加”**操作实现App2的构造。从生产模式上说，可逆计算将传统的”生产即组装”模式改变为更适合抽象逻辑结构构造的“运算即生产”模式。</p>
 <p>所以基于可逆计算，我们对于业务逻辑拆分可以多问下面三个问题：可逆否？差量乎？今天你DSL了吗？</p>
@@ -1309,8 +1309,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

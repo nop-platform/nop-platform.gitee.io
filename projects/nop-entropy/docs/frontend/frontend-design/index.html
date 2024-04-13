@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1249,7 +1249,7 @@
 <li><p>nop-graph-designer提供抽象的图形设计器，使用react实现，内部具体的流程图和属性编辑均作为插件引入。</p>
 </li>
 </ol>
-<h2 id="插件设计和动态加载"><a href="#插件设计和动态加载" class="headerlink" title="插件设计和动态加载"></a>插件设计和动态加载</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Plugin = Module + PluginFunctions</span><br></pre></td></tr></table></figure>
+<h2 id="插件设计和动态加载"><a href="#插件设计和动态加载" class="headerlink" title="插件设计和动态加载"></a>插件设计和动态加载</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">Plugin = Module + PluginFunctions<br></code></pre></td></tr></table></figure>
 
 <p>单个页面依赖的模块可以事前加载</p>
 <ol>
@@ -1257,7 +1257,7 @@
 <li>模块的动态更新可以使用HMR（Hot Module Replacement），但是目前Nop平台前端比较简单，一般整体更新即可，暂时还不需要HMR</li>
 <li>动态加载的基本单元是Module。一个模块可以包含多个组件</li>
 </ol>
-<h2 id="Store"><a href="#Store" class="headerlink" title="Store"></a>Store</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Store = State + Methods + Scope</span><br></pre></td></tr></table></figure>
+<h2 id="Store"><a href="#Store" class="headerlink" title="Store"></a>Store</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">Store = State + Methods + Scope<br></code></pre></td></tr></table></figure>
 
 <p>在zustand基础上增加统一的架构支持。</p>
 <p>Store的作用将替代Event处理。真正需要原生Event的逻辑都属于底层交互抽象层，在已经建立好抽象的业务层不会使用UI专有的Event概念，只会使用业务直接相关的<br>状态数据和处理函数，也就是Store对象。</p>
@@ -1269,7 +1269,7 @@
 <li>子节点可以看到父节点提供的Store，并直接触发store中的函数。一般情况下应该不需要兄弟节点之间的通信。如果有共享信息部分，都可以考虑直接提升到父节点。</li>
 <li>配置时可以使用属性绑定表达式语法</li>
 </ol>
-<h2 id="Schema"><a href="#Schema" class="headerlink" title="Schema"></a>Schema</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">component = compile(schema);</span><br></pre></td></tr></table></figure>
+<h2 id="Schema"><a href="#Schema" class="headerlink" title="Schema"></a>Schema</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">component = compile(schema);<br></code></pre></td></tr></table></figure>
 
 <p>json格式的schema是面向编辑的表达。运行前可以经由compile函数编译得到component</p>
 <p>RenderContext提供低代码运行时支持，包含两个函数:</p>
@@ -1277,7 +1277,7 @@
 <li>render： 直接将schema转换为虚拟DOM</li>
 <li>invokeApi: 执行Api对象。 Api不仅仅是远程调用，各类前台触发函数都可以被转换为Api配置格式。</li>
 </ol>
-<h2 id="Render"><a href="#Render" class="headerlink" title="Render"></a>Render</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">render(name, schema, options, &#123;props, store&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="Render"><a href="#Render" class="headerlink" title="Render"></a>Render</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">render(name, schema, options, &#123;props, store&#125;)<br></code></pre></td></tr></table></figure>
 
 <p>render函数的作用就是生成虚拟DOM树。</p>
 <ol>
@@ -1339,8 +1339,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1232,35 +1232,35 @@
       </header>
       <div class="Article-content col-md-9"><p>目前在开发领域似乎形成了一种政治正确：XML是一种过时的技术，不应该再被广泛的使用。对于Nop平台大量使用XML来表达领域模型，有网友调侃道：信息都用xml表达，你这是反（潮流而）动啊。在此前的文章<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/554294376">XML、JSON和函数AST的等价性</a>中，我已经对XML和JSON的等价性进行了说明。基于这种等价性，在Nop平台中，XML和JSON是自动支持双向转换的，本质上用哪种表达方式都不影响模型的语义，完全可以用JSON文件来存储模型信息。但是，目前的情况下，XML的表现力相比JSON格式而言存在一些优势，在本文中我将补充一些具体的分析。</p>
 <h2 id="JSON存在的问题"><a href="#JSON存在的问题" class="headerlink" title="JSON存在的问题"></a>JSON存在的问题</h2><p>JSON格式的主要问题是缺少注释机制以及多行文本表示形式。这些问题在YAML格式中已经被解决，而YAML格式兼容JSON格式。所以在Nop平台中我们一般倾向于使用YAML格式来替代JSON，例如使用page.yaml来存放前端JSON页面。</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">x:gen-extends:</span> <span class="string">|</span></span><br><span class="line"><span class="string">  &lt;web:GenPage view=&quot;NopAuthUser.view.xml&quot; page=&quot;main&quot; xpl:lib=&quot;/nop/web/xlib/web.xlib&quot; /&gt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="attr">body:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">crud-grid</span></span><br><span class="line">  <span class="attr">filter:</span></span><br><span class="line">    <span class="attr">id:</span> <span class="string">crud-filter</span></span><br><span class="line">    <span class="attr">actions:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">submit-button</span></span><br><span class="line">        <span class="attr">icon:</span> <span class="string">fa</span> <span class="string">fa-snapchat</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">x:gen-extends:</span> <span class="hljs-string">|</span><br><span class="hljs-string">  &lt;web:GenPage view=&quot;NopAuthUser.view.xml&quot; page=&quot;main&quot; xpl:lib=&quot;/nop/web/xlib/web.xlib&quot; /&gt;</span><br><span class="hljs-string"></span><br><span class="hljs-attr">body:</span><br>  <span class="hljs-attr">name:</span> <span class="hljs-string">crud-grid</span><br>  <span class="hljs-attr">filter:</span><br>    <span class="hljs-attr">id:</span> <span class="hljs-string">crud-filter</span><br>    <span class="hljs-attr">actions:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-attr">id:</span> <span class="hljs-string">submit-button</span><br>        <span class="hljs-attr">icon:</span> <span class="hljs-string">fa</span> <span class="hljs-string">fa-snapchat</span><br></code></pre></td></tr></table></figure>
 
 <p>在XML中嵌入JSON格式是非常简单的一件事情。但是在JSON中嵌入XML就需要进行字符串转义，会大大影响数据的可读性。如果使用YAML格式，嵌入XML就很简单直观了。</p>
 <p>JSON乃至YAML格式所存在的另一个问题是它缺少特殊定义的类型属性。JSON对象中所有的属性原则上地位是平等的，在JSON规范中并没有规定可以用于快速区分JSON对象结构的类型属性，这导致它在反序列化的时候难以进行性能优化。</p>
 <p>反序列化的时候我们往往需要根据类型属性来决定反序列化得到的对象类型，但是因为JSON格式没有规定type属性一定是第一个属性，可能在解析完整个对象结构之后才能对类型数据做出判断，这导致无谓的临时对象构建过程和额外的内存消耗。</p>
 <p>相比较而言，XML总是突出tagName这个特殊属性，可以帮助我们在视觉层面快速识别特定的局部结构。在简单结构的情况下，XML表达形式可能会比JSON格式更简洁、直观。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;row a=&quot;1&quot; b=&quot;xyz&quot; /&gt;</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">	&quot;a&quot;: 1,</span><br><span class="line">	&quot;b&quot;: &quot;xyz&quot;,</span><br><span class="line">	&quot;type&quot;: &quot;row&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">&lt;row a=&quot;1&quot; b=&quot;xyz&quot; /&gt;<br><br>&#123;<br>	&quot;a&quot;: 1,<br>	&quot;b&quot;: &quot;xyz&quot;,<br>	&quot;type&quot;: &quot;row&quot;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <h2 id="XML存在的问题"><a href="#XML存在的问题" class="headerlink" title="XML存在的问题"></a>XML存在的问题</h2><p>毫无疑问，XML在实际使用过程中存在一些明显的问题，最本质的原因是XML最早的设计目标是一种面向文本数据的标签语言，对于具有丰富数据类型的应用数据缺乏规范化的表达方式。以IBM、SUN为首的大企业所大力推行的一系列XML相关标准又以严谨为名引入了大量复杂的设计，逐步成就了XML冗长繁琐的刻板印象。</p>
 <p>以<a target="_blank" rel="noopener" href="https://www.w3school.com.cn/schema/schema_intro.asp">XSD(XML Schema Definition)</a>语言为例，如果对比JSON Schema语言，我们可以很容易的得到结论：XML Schema的信息密度远比JSON Schema要低。</p>
 <p>JSON Schema可以很自然的声明嵌套结构，而XML Schema却强制把一切结构都拆解为type和element两层结构。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">xs:element</span> <span class="attr">name</span>=<span class="string">&quot;personinfo&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">xs:complexType</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">xs:sequence</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">xs:element</span> <span class="attr">name</span>=<span class="string">&quot;firstname&quot;</span> <span class="attr">type</span>=<span class="string">&quot;xs:string&quot;</span>/&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">xs:element</span> <span class="attr">name</span>=<span class="string">&quot;lastname&quot;</span> <span class="attr">type</span>=<span class="string">&quot;xs:string&quot;</span>/&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">xs:element</span> <span class="attr">name</span>=<span class="string">&quot;address&quot;</span> <span class="attr">type</span>=<span class="string">&quot;xs:string&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">xs:sequence</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">xs:complexType</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">xs:element</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">xs:element</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;personinfo&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">xs:complexType</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">xs:sequence</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">xs:element</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;firstname&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;xs:string&quot;</span>/&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">xs:element</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;lastname&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;xs:string&quot;</span>/&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">xs:element</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;address&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;xs:string&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">xs:sequence</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">xs:complexType</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">xs:element</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>很多人在使用XSD的时候还总是倾向于使用xs:sequence定义，强制为子节点引入顺序依赖，这背离了声明式编程的基本思想，在使用层面往往也没有什么实际的价值，只是带来不必要的麻烦。</p>
 <blockquote>
 <p>声明式编程很大程度上就是要淡化顺序依赖这个概念，摆脱命令式编程所强行引入的非因果约束</p>
 </blockquote>
 <p>而在JSON schema中属性之间根本就无法定义顺序关系</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;object&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;properties&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;firstname&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;string&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;lastname&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;string&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;address&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;string&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;object&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;properties&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;firstname&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span><br>    <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;lastname&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span><br>    <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;address&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>      <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span><br>    <span class="hljs-punctuation">&#125;</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
 
 <h2 id="Nop平台中的XML"><a href="#Nop平台中的XML" class="headerlink" title="Nop平台中的XML"></a>Nop平台中的XML</h2><p>Nop平台虽然大量使用XML语法，但是它并没有全盘接收目前的XML规范标准，而是只采纳了其中一个语法和特性子集。例如NopXML去除了外部Entity支持（由此避免了很多安全漏洞），简化了名字空间概念（仅在根节点处理xmlns配置），去除了Instruction概念（仅识别根节点上的Instruction）。 Nop平台在解析和处理XML的时候也没有使用现有的JAXB (Java Architecture for XML Binding) 技术，而是自行编写了XML解析器。解析得到的结果不是标准XML技术中所定义的DOM结构，而是面向应用层重新设计的XNode结构。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">XNode</span>&#123;</span><br><span class="line">	SourceLocation loc;</span><br><span class="line">	String tagName;</span><br><span class="line">	Map&lt;String, ValueWithLocation&gt; attributes;</span><br><span class="line">	List&lt;XNode&gt; children;</span><br><span class="line">	ValueWithLocation content;</span><br><span class="line"></span><br><span class="line">	XNode parent;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ValueWithLocation</span>&#123;</span><br><span class="line">	SourceLocation location;</span><br><span class="line">	Object value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">XNode</span>&#123;<br>	SourceLocation loc;<br>	String tagName;<br>	Map&lt;String, ValueWithLocation&gt; attributes;<br>	List&lt;XNode&gt; children;<br>	ValueWithLocation content;<br><br>	XNode parent;<br>&#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">ValueWithLocation</span>&#123;<br>	SourceLocation location;<br>	Object value;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>XNode结构中记录了属性和节点的源码位置，并将attribute和content的值类型修改为Object类型，从而克服了XML原始设计中只针对文本文档的缺陷，使得它可以更高效的表达复杂的业务对象结构。</p>
 <p>Nop平台采用XDef元模型语言替代了XML Schema的作用，它利用了前缀引导语法的设计思想，比JSON Schema更紧凑直观。</p>
 <blockquote>
 <p>前缀引导语法的设计参见 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/548314138">DSL分层语法设计及前缀引导语法</a></p>
 </blockquote>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">person</span> <span class="attr">firstname</span>=<span class="string">&quot;!string&quot;</span> <span class="attr">lastname</span>=<span class="string">&quot;!string&quot;</span> <span class="attr">address</span>=<span class="string">&quot;string&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">person</span> <span class="hljs-attr">firstname</span>=<span class="hljs-string">&quot;!string&quot;</span> <span class="hljs-attr">lastname</span>=<span class="hljs-string">&quot;!string&quot;</span> <span class="hljs-attr">address</span>=<span class="hljs-string">&quot;string&quot;</span> /&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>XDef元模型定义的结构基本与它所需要约束的数据结构相似，可以看作是将具体的某个模型数据中的值替换为类型声明后得到的结果。</p>
 <p>对于XPath和Xslt转换语法，Nop平台同样没有采用，而是设计了替代的XSelector和XTransform语法。</p>
@@ -1311,8 +1311,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

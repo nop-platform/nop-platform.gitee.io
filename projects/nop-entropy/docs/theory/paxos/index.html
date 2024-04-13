@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1242,7 +1242,7 @@
 <p>所以，从神的视角来看，Paxos算法不过是通过时间静止魔法，<strong>强行将多条时间线对齐为唯一的一条主时间线</strong>的雕虫小技而已。</p>
 <p>这种”停止-对齐“的技术是我们在分布式系统中获得共识的一种基本策略。例如，在kafka消息队列中，同一个消费者分组中的多个消费者是独立行事的，但同时它们必须就如何分配工作达成共识。因此，当消费者分组中的成员增减或者topic结构发生变化时，会触发所谓的再平衡（Rebalance）过程。再平衡过程中，Coordinator首先要求所有worker停止当前的工作，集体切换到下一个世代(epoch)，然后再下发新的分配方案。一个分配方案仅在一个世代中有效。</p>
 <p>我们在数据库中常用的乐观锁也是同样的处理策略。刚进入处理程序的时候去读取MainRecord的版本号，然后再修改MainRecord以及相关联的SubRecord，最后在一个事务中批量提交修改，同时尝试更改主记录的版本号。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">update MainRecord</span><br><span class="line">set version = version + 1</span><br><span class="line">where version = :record_version</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">update MainRecord<br>set version = version + 1<br>where version = :record_version<br></code></pre></td></tr></table></figure>
 
 <p>如果能够更新成功，说明在整个处理过程中时间静止，没有其他人执行相冲突的动作。</p>
 <h2 id="三-八级魔法：大傀儡术"><a href="#三-八级魔法：大傀儡术" class="headerlink" title="三. 八级魔法：大傀儡术"></a>三. 八级魔法：大傀儡术</h2><p>施展九级魔法是相当消耗魔力的行为。一个具有社会主义核心价值观、勤俭节约的神绝对不会无端的浪费魔力。所以一旦时间静止下来，为了维系分处多地的节点的行为一致，神的最佳选择是施展一个八级魔法”大傀儡术“，将一个节点上的行为复刻到其他所有节点上。</p>
@@ -1348,8 +1348,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

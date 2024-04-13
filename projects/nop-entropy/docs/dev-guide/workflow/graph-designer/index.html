@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1241,7 +1241,7 @@
 <h2 id="流程模型转换"><a href="#流程模型转换" class="headerlink" title="流程模型转换"></a>流程模型转换</h2><p>NopWorkflow的元模型由xwf.xdef元模型定义，它是一个通用的工作流模型，内部支持 step&#x2F;action&#x2F;transition&#x2F;actor等工作流核心概念，但是它并不是为审批流特殊设计的流程引擎，<br>因此核心概念中没有会签、或签等审批专用概念。工作流模型远比审批流模型要强大，但是在配置和使用层面，如果针对审批场景，审批流模型更简单、易用。</p>
 <p>NopWorkflow的做法是通过元编程，将审批流模型转化为底层的工作流模型来应用，这样就可以同时兼顾模型的易用性和底层引擎的通用性。</p>
 <h2 id="与具体框架无关的低代码方案"><a href="#与具体框架无关的低代码方案" class="headerlink" title="与具体框架无关的低代码方案"></a>与具体框架无关的低代码方案</h2><p>前端的<code>@nop-chaos/nop-core</code>模块提供了RenderContext抽象，它将低代码的渲染和组件间通讯机制、远程调用机制都以框架无关的方式定义出来。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">type <span class="title class_">RenderContext</span> = &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 将json对象渲染为虚拟DOM类型。不同的框架实现不同</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="attr">render</span>: <span class="function">(<span class="params">name:string, schema: SchemaType, props:any, ctx:any</span>) =&gt;</span> <span class="title class_">VDomType</span>,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 动态执行ajax调用，</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="attr">executor</span>: <span class="function">(<span class="params">request: FetcherRequest, ctx:any</span>) =&gt;</span> <span class="title class_">Promise</span>&lt;<span class="title class_">FetcherResult</span>&gt;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 向上冒泡触发自定义动作</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="attr">onEvent</span>: <span class="function">(<span class="params">event:string, data:any, ctx:any</span>) =&gt;</span> any</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 监听兄弟节点或者父节点触发的事件</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> source 兄弟节点或者父节点的标识</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> handler 回调函数</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="attr">observeEvent</span>: <span class="function">(<span class="params">source: string, handler: OnEventType</span>) =&gt;</span> <span class="keyword">void</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">type <span class="hljs-title class_">RenderContext</span> = &#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 将json对象渲染为虚拟DOM类型。不同的框架实现不同</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-attr">render</span>: <span class="hljs-function">(<span class="hljs-params">name:string, schema: SchemaType, props:any, ctx:any</span>) =&gt;</span> <span class="hljs-title class_">VDomType</span>,<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 动态执行ajax调用，</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-attr">executor</span>: <span class="hljs-function">(<span class="hljs-params">request: FetcherRequest, ctx:any</span>) =&gt;</span> <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-title class_">FetcherResult</span>&gt;,<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 向上冒泡触发自定义动作</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-attr">onEvent</span>: <span class="hljs-function">(<span class="hljs-params">event:string, data:any, ctx:any</span>) =&gt;</span> any<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 监听兄弟节点或者父节点触发的事件</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> source 兄弟节点或者父节点的标识</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> handler 回调函数</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-attr">observeEvent</span>: <span class="hljs-function">(<span class="hljs-params">source: string, handler: OnEventType</span>) =&gt;</span> <span class="hljs-keyword">void</span><br>&#125;<br></code></pre></td></tr></table></figure>
 
 <ul>
 <li>render函数可以用于封装amis或者fomily等任何基于json进行渲染的前端低代码框架</li>
@@ -1286,8 +1286,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

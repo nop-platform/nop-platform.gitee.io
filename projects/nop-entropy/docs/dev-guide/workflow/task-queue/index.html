@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1231,7 +1231,7 @@
 
       </header>
       <div class="Article-content col-md-9"><p>示例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">NopJobTask</span> &#123;</span><br><span class="line">    String taskId;</span><br><span class="line">    String jobGroup;</span><br><span class="line">    String jobName;</span><br><span class="line">    <span class="type">int</span> status;</span><br><span class="line">    Timestamp startTime;</span><br><span class="line">    Timestamp finishTime;</span><br><span class="line"></span><br><span class="line">    Timestamp cancelTime;</span><br><span class="line">    Timestamp restartTime;</span><br><span class="line"></span><br><span class="line">    Map&lt;String, Object&gt; jobParams;</span><br><span class="line">    ErrorBean errorInfo;</span><br><span class="line">    String executorHost;</span><br><span class="line">    <span class="type">int</span> executorPort;</span><br><span class="line">    IntRangeSet partitionSet;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">IJobTaskExecutor</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">startTask</span><span class="params">(JobTaskRequest request)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">cancelTask</span><span class="params">(String taskId)</span>;</span><br><span class="line"></span><br><span class="line">    JobTaskState <span class="title function_">getTaskState</span><span class="params">(String taskId)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">NopJobTask</span> &#123;<br>    String taskId;<br>    String jobGroup;<br>    String jobName;<br>    <span class="hljs-type">int</span> status;<br>    Timestamp startTime;<br>    Timestamp finishTime;<br><br>    Timestamp cancelTime;<br>    Timestamp restartTime;<br><br>    Map&lt;String, Object&gt; jobParams;<br>    ErrorBean errorInfo;<br>    String executorHost;<br>    <span class="hljs-type">int</span> executorPort;<br>    IntRangeSet partitionSet;<br>&#125;<br><br><span class="hljs-keyword">interface</span> <span class="hljs-title class_">IJobTaskExecutor</span> &#123;<br><br>    <span class="hljs-keyword">void</span> <span class="hljs-title function_">startTask</span><span class="hljs-params">(JobTaskRequest request)</span>;<br><br>    <span class="hljs-keyword">void</span> <span class="hljs-title function_">cancelTask</span><span class="hljs-params">(String taskId)</span>;<br><br>    JobTaskState <span class="hljs-title function_">getTaskState</span><span class="hljs-params">(String taskId)</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <ul>
 <li>nop_job_task表中保存了所有执行的异步任务</li>
@@ -1277,8 +1277,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

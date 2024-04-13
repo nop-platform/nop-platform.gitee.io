@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1233,7 +1233,7 @@
       <div class="Article-content col-md-9"><p>可逆计算理论是作者试图从物理学的基本原理出发来解释软件开发实践的时候所发现的一种面向演化的软件构造理论，所以它的方法论来源不是计算机科学本身，而是理论物理学，它所描述的是一种程序员不太熟悉的、相对抽象的软件构造规律。我在<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/64007521">可逆计算理论的方法论来源</a>一文中初步介绍了理论物理学和数学所带来的启发性思想。最近，我又专门写了一篇文章<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/632876361">写给程序员的可逆计算理论辨析</a>，从程序员熟悉的概念出发详细解释了差量与差量合并在程序实践中的具体形式和做法。根据读者的反馈信息，在本文中我将继续补充一些针对可逆计算理论的概念辨析，澄清对于可逆计算理论的一些常见误解。</p>
 <h2 id="一-函数（业务处理逻辑）如何实现差量化"><a href="#一-函数（业务处理逻辑）如何实现差量化" class="headerlink" title="一. 函数（业务处理逻辑）如何实现差量化"></a>一. 函数（业务处理逻辑）如何实现差量化</h2><p>差量是定义在支持某种差量合并运算的模型空间中的变化量，不同的模型空间具有不同的差量形式。<strong>这意味着对于同一个实体，如果放到不同的模型空间中去观察，我们实际上会得到不同的结果</strong>。</p>
 <p>首先，所有的结构都可以在通用的二进制比特空间中得到表示，比如函数A存储在文件中时对应于二进制数据10111…，而我们希望将它转换为函数B，它对应的二进制表示为010010…。在抽象的数学层面，寻找将函数A变换为函数B的差量X，相当于是求解如下方程   <code>A⊕X=B</code>。很显然，如果将⊕定义为二进制比特层面的异或操作，则我们可以自动求解得到 <code>X=A⊕B</code>。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A ⊕ B = A ⊕ (A ⊕ X) = (A ⊕ A) ⊕ X = 0 ⊕ X = X</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">A ⊕ B = A ⊕ (A ⊕ X) = (A ⊕ A) ⊕ X = 0 ⊕ X = X<br></code></pre></td></tr></table></figure>
 
 <blockquote>
 <p>在证明中我们用到了异或操作的<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%BC%82%E6%88%96/10993677">归零律、结合律和恒等律</a>。</p>
@@ -1250,7 +1250,7 @@
 <li><p><strong>基于图结构的Workflow</strong>。工作流模型可以描述大数据处理领域常见的DAG有向无环图，也可以描述办公自动化领域带回退、循环功能的审批流程图。工作流完全依赖于to-next步骤迁移规则来指定下一个待执行的步骤。同时，因为工作流的步骤之间完全平级，没有嵌套关系（子流程除外），所以在流程挂起之后，可以从任意一个步骤重新开始执行，在Workflow中实现Continuation机制要更加简单。Workflow的XDef元模型参见<a target="_blank" rel="noopener" href="https://gitee.com/canonical-entropy/nop-entropy/blob/master/nop-xdefs/src/main/resources/_vfs/nop/schema/wf/wf.xdef">wf.xdef</a></p>
 </li>
 </ol>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">task</span> <span class="attr">x:extends</span>=<span class="string">&quot;send-order.task.xml&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">steps</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">step</span> <span class="attr">id</span>=<span class="string">&quot;save-order&quot;</span> /&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">step</span> <span class="attr">id</span>=<span class="string">&quot;send-email&quot;</span>&gt;</span></span><br><span class="line">         ...</span><br><span class="line">     <span class="tag">&lt;/<span class="name">step</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">steps</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">task</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">task</span> <span class="hljs-attr">x:extends</span>=<span class="hljs-string">&quot;send-order.task.xml&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">steps</span>&gt;</span><br>     <span class="hljs-tag">&lt;<span class="hljs-name">step</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;save-order&quot;</span> /&gt;</span><br>     <span class="hljs-tag">&lt;<span class="hljs-name">step</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;send-email&quot;</span>&gt;</span><br>         ...<br>     <span class="hljs-tag">&lt;/<span class="hljs-name">step</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">steps</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">task</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>以上定义表示，对send-order.task.xml这个任务定义进行差量化调整，在save-order这一步骤之后增加一个send-email步骤。我们也可以通过差量化形式来调整某个步骤的配置参数或者删除某个步骤等。</p>
 <h2 id="二-可逆计算能否应用于运行时演化"><a href="#二-可逆计算能否应用于运行时演化" class="headerlink" title="二. 可逆计算能否应用于运行时演化"></a>二. 可逆计算能否应用于运行时演化</h2><p>我在此前的文章中多次强调了可逆计算可以通过编译期元编程机制来实现，有些同学可能会产生疑问，这是否意味着可逆计算所描述的只是静态的系统演化实践(编译期实施差量)，那动态的系统演化(运行期实施差量)是否也能纳入可逆计算理论的描述范围？</p>
@@ -1295,19 +1295,19 @@
 <p>Nop平台支持程序员定义自己的领域模型，也支持扩展平台内置的数据模型、API模型等，而且这种扩展都是通过Delta定制方式实现，增加模型属性时不需要修改Nop平台的代码。目前已经有人使用Nop平台的代码生成器来生成其他低代码平台所需的模型文件。</p>
 <p>Nop平台的代码生成器采用了一系列创新的设计，它的实现方式和完成的功能与常见的代码生成脚手架有着本质性区别，具体介绍参见文章 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/540022264">数据驱动的差量化代码生成器</a></p>
 <p>除了集成在maven工具中使用之外，我们有可以使用命令行方式来执行持续性的代码生成。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar nop-cli.jar run tasks/gen-web.xrun -t=1000</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">java -jar nop-cli.jar run tasks/gen-web.xrun -t=1000<br></code></pre></td></tr></table></figure>
 
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- gen-web.xrun --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">c:script</span>&gt;</span>&lt;![CDATA[</span><br><span class="line">    import io.nop.core.resource.component.ResourceComponentManager;</span><br><span class="line">    import io.nop.core.resource.VirtualFileSystem;</span><br><span class="line">    import io.nop.codegen.XCodeGenerator;</span><br><span class="line">    import io.nop.xlang.xmeta.SchemaLoader;</span><br><span class="line">    import io.nop.commons.util.FileHelper;</span><br><span class="line"></span><br><span class="line">    assign(&quot;metaDir&quot;,&quot;/meta/test&quot;);</span><br><span class="line"></span><br><span class="line">    let path = FileHelper.getRelativeFileUrl(&quot;./target/gen&quot;);</span><br><span class="line">    let codegen = new XCodeGenerator(&#x27;/nop/test/meta-web&#x27;,path);</span><br><span class="line">    codegen = codegen.withDependsCache();</span><br><span class="line">    codegen.execute(&quot;/&quot;,$scope);</span><br><span class="line">]]&gt;<span class="tag">&lt;/<span class="name">c:script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!-- gen-web.xrun --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">c:script</span>&gt;</span>&lt;![CDATA[<br>    import io.nop.core.resource.component.ResourceComponentManager;<br>    import io.nop.core.resource.VirtualFileSystem;<br>    import io.nop.codegen.XCodeGenerator;<br>    import io.nop.xlang.xmeta.SchemaLoader;<br>    import io.nop.commons.util.FileHelper;<br><br>    assign(&quot;metaDir&quot;,&quot;/meta/test&quot;);<br><br>    let path = FileHelper.getRelativeFileUrl(&quot;./target/gen&quot;);<br>    let codegen = new XCodeGenerator(&#x27;/nop/test/meta-web&#x27;,path);<br>    codegen = codegen.withDependsCache();<br>    codegen.execute(&quot;/&quot;,$scope);<br>]]&gt;<span class="hljs-tag">&lt;/<span class="hljs-name">c:script</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>上面的例子表示每隔1秒钟执行一次gen-web.xrun任务，而这个任务的具体内容是针对&#x2F;meta&#x2F;test虚拟路径下的所有meta文件，应用&#x2F;nop&#x2F;test&#x2F;meta-web虚拟路径下的代码生成模板，生成的代码保存到target&#x2F;gen目录下。代码生成器设置了withDependsCache，因此每次执行的时候它都会检查代码生成器所用到的模型文件是否已经发生变化，只有发生变化的时候才会重新生成，否则会直接跳过。例如，如果my.page.json文件是根据NopAuthUser.xmeta模型以及web.xlib这个控件库生成的，那么只有当NopAuthUser.xmeta文件或者web.xlib文件发生变化的时候，才会重新生成my.page.json。</p>
 <p>这种依赖追踪机制有些类似于前端Vite打包工具所内置的修改监听功能：当发现源码发生改变的时候自动重新加载源码，并把修改推送到前端浏览器中。</p>
 <h4 id="2-使用Nop平台的统一模型装载器"><a href="#2-使用Nop平台的统一模型装载器" class="headerlink" title="2. 使用Nop平台的统一模型装载器"></a>2. 使用Nop平台的统一模型装载器</h4><p>Nop平台所提供的Delta定制机制主要是用于动态生成并组装各类模型文件，并不涉及到任何运行时框架方面的知识，因此它可以很自然的与任何设计良好的运行时框架进行对接。<strong>具体的对接策略就是将原先加载模型文件的函数调用替换为对Nop平台中的统一模型加载器的调用</strong>。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Model</span> = <span class="title function_">readModelFromJson</span>(<span class="string">&quot;my.model.json&quot;</span>);</span><br><span class="line">被替换为</span><br><span class="line"><span class="title class_">Model</span> = (<span class="title class_">Model</span>)<span class="title class_">ResourceComponentManager</span>.<span class="title function_">instance</span>()</span><br><span class="line">                 .<span class="title function_">loadComponentModel</span>(<span class="string">&quot;my.model.json&quot;</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-title class_">Model</span> = <span class="hljs-title function_">readModelFromJson</span>(<span class="hljs-string">&quot;my.model.json&quot;</span>);<br>被替换为<br><span class="hljs-title class_">Model</span> = (<span class="hljs-title class_">Model</span>)<span class="hljs-title class_">ResourceComponentManager</span>.<span class="hljs-title function_">instance</span>()<br>                 .<span class="hljs-title function_">loadComponentModel</span>(<span class="hljs-string">&quot;my.model.json&quot;</span>);<br></code></pre></td></tr></table></figure>
 
 <p>ResourceComponentManager内部会缓存模型文件的解析结果，并且会自动跟踪解析过程中发现的所有模型依赖关系，当被依赖的模型发生修改时，会导致所有依赖于它的解析缓存结果自动失效。</p>
 <p><strong>可逆计算理论所提出的Y&#x3D; F(X)+Delta的计算模式可以被封装到一个抽象的加载器（Loader）接口之中，这一事实极大的降低了在第三方系统中引入可逆计算的成本</strong>。详细介绍参见文章 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/531474176">从张量积看低代码平台的设计</a></p>
 <p>在Nop平台中，我们对于百度AMIS框架的集成就采用了这种方式。</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">type:</span> <span class="string">page</span></span><br><span class="line"><span class="attr">x:gen-extends:</span> <span class="string">|</span></span><br><span class="line"><span class="string">   &lt;web:GenPage view=&quot;MyEntity.view.xml&quot; page=&quot;crud&quot; /&gt;</span></span><br><span class="line"><span class="string"></span><span class="attr">body:</span></span><br><span class="line">   <span class="bullet">-</span> <span class="attr">type:</span> <span class="string">form</span></span><br><span class="line">     <span class="attr">&quot;x:extends&quot;:</span> <span class="string">&quot;add.form.yaml&quot;</span></span><br><span class="line">     <span class="attr">api:</span></span><br><span class="line">       <span class="attr">url:</span> <span class="string">&quot;/test/my-action&quot;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">type:</span> <span class="hljs-string">page</span><br><span class="hljs-attr">x:gen-extends:</span> <span class="hljs-string">|</span><br><span class="hljs-string">   &lt;web:GenPage view=&quot;MyEntity.view.xml&quot; page=&quot;crud&quot; /&gt;</span><br><span class="hljs-string"></span><span class="hljs-attr">body:</span><br>   <span class="hljs-bullet">-</span> <span class="hljs-attr">type:</span> <span class="hljs-string">form</span><br>     <span class="hljs-attr">&quot;x:extends&quot;:</span> <span class="hljs-string">&quot;add.form.yaml&quot;</span><br>     <span class="hljs-attr">api:</span><br>       <span class="hljs-attr">url:</span> <span class="hljs-string">&quot;/test/my-action&quot;</span><br></code></pre></td></tr></table></figure>
 
 <p>通过使用ResourceComponentManager来加载AMIS的页面文件，我们为它引入了<code>x:extends</code>,<code>x:gen-extends</code>这样的差量化分解组合机制，可以使用XPL模板语言动态生成JSON页面内容，可以通过<code>x:extends</code>复用已经定义好的子页面，并在子页面的基础上进行精细化的定制，可以在Delta目录下增加同名的文件来覆盖系统中原有的模型文件。</p>
 <p>所有JSON、YAML或者XML格式的模型文件都可以直接使用Nop平台的统一模型加载器来实现差量分解、合并。</p>
@@ -1338,7 +1338,7 @@
 <p>有些人寄希望于AI强大的猜测能力，可以根据残留的信息自动补全得到原始的信息，但这样做天生就是不精确的，容易出现错误的。</p>
 <p>$$<br>A \approx F(B), G(A) \approx B<br>$$</p>
 <p>为了使得上面的两个方程从约等于转变为等于，可逆计算理论建议的解决方案是在两侧都补充Delta差量。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A + dA = F(B + dB),  G(A + dA) = B + dB</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">A + dA = F(B + dB),  G(A + dA) = B + dB<br></code></pre></td></tr></table></figure>
 
 <p>也就是说为了满足可逆转换的要求，每一个抽象层都应该提供一个内置的扩展信息保存机制，容纳一些当前使用不到的扩展信息。</p>
 <blockquote>
@@ -1423,8 +1423,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

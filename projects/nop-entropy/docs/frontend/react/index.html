@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1235,20 +1235,20 @@
 <li>缓存耗时的复杂计算结果时，使用useMemo。</li>
 <li>通过key属性标记本质上不同的数据记录，避免无意间共享数据，也就不需要重置数据</li>
 </ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Profile userId=&#123;userId&#125; key=&#123;profileId&#125; /&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">&lt;Profile userId=&#123;userId&#125; key=&#123;profileId&#125; /&gt;<br></code></pre></td></tr></table></figure>
 
 <ol start="3">
 <li>组件mount时发起请求，可以使用<code>useEffect(fn,[])</code></li>
 <li>dev环境下useEffect会被触发两次</li>
 <li>组件内状态如果需要和父组件同步，则通过状态提升交由父组件管理。例如</li>
 </ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Toggle isOn=&#123;isOn&#125; onChange=&#123;onChange&#125; /&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">&lt;Toggle isOn=&#123;isOn&#125; onChange=&#123;onChange&#125; /&gt;<br></code></pre></td></tr></table></figure>
 
 <ol start="6">
 <li>订阅外部存储时使用useSyncExternalStore</li>
 </ol>
 <h2 id="状态库"><a href="#状态库" class="headerlink" title="状态库"></a>状态库</h2><p>zustand，参考 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/691233120">https://zhuanlan.zhihu.com/p/691233120</a></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; useShallow &#125; <span class="keyword">from</span> <span class="string">&#x27;zustand/react/shallow&#x27;</span>;</span><br><span class="line">...</span><br><span class="line"> <span class="keyword">const</span> &#123; theme, setTheme &#125; = <span class="title function_">useConfigStore</span>(</span><br><span class="line">    <span class="title function_">useShallow</span>(<span class="function"><span class="params">state</span> =&gt;</span> (&#123;</span><br><span class="line">      <span class="attr">theme</span>: state.<span class="property">theme</span>,</span><br><span class="line">      <span class="attr">setTheme</span>: state.<span class="property">setTheme</span>,</span><br><span class="line">    &#125;))</span><br><span class="line">  );</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">import</span> &#123; useShallow &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;zustand/react/shallow&#x27;</span>;<br>...<br> <span class="hljs-keyword">const</span> &#123; theme, setTheme &#125; = <span class="hljs-title function_">useConfigStore</span>(<br>    <span class="hljs-title function_">useShallow</span>(<span class="hljs-function"><span class="hljs-params">state</span> =&gt;</span> (&#123;<br>      <span class="hljs-attr">theme</span>: state.<span class="hljs-property">theme</span>,<br>      <span class="hljs-attr">setTheme</span>: state.<span class="hljs-property">setTheme</span>,<br>    &#125;))<br>  );<br></code></pre></td></tr></table></figure>
 </div>
       <footer class="Article-footer col-md-3">
         
@@ -1285,8 +1285,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

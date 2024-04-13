@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1232,7 +1232,7 @@
       </header>
       <div class="Article-content col-md-9"><p>通过Excel模型来定义对外暴露的服务接口。具体示例参见<a target="_blank" rel="noopener" href="https://gitee.com/canonical-entropy/nop-entropy/blob/master/nop-wf/model/nop-wf.api.xlsx">nop-wf.api.xlsx</a></p>
 <p>在xxx-codegen模块中我们可以增加代码生成脚本，根据Excel模型自动生成代码。例如gen-orm.xgen中</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">c:script</span>&gt;</span></span><br><span class="line">// 根据API模型生成服务消息和接口类</span><br><span class="line">codeGenerator.withTargetDir(&quot;../&quot;).renderModel(&#x27;../../model/nop-wf.api.xlsx&#x27;,&#x27;/nop/templates/api&#x27;, &#x27;/&#x27;,$scope);</span><br><span class="line"><span class="tag">&lt;/<span class="name">c:script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">c:script</span>&gt;</span><br>// 根据API模型生成服务消息和接口类<br>codeGenerator.withTargetDir(&quot;../&quot;).renderModel(&#x27;../../model/nop-wf.api.xlsx&#x27;,&#x27;/nop/templates/api&#x27;, &#x27;/&#x27;,$scope);<br><span class="hljs-tag">&lt;/<span class="hljs-name">c:script</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <h2 id="配置说明"><a href="#配置说明" class="headerlink" title="配置说明"></a>配置说明</h2><p>在【配置】页中可以配置如下变量</p>
 <ol>
@@ -1285,8 +1285,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

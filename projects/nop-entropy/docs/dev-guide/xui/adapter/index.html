@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1236,21 +1236,21 @@
 <li>对于后缀名为page.yaml&#x2F;page.json&#x2F;page.json5等后缀的链接，使用jsonPage显示</li>
 </ol>
 <h2 id="特殊链接"><a href="#特殊链接" class="headerlink" title="特殊链接"></a>特殊链接</h2><h3 id="query"><a href="#query" class="headerlink" title="@query"></a><code>@query</code></h3><p>对应GraphQL query，它的格式为 <code>@query:&#123;operationName&#125;/&#123;selection&#125;</code>,<br>例如 <code>@query:NopAuthUser__get/userName,nickName,dept&#123;name&#125;</code> 会被翻译为</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">query&#123;</span><br><span class="line">   NopAuthUser(id:$id)&#123;</span><br><span class="line">       userName, nickName, dept &#123; name&#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs graphql">query&#123;<br>   NopAuthUser(id:$id)&#123;<br>       userName, nickName, dept &#123; name&#125;<br>   &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>对于标准的CRUD动作，例如xxx__get， xxx_findPage等，在<a target="_blank" rel="noopener" href="https://gitee.com/canonical-entropy/nop-chaos/blob/master/packages/nop-core/src/core/graphql.ts">graphql.ts</a>的operationRegistry中注册了对应的参数列表。<br>注意：这里注册的是动作的后缀，也就说NopAuthUser__findPage或者NopAuthUser__admin_findPage，返回的标准方法名都是findPage，它们的参数格式都是</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="comment">//  operation: &#x27;query&#x27;,</span></span><br><span class="line">    <span class="attr">arguments</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">name</span>: <span class="string">&#x27;query&#x27;</span>,</span><br><span class="line">            <span class="attr">type</span>: <span class="string">&#x27;QueryBeanInput&#x27;</span>,</span><br><span class="line">            <span class="attr">builder</span>: argQuery</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">&#123;<br>    <span class="hljs-comment">//  operation: &#x27;query&#x27;,</span><br>    <span class="hljs-attr">arguments</span>: [<br>        &#123;<br>            <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;query&#x27;</span>,<br>            <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;QueryBeanInput&#x27;</span>,<br>            <span class="hljs-attr">builder</span>: argQuery<br>        &#125;<br>    ]<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <h3 id="mutation"><a href="#mutation" class="headerlink" title="@mutation"></a><code>@mutation</code></h3><p>对应GraphQL mutation， 它的格式与<code>@query</code>类似。</p>
 <h3 id="dict"><a href="#dict" class="headerlink" title="@dict"></a><code>@dict</code></h3><p>利用<code>DictProvider__getDict</code>服务来加载字典项，例如 <code>@dict:my/my-dict</code></p>
 <h3 id="page"><a href="#page" class="headerlink" title="@page"></a><code>@page</code></h3><p>加载页面，动态加载<code>xui:import</code>引入的函数库，并resolve页面中用到的action</p>
 <h3 id="action"><a href="#action" class="headerlink" title="@action"></a><code>@action</code></h3><p>触发page上定义的action，或者<code>xui:import</code>引入的action，例如</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;xui:import&quot;</span><span class="punctuation">:</span> <span class="string">&quot;demo.lib.js&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;api&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;url&quot;</span><span class="punctuation">:</span> <span class="string">&quot;@action:demo.myAction&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;xui:import&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;demo.lib.js&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;api&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;url&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;@action:demo.myAction&quot;</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
 
 <p><code>@action:demo.myAction</code>表示调用demo.lib.js库中的myAction方法。作为api的url来触发时，传给函数的参数为<a target="_blank" rel="noopener" href="https://gitee.com/canonical-entropy/nop-chaos/blob/master/packages/nop-core/src/core/types.ts">FetcherRequest</a>类型</p>
 <h3 id="fn"><a href="#fn" class="headerlink" title="@fn"></a><code>@fn</code></h3><p>直接定义的匿名函数</p>
 <h2 id="自定义事件动作"><a href="#自定义事件动作" class="headerlink" title="自定义事件动作"></a>自定义事件动作</h2><p>前台引入了一个特殊的page-action类型的动作，它的参数中必须包含一个特殊的参数<code>@action</code>用于指定触发的动作名称。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;onEvent&quot;: &#123;</span><br><span class="line">        &quot;click&quot;: &#123; // 监听点击事件</span><br><span class="line">          &quot;actions&quot;: [ // 执行的动作列表</span><br><span class="line">            &#123;</span><br><span class="line">              &quot;actionType&quot;: &quot;page-action&quot;, // 执行自定义action</span><br><span class="line">              &quot;args&quot;: &#123; // </span><br><span class="line">                &quot;@action&quot;: &quot;demo.myAction&quot;,</span><br><span class="line">                &quot;msg&quot;: &quot;派发点击事件&quot;</span><br><span class="line">              &#125;</span><br><span class="line">            &#125;</span><br><span class="line">          ]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs json5">&#123;<br>    &quot;onEvent&quot;: &#123;<br>        &quot;click&quot;: &#123; // 监听点击事件<br>          &quot;actions&quot;: [ // 执行的动作列表<br>            &#123;<br>              &quot;actionType&quot;: &quot;page-action&quot;, // 执行自定义action<br>              &quot;args&quot;: &#123; // <br>                &quot;@action&quot;: &quot;demo.myAction&quot;,<br>                &quot;msg&quot;: &quot;派发点击事件&quot;<br>              &#125;<br>            &#125;<br>          ]<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 </div>
       <footer class="Article-footer col-md-3">
         
@@ -1287,8 +1287,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

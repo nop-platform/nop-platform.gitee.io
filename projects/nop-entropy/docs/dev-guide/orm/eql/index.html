@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1233,20 +1233,20 @@
       <div class="Article-content col-md-9"><p>EQL是NopORM内部使用的对象查询语言，它的基本设计思想是在SQL语法的基础上补充a.b.c这样的对象属性语法，并自动将对象属性关联转换为表关联。</p>
 <p>完整的语法定义，参见<a target="_blank" rel="noopener" href="https://gitee.com/canonical-entropy/nop-entropy/blob/master/nop-orm-eql/model/antlr/Eql.g4">Eql.g4</a>语法文件</p>
 <h2 id="1-复杂属性关联"><a href="#1-复杂属性关联" class="headerlink" title="1. 复杂属性关联"></a>1. 复杂属性关联</h2><p>使用关联属性来自动实现表关联查询，可以极大简化一般SQL语句的编写。比如 User和SocialUser表通过中间表 UserBind表进行关联，<br>现在想通过SocialUser表上的openId字段来查询得到User对象。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> b.user <span class="keyword">from</span> UserBind b <span class="keyword">where</span> b.socialUser.openId <span class="operator">=</span> <span class="number">123</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> b.user <span class="hljs-keyword">from</span> UserBind b <span class="hljs-keyword">where</span> b.socialUser.openId <span class="hljs-operator">=</span> <span class="hljs-number">123</span><br></code></pre></td></tr></table></figure>
 
 <h2 id="2-各种Join语法"><a href="#2-各种Join语法" class="headerlink" title="2. 各种Join语法"></a>2. 各种Join语法</h2><p>EQL支持任意表之间的 left join, right join, full join语法，语法格式与普通SQL语言相同。这一点与Hibernate不同，Hibernate的HQL查询语法只支持<br>主子表之间的关联查询，关联条件根据主子表配置自动推定，而不能在HQL语法中直接指定关联条件。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> o.dept.name, u.type</span><br><span class="line"><span class="keyword">from</span> NopAuthUser o <span class="keyword">left</span> <span class="keyword">join</span> MyEntity u <span class="keyword">on</span> o.id <span class="operator">=</span> u.userId</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> o.dept.name, u.type</span><br><span class="line"><span class="keyword">from</span> NopAuthUser o , MyEntity u </span><br><span class="line"><span class="keyword">where</span> o.id <span class="operator">=</span> u.userId</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> o.dept.name, u.type<br><span class="hljs-keyword">from</span> NopAuthUser o <span class="hljs-keyword">left</span> <span class="hljs-keyword">join</span> MyEntity u <span class="hljs-keyword">on</span> o.id <span class="hljs-operator">=</span> u.userId<br><br><span class="hljs-keyword">select</span> o.dept.name, u.type<br><span class="hljs-keyword">from</span> NopAuthUser o , MyEntity u <br><span class="hljs-keyword">where</span> o.id <span class="hljs-operator">=</span> u.userId<br><br></code></pre></td></tr></table></figure>
 
-<h2 id="3-分页语句"><a href="#3-分页语句" class="headerlink" title="3. 分页语句"></a>3. 分页语句</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> o <span class="keyword">from</span> NopAuthUser o limit <span class="number">10</span> <span class="keyword">offset</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<h2 id="3-分页语句"><a href="#3-分页语句" class="headerlink" title="3. 分页语句"></a>3. 分页语句</h2><figure class="highlight sql"><table><tr><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> o <span class="hljs-keyword">from</span> NopAuthUser o limit <span class="hljs-number">10</span> <span class="hljs-keyword">offset</span> <span class="hljs-number">0</span><br></code></pre></td></tr></table></figure>
 
-<h2 id="4-for-update语句"><a href="#4-for-update语句" class="headerlink" title="4. for update语句"></a>4. for update语句</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select o from NopAuthUser o where id = 1 for update</span><br></pre></td></tr></table></figure>
+<h2 id="4-for-update语句"><a href="#4-for-update语句" class="headerlink" title="4. for update语句"></a>4. for update语句</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">select o from NopAuthUser o where id = 1 for update<br></code></pre></td></tr></table></figure>
 
-<h2 id="5-删除语句"><a href="#5-删除语句" class="headerlink" title="5. 删除语句"></a>5. 删除语句</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">delete from NopAuthUser o wher o.id = 3</span><br></pre></td></tr></table></figure>
+<h2 id="5-删除语句"><a href="#5-删除语句" class="headerlink" title="5. 删除语句"></a>5. 删除语句</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">delete from NopAuthUser o wher o.id = 3<br></code></pre></td></tr></table></figure>
 
-<h2 id="6-更新语句"><a href="#6-更新语句" class="headerlink" title="6. 更新语句"></a>6. 更新语句</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">update NopAuthUser o set o.name = &#x27;a&#x27; where o.id = 2</span><br></pre></td></tr></table></figure>
+<h2 id="6-更新语句"><a href="#6-更新语句" class="headerlink" title="6. 更新语句"></a>6. 更新语句</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">update NopAuthUser o set o.name = &#x27;a&#x27; where o.id = 2<br></code></pre></td></tr></table></figure>
 
-<h2 id="7-插入语句"><a href="#7-插入语句" class="headerlink" title="7. 插入语句"></a>7. 插入语句</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">insert NopAuthUser(name, status) values(&#x27;a&#x27;,1)</span><br></pre></td></tr></table></figure>
+<h2 id="7-插入语句"><a href="#7-插入语句" class="headerlink" title="7. 插入语句"></a>7. 插入语句</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">insert NopAuthUser(name, status) values(&#x27;a&#x27;,1)<br></code></pre></td></tr></table></figure>
 
 <h2 id="8-case语句"><a href="#8-case语句" class="headerlink" title="8. case语句"></a>8. case语句</h2><h2 id="9-cast语句"><a href="#9-cast语句" class="headerlink" title="9. cast语句"></a>9. cast语句</h2><p>类型转换</p>
 <h2 id="10-支持运算符"><a href="#10-支持运算符" class="headerlink" title="10. 支持运算符"></a>10. 支持运算符</h2><ul>
@@ -1299,8 +1299,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

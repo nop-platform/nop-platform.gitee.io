@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1248,7 +1248,7 @@
 <p>我们所建立的模型只能是类似图(a)中的简单曲线，图(b)中的模型试图精确拟合每一个数据点在数学上称之为过拟合，它难以描述新的数据，而图(c)中限制差量只能为正值则会极大的限制模型的描述精度。</p>
 <p>以上是对Y&#x3D;F(X)⊕△这一抽象计算模式的一个启发式说明，下面我们将介绍在软件构造领域落实这一计算模式的一种具体技术实现方案，笔者将其命名为可逆计算。</p>
 <p>所谓可逆计算，是指系统化的应用如下公式指导软件构造的一种技术路线</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">App = Delta x-extends Generator&lt;DSL&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">App = Delta x-extends Generator&lt;DSL&gt;<br></code></pre></td></tr></table></figure>
 
 <ul>
 <li>App :  所需要构建的目标应用程序</li>
@@ -1277,18 +1277,18 @@
 </ul>
 <p>面向对象中的一个核心概念是继承：派生类从基类继承，自动具有基类的一切功能。例如老虎是动物的一种派生类，在数学上，我们可以说老虎(A)这个概念所包含的内容比动物(B)这个概念更多，老虎&gt;动物（即A&gt;B）。据此我们可以知道，动物这个概念所满足的命题，老虎自然满足， 例如动物会奔跑，老虎必然也会奔跑（ P(B) -&gt; P(A) ）。程序中所有用到动物这一概念的地方都可以被替换为老虎（Liscov代换原则）。这样通过继承就将自动推理关系引入到软件领域中来，在数学上这对应于不等式，也就是一种偏序关系。</p>
 <p>面向对象的理论困境在于不等式的表达能力有限。对于不等式A &gt; B，我们知道A比B多，但是具体多什么，我们并没有办法明确的表达出来。而对于 A &gt; B， D &gt; E这样的情况，即使多出来的部分一模一样，我们也无法实现这部分内容的重用。组件技术明确指出”组合优于继承”，这相当于引入了加法</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">A = B + C</span><br><span class="line">D = E + C</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">A = B + C<br>D = E + C<br></code></pre></td></tr></table></figure>
 
 <p>这样就可以抽象出组件C进行重用。<br>沿着上述方向推演下去，我们很容易确定下一步的发展是引入“减法”，这样才可以把 A &#x3D; B + C看作是一个真正的方程，通过方程左右移项求解出</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">B = A - C = A + (-C)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">B = A - C = A + (-C)<br></code></pre></td></tr></table></figure>
 
 <p>通过减法引入的“负组件”是一个全新的概念，它为软件复用打开了一扇新的大门。<br>假设我们已经构建好了系统 X &#x3D; D + E + F， 现在需要构建 Y &#x3D; D + E + G。如果遵循组件的解决方案，则需要将X拆解为多个组件，然后更换组件F为G后重新组装。而如果遵循可逆计算的技术路线，通过引入逆元 -F， 我们立刻得到</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Y = X - F + G = X + (-F + G) = X +  DeltaY</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">Y = X - F + G = X + (-F + G) = X +  DeltaY<br></code></pre></td></tr></table></figure>
 
 <p>在不拆解X的情况下，通过直接追加一个差量DeltaY，即可将系统X转化为系统Y。</p>
 <p>组件的复用条件是“相同方可复用”，但在存在逆元的情况下，具有最大颗粒度的完整系统X在完全不改的情况下直接就可以被复用，软件复用的范围被拓展为“相关即可复用”，软件复用的粒度不再有任何限制。组件之间的关系也发生了深刻的变化，不再是单调的构成关系，而成为更加丰富多变的转化关系。<br>Y &#x3D; X + △Y 这一物理图像对于复杂软件产品的研发具有非常现实的意义。X可以是我们所研发的软件产品的基础版本或者说主版本，在不同的客户处部署实施时，大量的定制化需求被隔离到独立的差量△Y中，这些定制的差量描述单独存放，通过编译技术与主版本代码再合并到一起。主版本的架构设计和代码实现只需要考虑业务领域内稳定的核心需求，不会受到特定客户处偶然性需求的冲击，从而有效的避免架构腐化。主版本研发和多个项目的实施可以并行进行，不同的实施版本对应不同的△Y，互不影响，同时主版本的代码与所有定制代码相互独立，能够随时进行整体升级。</p>
 <h2 id="（二）模型驱动架构（Model-Driven-Architecture"><a href="#（二）模型驱动架构（Model-Driven-Architecture" class="headerlink" title="（二）模型驱动架构（Model Driven Architecture)"></a>（二）模型驱动架构（Model Driven Architecture)</h2><p>模型驱动架构（MDA）是由对象管理组织（Object Management Group，OMG）在2001年提出的软件架构设计和开发方法，它被看作是软件开发模式从以代码为中心向以模型为中心转变的里程碑，目前大部分所谓软件开发平台的理论基础都与MDA有关。<br>MDA试图提升软件开发的抽象层次，直接使用建模语言（例如Executable UML）作为编程语言，然后通过使用类似编译器的技术将高层模型翻译为底层的可执行代码。在MDA中，明确区分应用架构和系统架构，并分别用平台无关模型PIM（Platform Independent Model）和平台相关模型PSM（Platform Specific Model）来描述它们。PIM反映了应用系统的功能模型，它独立于具体的实现技术和运行框架，而PSM则关注于使用特定技术（例如J2EE或者dotNet）实现PIM所描述的功能，为PIM提供运行环境。<br>使用MDA的理想场景是，开发人员使用可视化工具设计PIM，然后选择目标运行平台，由工具自动执行针对特定平台和实现语言的映射规则，将PIM转换为对应的PSM，并最终生成可执行的应用程序代码。基于MDA的程序构造可以表述为如下公式</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">App = Transformer(PIM)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">App = Transformer(PIM)<br></code></pre></td></tr></table></figure>
 
 <p>MDA的愿景是像C语言取代汇编那样最终彻底消灭传统编程语言。但经历了这么多年发展之后，它仍未能够在广泛的应用领域中展现出相对于传统编程压倒性的竞争优势。</p>
 <p>事实上，目前基于MDA的开发工具在面对多变的业务领域时，总是难掩其内在的不适应性。根据本文第一节的分析，我们知道建模必须要考虑差量。而在MDA的构造公式中，左侧的App代表了各种未知需求，而右侧的Transformer和PIM的设计器实际上都主要由开发工具厂商提供，未知&#x3D;已知这样一个方程是无法持久保持平衡的。<br>目前，工具厂商的主要做法是提供大而全的模型集合，试图事先预测用户所有可能的业务场景。但是，我们知道“天下没有免费的午餐”，模型的价值在于体现了业务领域中的本质性约束，没有任何一个模型是所有场景下都最优的。预测需求会导致出现一种悖论: 模型内置假定过少，则无法根据用户输入的少量信息自动生成大量有用的工作，也无法防止用户出现误操作，模型的价值不明显，而如果反之，模型假定很多，则它就会固化到某个特定业务场景，难以适应新的情况。<br>打开一个MDA工具的设计器，我们最经常的感受是大部分选项都不需要，也不知道是干什么用的，需要的选项却到处找也找不到。</p>
@@ -1323,7 +1323,7 @@
 <p>如果把G看作是一种相对不变的背景知识，则形式上我们可以把它隐藏起来，定义一个更加高级的“括号”运算符，它类似于数学中的“内积”。在这种形式下，B和D是对偶的，B是对D的补充，而D也是对B的补充。同时，我们注意到G(D)是模型驱动架构的体现，模型驱动之所以有价值就在于模型D中发生的微小变化，可以被G放大为系统各处大量衍生的变化，因此G(D)是一种非线性变换，而B是系统中去除D所对应的非线性因素之后剩余的部分。当所有复杂的非线性影响因素都被剥离出去之后，最后剩下的部分B就有可能是简单的，甚至能够形成一种新的可独立理解的领域模型结构(可以类比声波与空气的关系，声波是空气的扰动，但是不用研究空气本体，我们就可以直接用正弦波模型来描述声波)。<br>A &#x3D; (B,D)的形式可以直接推广到存在更多领域模型的情况</p>
 <p>$$<br>A &#x3D; (B,D,E,F,…)<br>$$</p>
 <p>因为B、D、E等概念都是某种DSL所描述的领域模型，因此它们可以被解释为A投影到特定领域模型子空间所产生的分量，也就是说，应用A可以被表示为一个“特征向量”（Feature Vector）， 例如</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">App = (工作流, 报表, 权限, ...)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">App = (工作流, 报表, 权限, ...)<br></code></pre></td></tr></table></figure>
 
 <p>与软件产品线中常用的面向特征编程（Feature Oriented Programming）相比，可逆计算的特征分解方案强调领域特定描述，特征边界更加明确，特征合成时产生的概念冲突更容易处理。<br>特征向量本身构成更高维度的领域模型，它可以被进一步分解下去，从而形成一个模型级列，例如定义</p>
 <p>$$<br>D’ \equiv (B,D) \G’(D’) \equiv B \oplus G(D)<br>$$</p>
@@ -1338,7 +1338,7 @@
 <p><img src="https://pic2.zhimg.com/80/v2-d6ef1c89995987f99c69e2c9f2456985_1440w.webp"></p>
 <p>Docker技术的成功源于它对软件运行时复杂性的本质性降低，而它的技术方案可以看作是可逆计算理论的一种特例。Docker的核心技术模式可以用如下公式进行概括</p>
 <p>Dockerfile是构建容器镜像的一种领域特定语言，例如</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">FROM ubuntu:16.04</span><br><span class="line">RUN useradd --user-group --create-home --shell /bin/bash work</span><br><span class="line">RUN apt-get update -y &amp;&amp; apt-get install -y python3-dev</span><br><span class="line">COPY . /app</span><br><span class="line">RUN make /app</span><br><span class="line"></span><br><span class="line">ENV PYTHONPATH /FrameworkBenchmarks</span><br><span class="line">CMD python /app/app.py</span><br><span class="line"></span><br><span class="line">EXPOSE 8088</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">FROM ubuntu:16.04<br>RUN useradd --user-group --create-home --shell /bin/bash work<br>RUN apt-get update -y &amp;&amp; apt-get install -y python3-dev<br>COPY . /app<br>RUN make /app<br><br>ENV PYTHONPATH /FrameworkBenchmarks<br>CMD python /app/app.py<br><br>EXPOSE 8088<br></code></pre></td></tr></table></figure>
 
 <p>通过Dockerfile可以快速准确的描述容器所依赖的基础镜像，具体的构建步骤，运行时环境变量和系统配置等信息。<br>Docker应用程序扮演了可逆计算中Generator的角色，负责解释Dockerfile，执行对应的指令来生成容器镜像。<br>创造性的使用联合文件系统（Union FS），是Docker的一个特别的创新之处。这种文件系统采用分层的构造方式，每一层构建完毕后就不会再发生改变，在后一层上进行的任何修改都只会记录在自己这一层。例如，修改前一层的文件时会通过Copy-On-Write的方式复制一份到当前层，而删除前一层的文件并不会真的执行删除操作，而是仅在当前层标记该文件已删除。Docker利用联合文件系统来实现将多个容器镜像合成为一个完整的应用，这一技术的本质正是可逆计算中的aop_extends操作。</p>
 <p>Docker的英文是码头搬运工人的意思，它所搬运的容器也经常被人拿来和集装箱做对比：标准的容器和集装箱类似，使得我们可以自由的对它们进行传输&#x2F;组合，而不用考虑容器中的具体内容。但是这种比较是肤浅的，甚至是误导性的。集装箱是静态的、简单的、没有对外接口的，而容器则是动态的、复杂的、和外部存在着大量信息交互的。这种动态的复杂结构想和普通的静态物件一样封装成所谓标准容器，其难度不可同日而语。如果没有引入支持差量的文件系统，是无法构建出一种柔性边界，实现逻辑分离的。</p>
@@ -1352,13 +1352,13 @@
 </li>
 </ol>
 <h2 id="（二）React"><a href="#（二）React" class="headerlink" title="（二）React"></a>（二）React</h2><p>2013年，也就是Docker发布的同一年，Facebook公司开源了一个革命性的Web前端框架React。React的技术思想非常独特，它以函数式编程思想为基础，结合一个看似异想天开的虚拟DOM（Virtual DOM)概念，引入了一整套新的设计模式，开启了前端开发的新大航海时代。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">HelloMessage</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">props</span>) &#123;</span><br><span class="line">    <span class="variable language_">super</span>(props);</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">state</span> = &#123; <span class="attr">count</span>: <span class="number">0</span> &#125;;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">action</span> = <span class="variable language_">this</span>.<span class="property">action</span>.<span class="title function_">bind</span>(<span class="variable language_">this</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">action</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">setState</span>(<span class="function"><span class="params">state</span> =&gt;</span> (&#123;</span><br><span class="line">      <span class="attr">count</span>: state.<span class="property">count</span> + <span class="number">1</span></span><br><span class="line">    &#125;));</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      <span class="language-xml"><span class="tag">&lt;<span class="name">button</span> <span class="attr">onClick</span>=<span class="string">&#123;this.action&#125;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        Hello &#123;this.props.name&#125;:&#123;this.state.count&#125;</span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title class_">ReactDOM</span>.<span class="title function_">render</span>(</span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">HelloMessage</span> <span class="attr">name</span>=<span class="string">&quot;Taylor&quot;</span> /&gt;</span></span>,</span><br><span class="line">  mountNode</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">class</span> <span class="hljs-title class_">HelloMessage</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">React.Component</span> &#123;<br>  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">props</span>) &#123;<br>    <span class="hljs-variable language_">super</span>(props);<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">state</span> = &#123; <span class="hljs-attr">count</span>: <span class="hljs-number">0</span> &#125;;<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">action</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-property">action</span>.<span class="hljs-title function_">bind</span>(<span class="hljs-variable language_">this</span>);<br>  &#125;<br><br>  <span class="hljs-title function_">action</span>(<span class="hljs-params"></span>)&#123;<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">setState</span>(<span class="hljs-function"><span class="hljs-params">state</span> =&gt;</span> (&#123;<br>      <span class="hljs-attr">count</span>: state.<span class="hljs-property">count</span> + <span class="hljs-number">1</span><br>    &#125;));<br>  &#125;,<br><br>  <span class="hljs-title function_">render</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-keyword">return</span> (<br>      <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">&#123;this.action&#125;</span>&gt;</span></span><br><span class="language-xml">        Hello &#123;this.props.name&#125;:&#123;this.state.count&#125;</span><br><span class="language-xml">      <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span><br>    );<br>  &#125;<br>&#125;<br><br><span class="hljs-title class_">ReactDOM</span>.<span class="hljs-title function_">render</span>(<br>  <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">HelloMessage</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;Taylor&quot;</span> /&gt;</span></span>,<br>  mountNode<br>);<br></code></pre></td></tr></table></figure>
 
 <p>React组件的核心是render函数，它的设计参考了后端常见的模板渲染技术，主要区别在于后端模板输出的是HTML文本，而React组件的Render函数使用类似XML模板的JSX语法，通过编译转换在运行时输出的是虚拟DOM节点对象。例如上面HelloMessage组件的render函数被翻译后的结果类似于</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">render</span>(<span class="params"></span>)&#123;</span><br><span class="line">   <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">VNode</span>(<span class="string">&quot;button&quot;</span>, &#123;<span class="attr">onClick</span>: <span class="variable language_">this</span>.<span class="property">action</span>, </span><br><span class="line">          <span class="attr">content</span>: <span class="string">&quot;Hello &quot;</span>+ <span class="variable language_">this</span>.<span class="property">props</span>.<span class="property">name</span> + <span class="string">&quot;:&quot;</span> + <span class="variable language_">this</span>.<span class="property">state</span>.<span class="property">count</span> &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-title function_">render</span>(<span class="hljs-params"></span>)&#123;<br>   <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">VNode</span>(<span class="hljs-string">&quot;button&quot;</span>, &#123;<span class="hljs-attr">onClick</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">action</span>, <br>          <span class="hljs-attr">content</span>: <span class="hljs-string">&quot;Hello &quot;</span>+ <span class="hljs-variable language_">this</span>.<span class="hljs-property">props</span>.<span class="hljs-property">name</span> + <span class="hljs-string">&quot;:&quot;</span> + <span class="hljs-variable language_">this</span>.<span class="hljs-property">state</span>.<span class="hljs-property">count</span> &#125;);<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>可以用以下公式来描述React组件：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">VDOM = render(state)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">VDOM = render(state)<br></code></pre></td></tr></table></figure>
 
 <p>当状态发生变化以后，只要重新执行render函数就会生成新的虚拟DOM节点，虚拟DOM节点可以被翻译成真实的HTML DOM对象，从而实现界面更新。这种根据状态重新生成完整视图的渲染策略极大简化了前端界面开发。例如对于一个列表界面，传统编程需要编写新增行&#x2F;更新行&#x2F;删除行等多个不同的DOM操作函数，而在React中只要更改state后重新执行唯一的render函数即可。<br>每次重新生成DOM视图的唯一问题是性能很低，特别是当前端交互操作众多、状态变化频繁的时候。React的神来之笔是提出了基于虚拟DOM的diff算法，可以自动的计算两个虚拟DOM树之间的差量，状态变化时只要执行虚拟Dom差量对应的DOM修改操作即可（更新真实DOM时会触发样式计算和布局计算，导致性能很低，而在JavaScript中操作虚拟DOM 的速度是非常快的）。整体策略可以表示为如下公式</p>
 <p>$$<br>state &#x3D; state_0 \oplus state_1\<br>\Delta VDom &#x3D; render(state_1) - render(state_0)\<br>\Delta Dom &#x3D; Translator(\Delta VDom)<br>$$</p>
@@ -1411,8 +1411,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

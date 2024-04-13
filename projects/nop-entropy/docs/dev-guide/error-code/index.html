@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1232,7 +1232,7 @@
       </header>
       <div class="Article-content col-md-9"><p>Nop平台的REST服务和RPC服务，统一使用<code>ApiResponse&lt;T&gt;</code>形式返回结果数据，同步模式直接返回<code>ApiResponse</code>，异步模式返回<code>CompletionStage&lt;ApiResponse&lt;T&gt;&gt;</code>。</p>
 <p>ApiResponse的基本结构如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ApiResponse</span>&lt;T&gt;&#123;</span><br><span class="line">    Map&lt;String,Object&gt; headers;</span><br><span class="line">    <span class="type">int</span> status;</span><br><span class="line">    String code;</span><br><span class="line">    String msg;</span><br><span class="line">    T data;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">ApiResponse</span>&lt;T&gt;&#123;<br>    Map&lt;String,Object&gt; headers;<br>    <span class="hljs-type">int</span> status;<br>    String code;<br>    String msg;<br>    T data;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <ul>
 <li>正常返回时<code>status==0</code>，通过data属性返回结果数据。</li>
@@ -1243,19 +1243,19 @@
 <h2 id="错误码定义"><a href="#错误码定义" class="headerlink" title="错误码定义"></a>错误码定义</h2><ol>
 <li>在常量类中定义ErrorCode，例如NopAuthErrors.java中</li>
 </ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ErrorCode ERR_AUTH_UNKNOWN_SITE = define(&quot;nop.err.auth.unknown-site&quot;, &quot;未知的站点：&#123;siteId&#125;&quot;, ARG_SITE_ID);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">ErrorCode ERR_AUTH_UNKNOWN_SITE = define(&quot;nop.err.auth.unknown-site&quot;, &quot;未知的站点：&#123;siteId&#125;&quot;, ARG_SITE_ID);<br></code></pre></td></tr></table></figure>
 
 <p>它包含一个异常码的key，一个缺省的异常消息。</p>
 <ol start="2">
 <li>系统内统一使用NopException这个异常类</li>
 </ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if (siteMap == null)</span><br><span class="line">    throw new NopException(ERR_AUTH_UNKNOWN_SITE).param(ARG_SITE_ID, siteId);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">if (siteMap == null)<br>    throw new NopException(ERR_AUTH_UNKNOWN_SITE).param(ARG_SITE_ID, siteId);<br></code></pre></td></tr></table></figure>
 
 <p>可以通过param函数为异常对象增加任意参数。<br>NopException具有errorCode, description, params等属性，并具有可选的status属性。</p>
 <ol start="3">
 <li>系统全局捕获所有异常，并将其转换为ApiResponse对象</li>
 </ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ApiResponse&lt;?&gt; res = ErrorMessageManager.instance().buildErrorResponse(request, error);</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java">ApiResponse&lt;?&gt; res = ErrorMessageManager.instance().buildErrorResponse(request, error);<br></code></pre></td></tr></table></figure>
 
 <p>ApiResponse的结构类似SmartAdmin中ResponseDTO。response &#x3D; headers + status + msg + data</p>
 <p>在转换为ApiResponse的过程中会执行i18n消息映射，根据异常码的key映射得到国际化消息。</p>
@@ -1265,7 +1265,7 @@
 <li><p>参数化消息映射<br>有的时候系统底层可能会抛出一个统一的异常码，但是它的参数不同。如果我们希望根据不同的参数向客户返回不同的错误消息，则可以配置参数化消息映射。例如</p>
 </li>
 </ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;nop.err.my-error?myParam=xx&quot; : &quot;异常消息A&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">&quot;nop.err.my-error?myParam=xx&quot; : &quot;异常消息A&quot;<br></code></pre></td></tr></table></figure>
 </div>
       <footer class="Article-footer col-md-3">
         
@@ -1302,8 +1302,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

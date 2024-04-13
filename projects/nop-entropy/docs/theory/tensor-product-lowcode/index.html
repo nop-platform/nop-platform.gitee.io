@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1333,10 +1333,10 @@
 <p>当我们在系统的各个层面都识别出相似的Loader结构之后，一个有趣的问题是：这些Loader内在的一致性到底有多高？它们之间能不能复用代码？工作流引擎、IoC引擎、报表引擎、ORM引擎…，林林总总的引擎都需要加载自身特定的模型，它们目前大多是各自为战，能否抽象出一个<strong>系统级的、统一的Loader</strong>来负责模型加载？如果可以，那么具体有哪些公共逻辑可以在这个统一的Loader中实现？</p>
 <p>低代码平台的设计目标是实现代码逻辑的模型化，而模型以序列化的形式保存时就形成模型文件。可视化设计的输入输出是模型文件，所以其实可视化只是模型化的一个附带收益。一个统一的低代码平台最基本的一个工作应该是 统一管理所有模型，实现所有模型的资源化。Loader机制必然是这样的低代码平台中的一个核心组件。</p>
 <p>我们来看一个日常开发中常见的函数</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JsonUtils.readJsonObject(String classPath, Class beanClass)</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java">JsonUtils.readJsonObject(String classPath, Class beanClass)<br></code></pre></td></tr></table></figure>
 
 <p>这是一个通用的Java配置对象加载函数，它读取classpath下的一个json文件，并通过JSON反序列化机制把它转换为指定类型的java对象，然后在编程中我们就可以直接使用这个对象了。而如果配置文件格式错误，比如说字段名写错了，或者数据格式错了，则在类型转换阶段可以被检测出来。如果配置了@Max,@NotEmpty这样的一些验证器注解，我们甚至可以在反序列化的时候进行一些业务相关的校验。显而易见，各类模型文件的加载和解析其实都可以看作是这一函数的变种。以工作流模型加载为例，</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">workflowModel = workflowLoader.getWorkflow(wfName);</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java">workflowModel = workflowLoader.getWorkflow(wfName);<br></code></pre></td></tr></table></figure>
 
 <p>相比于较为原始的json解析，工作流模型的加载器一般具有以下增强:</p>
 <ol>
@@ -1350,7 +1350,7 @@
 </li>
 </ol>
 <p>Nop Platform 2.0是可逆计算理论的一个开源实现，它可以看作是支持领域特定语言(DSL)开发的一个低代码平台。在Nop平台中，定义了统一的模型加载器</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">IResourceComponentManager</span>&#123;</span><br><span class="line">    IComponentModel <span class="title function_">loadComponent</span><span class="params">(String componentPath)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">IResourceComponentManager</span>&#123;<br>    IComponentModel <span class="hljs-title function_">loadComponent</span><span class="hljs-params">(String componentPath)</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <ol>
 <li><p>通过模型文件的后缀名可以识别模型类型，因此不需要传入componentClass这种类型信息</p>
@@ -1369,7 +1369,7 @@
 </li>
 </ol>
 <p>在Nop平台中，所有的模型文件都是通过统一的模型加载器加载的，同时，<strong>所有的模型对象也都是通过元模型（Meta Model）定义自动生成的</strong>。在这种情况下，回看上面的工作流模型的处理过程</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">getWorkflow(wfName).getStep(stepName).getAction(actionName).invoke(data)</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java">getWorkflow(wfName).getStep(stepName).getAction(actionName).invoke(data)<br></code></pre></td></tr></table></figure>
 
 <p>getWorkflow通过统一的组件模型加载器负责实现，不需要特殊编写，同时getStep&#x2F;getAction等方法也通过元模型定义自动生成，同样不需要特殊编写。因此，整个Loader的实现可以说是完全自动化的</p>
 <p>$$<br>Loader(wfName\otimes stepName \otimes actionName)<br>$$</p>
@@ -1378,13 +1378,13 @@
 <h2 id="四-Loader-as-Multiple-Dispatch"><a href="#四-Loader-as-Multiple-Dispatch" class="headerlink" title="四. Loader as Multiple Dispatch"></a>四. Loader as Multiple Dispatch</h2><p>函数代表了某种静态化的计算（代码本身是确定性的），而Loader提供了一种计算机制，它的计算结果是返回的函数，所以Loader是一种高阶函数。如果Loader不是简单的根据参数定位到某个已经存在的代码块，而是可以根据传入的参数动态的生成对应的函数内容，则Loader可以作为元编程机制的一种切入点。</p>
 <p>在程序语言理论中，有一种语言内置的元编程机制称为多重派发（Multiple Dispatch），它在Julia语言中得到了广泛的应用。多重派发与这里所定义的Loader机制有诸多相似之处，实际上Loader可以看作是对多重派发的一种超越类型系统的扩展。</p>
 <p>考察一个函数调用f(a,b)，如果是采用面向对象语言来实现，我们将选择把第一个参数a实现为类型A的对象，而函数f是类型A上定义的一个成员函数，b为传给函数f的一个参数。面向对象的调用形式a.f(b)是所谓单重派发的，即根据函数的第一个参数a（this指针）的类型，动态的查询类型A的虚拟函数表，确定所需要调用的具体函数。也就是说，</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在面向对象的观点下　f::A-&gt;(B-&gt;C)</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="code"><pre><code class="hljs text">在面向对象的观点下　f::A-&gt;(B-&gt;C)<br></code></pre></td></tr></table></figure>
 
 <blockquote>
 <p>a.f(b)在实现层面对应于一个函数 f(a,b)，a为隐式传递的this指针</p>
 </blockquote>
 <p>而所谓的多重派发，指的是调用函数时，根据<strong>所有参数</strong>的运行时的类型，选择一个＂最适合＂的实现函数来进行调用，即</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在多重派发的观点下　f:: A x B -&gt; C， AxB为A和B构成的元组</span><br></pre></td></tr></table></figure>
+<figure class="highlight text"><table><tr><td class="code"><pre><code class="hljs text">在多重派发的观点下　f:: A x B -&gt; C， AxB为A和B构成的元组<br></code></pre></td></tr></table></figure>
 
 <blockquote>
 <p>Julia语言可以在编译期根据调用函数时给定的参数的类型，动态的生成一个特化的代码版本，从而优化程序性能。例如 f(int,int)和f(int, double)在Julia语言中可能会生成两个不同的二进制代码版本。</p>
@@ -1392,40 +1392,40 @@
 <p>如果采用向量空间的观点，我们可以把不同的类型看作是不同的基向量，例如 3实际上对应于 3 int , 而”a”实际上对应于 “a” string（类比于 $\lambda_i \mathbf e_i$），不同类型的值原则上是相互分离的，类型不匹配的时候不允许发生相互关系（不考虑类型自动转换的情况），恰如不同的基向量之间相互独立。在这个意义上，多重派发 f(3, “a”) 可以被理解为  $[3,”a”]\cdot Loader(int \otimes string)$</p>
 <p>类型信息是在编译期附加到数据之上的一种描述性信息，本质上它并没有什么特异之处。在这个意义上，Loader可以看作是一种更通用的、作用于任意基向量组成的张量积上的一种多重派发。</p>
 <h2 id="五-Loader-as-Generator"><a href="#五-Loader-as-Generator" class="headerlink" title="五. Loader as Generator"></a>五. Loader as Generator</h2><p>一个通用的模型加载器可以看作是具有如下类型定义：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">    Loader :: Path -&gt; Model</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">    Loader :: Path -&gt; Model<br></code></pre></td></tr></table></figure>
 
 <p>对于一种通用设计，我们需要意识到一件事情，所谓的代码编写并不仅仅是为了应对眼前的需求，而是需要同时考虑到未来的需求变化，需要考虑到系统在时空中的演化。 换句话说，编程所面向的不是当前的、唯一的世界，而是<strong>所有可能的世界</strong>。在形式上，我们可以引入一个Possible算子来描述这件事情。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">    Loader :: Possible Path -&gt; Possible Model</span><br><span class="line">    Possible Path = stdPath + deltaPath</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">    Loader :: Possible Path -&gt; Possible Model<br>    Possible Path = stdPath + deltaPath<br></code></pre></td></tr></table></figure>
 
 <p>stdPath指模型文件所对应的标准路径，而deltaPath指对已有的模型文件进行定制时所使用的差量定制路径。举个例子，在base产品中我们内置了一个业务处理流程main.wf.xml，在针对客户A进行定制时，我们需要使用一个不同的处理流程，但是我们并不想修改base产品中的代码。此时，我们可以增加一个delta差量模型文件<code>/_delta/a/main.wf.xml</code>，它表示针对客户a定制的main.wf.xml，Loader会自动识别这个文件的存在，并自动使用这个文件，而所有已经存在的业务代码都不需要被修改。</p>
 <p>如果我们只是想对原有的模型进行微调，而不是要完全取代原有模型，则可以使用x:extends继承机制来继承原有模型。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Loader&lt;Possible Path&gt; = Loader&lt;stdPath + deltaPath&gt; </span><br><span class="line">                      = Loader&lt;deltaPath&gt; x-<span class="keyword">extends</span> <span class="title class_">Loader</span>&lt;stdPath&gt;</span><br><span class="line">                      = DeltaModel x-<span class="keyword">extends</span> <span class="title class_">Model</span></span><br><span class="line">                      = Possible Model</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java">Loader&lt;Possible Path&gt; = Loader&lt;stdPath + deltaPath&gt; <br>                      = Loader&lt;deltaPath&gt; x-<span class="hljs-keyword">extends</span> <span class="hljs-title class_">Loader</span>&lt;stdPath&gt;<br>                      = DeltaModel x-<span class="hljs-keyword">extends</span> <span class="hljs-title class_">Model</span><br>                      = Possible Model<br></code></pre></td></tr></table></figure>
 
 <p>在Nop平台中，模型加载器实际上是分解为两个步骤来实现</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">IResource</span>&#123;</span><br><span class="line">    String <span class="title function_">getStdPath</span><span class="params">()</span>; <span class="comment">// 文件的标准路径</span></span><br><span class="line">    String <span class="title function_">getPath</span><span class="params">()</span>; <span class="comment">// 实际文件路径</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">IVirtualFileSystem</span>&#123;</span><br><span class="line">    IResource <span class="title function_">getResource</span><span class="params">(Strig stdPath)</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">IResourceParser</span>&#123;</span><br><span class="line">    IComponentModel <span class="title function_">parseFromResource</span><span class="params">(IResource resource)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">IResource</span>&#123;<br>    String <span class="hljs-title function_">getStdPath</span><span class="hljs-params">()</span>; <span class="hljs-comment">// 文件的标准路径</span><br>    String <span class="hljs-title function_">getPath</span><span class="hljs-params">()</span>; <span class="hljs-comment">// 实际文件路径</span><br>&#125;<br><br><span class="hljs-keyword">interface</span> <span class="hljs-title class_">IVirtualFileSystem</span>&#123;<br>    IResource <span class="hljs-title function_">getResource</span><span class="hljs-params">(Strig stdPath)</span>;<br>&#125;<br><br><br><span class="hljs-keyword">interface</span> <span class="hljs-title class_">IResourceParser</span>&#123;<br>    IComponentModel <span class="hljs-title function_">parseFromResource</span><span class="hljs-params">(IResource resource)</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>IVirtualFileSystem提供了一个类似Docker容器所使用的overlayfs的差量文件系统，而IResourceParser负责对一个具体的模型文件进行解析。</p>
 <p>可逆计算理论提出了一个通用的软件构造公式</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">App = Delta x-<span class="keyword">extends</span> <span class="title class_">Generator</span>&lt;DSL&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java">App = Delta x-<span class="hljs-keyword">extends</span> <span class="hljs-title class_">Generator</span>&lt;DSL&gt;<br></code></pre></td></tr></table></figure>
 
 <p>基于这一理论，我们可以把Loader看作是Generator的一个特例，把Path看作是一种极小化的DSL。当根据path加载得到一个模型对象之后，我们可以继续应用可逆计算的公式对此模型对象进行转换和差量修订，最终得到我们所需要的模型对象。举个例子，</p>
 <p>在Nop平台中我们定义了一种ORM实体对象的定义文件orm.xml，它的作用类似于Hibernate中的hbm文件，大致格式如下:</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">orm</span> <span class="attr">x:schema</span>=<span class="string">&quot;/nop/schema/orm/orm.xdef&quot;</span> <span class="attr">xmlns:x</span>=<span class="string">&quot;/nop/schema/xdsl.xdef&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">entities</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">entity</span> <span class="attr">name</span>=<span class="string">&quot;xxx&quot;</span> <span class="attr">tableName</span>=<span class="string">&quot;xxx&quot;</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">column</span> <span class="attr">name</span>=<span class="string">&quot;yyy&quot;</span> <span class="attr">code</span>=<span class="string">&quot;yyy&quot;</span> <span class="attr">stdSqlType</span>=<span class="string">&quot;VARCHAR&quot;</span> <span class="attr">...</span>/&gt;</span></span><br><span class="line">       ...</span><br><span class="line">    <span class="tag">&lt;/<span class="name">entity</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">entities</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">orm</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">orm</span> <span class="hljs-attr">x:schema</span>=<span class="hljs-string">&quot;/nop/schema/orm/orm.xdef&quot;</span> <span class="hljs-attr">xmlns:x</span>=<span class="hljs-string">&quot;/nop/schema/xdsl.xdef&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">entities</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">entity</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;xxx&quot;</span> <span class="hljs-attr">tableName</span>=<span class="hljs-string">&quot;xxx&quot;</span>&gt;</span><br>       <span class="hljs-tag">&lt;<span class="hljs-name">column</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;yyy&quot;</span> <span class="hljs-attr">code</span>=<span class="hljs-string">&quot;yyy&quot;</span> <span class="hljs-attr">stdSqlType</span>=<span class="hljs-string">&quot;VARCHAR&quot;</span> <span class="hljs-attr">...</span>/&gt;</span><br>       ...<br>    <span class="hljs-tag">&lt;/<span class="hljs-name">entity</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">entities</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">orm</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>现在需要为这个模型文件提供一个可视化设计器，我们需要做什么？在Nop平台中，我们只需要增加如下一句描述：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">orm</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">x:gen-extends</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">orm-gen:GenFromExcel</span> <span class="attr">path</span>=<span class="string">&quot;my.xlsx&quot;</span> <span class="attr">xpl:lib</span>=<span class="string">&quot;/nop/orm/xlib/orm-gen.xlib&quot;</span> /&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">x:gen-extends</span>&gt;</span></span><br><span class="line">    ...</span><br><span class="line"><span class="tag">&lt;/<span class="name">orm</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">orm</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">x:gen-extends</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">orm-gen:GenFromExcel</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;my.xlsx&quot;</span> <span class="hljs-attr">xpl:lib</span>=<span class="hljs-string">&quot;/nop/orm/xlib/orm-gen.xlib&quot;</span> /&gt;</span><br>   <span class="hljs-tag">&lt;/<span class="hljs-name">x:gen-extends</span>&gt;</span><br>    ...<br><span class="hljs-tag">&lt;/<span class="hljs-name">orm</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>x:gen-extends是XLang语言内置的元编程机制，它是在编译期执行的代码生成器，可以动态生成模型的基类。<code>&lt;orm-gen:GenFromExcel&gt;</code>是一个自定义标签函数，它的作用是读取并解析Excel模型，然后按照orm.xml格式的要求来生成orm定义文件。Excel文件的格式如下图所示：</p>
 <p><a href="../excel-orm.png">excel-orm</a></p>
 <p>Excel模型文件的格式其实非常接近于日常中我们使用的需求文档格式（示例中的Excel文件格式本身就是从需求文档中拷贝粘贴得来的）。只需要编辑Excel文件即可实现对ORM实体模型的可视化设计，而且这种设计修改是<strong>即时生效</strong>的！（借助于IResourceComponentManager的依赖追踪能力，只要Excel模型文件发生修改，orm模型就会被重新编译）。</p>
 <p>有些人可能对Excel的编辑方式不满意，希望采用类似PowerDesigner这种图形化的设计器。No Problem！只需要调换一下元编程生成器即可，真的就是一句话的事情。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">orm</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">x:gen-extends</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">orm-gen:GenFromPdm</span> <span class="attr">path</span>=<span class="string">&quot;my.pdm&quot;</span> <span class="attr">xpl:lib</span>=<span class="string">&quot;/nop/orm/xlib/orm-gen.xlib&quot;</span> /&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">x:gen-extends</span>&gt;</span></span><br><span class="line">    ...</span><br><span class="line"><span class="tag">&lt;/<span class="name">orm</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">orm</span>&gt;</span><br>   <span class="hljs-tag">&lt;<span class="hljs-name">x:gen-extends</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">orm-gen:GenFromPdm</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;my.pdm&quot;</span> <span class="hljs-attr">xpl:lib</span>=<span class="hljs-string">&quot;/nop/orm/xlib/orm-gen.xlib&quot;</span> /&gt;</span><br>   <span class="hljs-tag">&lt;/<span class="hljs-name">x:gen-extends</span>&gt;</span><br>    ...<br><span class="hljs-tag">&lt;/<span class="hljs-name">orm</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>现在我们就可以愉快的在PowerDesigner中设计实体模型了。</p>
 <p>上面这个例子集中体现了可逆计算理论中所谓<strong>表象转换</strong>（Representation Transformation）的概念。真正重要的是核心的ORM模型对象，可视化设计只是在使用这个模型对象的某种表象，不同表象之间可以进行可逆转换。<strong>表象并不是唯一的！</strong> 而且我们需要注意到，表象转换完全不需要涉及到运行时（即设计器不需要知道ORM引擎的任何相关信息），它完全是形式层面的事情（类似于数学层面的某种形式变换）。目前很多低代码平台的设计器无法脱离特定的运行时支持而存在，这实际上是一个不必要的限制。</p>
 <p>现在还有一个有趣的问题。为了支持<code>&lt;orm-gen:GenFromExcel&gt;</code>，我们是否需要编写一个特定的Excel模型文件的解析器，用于解析具有示例格式的Excel文档？在Nop平台中，这个回答是：<strong>不需要</strong>。</p>
 <p>orm模型本质上是一个Tree结构的对象，这个Tree结构需要满足的约束条件在orm.xdef文件中已经进行了定义。Excel模型是orm模型的一个可视化表象，它也必然可以映射为一个Tree结构。如果这种映射是通过一些确定性的规则可以描述的，则我们就可以使用一个统一的Excel解析器来完成模型解析。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">ExcelModelParser</span>&#123;</span><br><span class="line">    XNode <span class="title function_">parseExcelModel</span><span class="params">(ExcelWorkbook wk, XDefinition xdefModel)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">ExcelModelParser</span>&#123;<br>    XNode <span class="hljs-title function_">parseExcelModel</span><span class="hljs-params">(ExcelWorkbook wk, XDefinition xdefModel)</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>所以，实际情况是，<strong>只要定义了xdef元模型文件，我们就可以使用Excel对模型文件进行设计</strong>。而在定义了xdef元模型的情况下，模型的解析、分解、合并、差量定制、IDE提示、断点调试器等都是自动得到的，无需额外进行编程。</p>
 <p>在Nop平台中，基本的技术战略就是xdef是世界的源起，只要有了xdef元模型，你就自动拥有了前后端的一切。如果你不满意，差量定制会帮助你进行微调和改进。</p>
@@ -1498,8 +1498,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

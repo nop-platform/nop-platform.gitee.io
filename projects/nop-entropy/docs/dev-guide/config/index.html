@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1260,18 +1260,18 @@
 <ul>
 <li>应用程序中使用IConfigReference接口来动态获取参数，当参数更新时可以获得最新值</li>
 </ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> final <span class="title class_">IConfigReference</span>&lt;<span class="title class_">Boolean</span>&gt; <span class="variable constant_">CFG_USE_CACHE</span> = <span class="title class_">AppConfig</span>.<span class="title function_">varRef</span>(<span class="string">&quot;global.use_cache&quot;</span>,<span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line">public <span class="keyword">void</span> <span class="title function_">myFunc</span>(<span class="params"></span>)&#123;</span><br><span class="line">   <span class="keyword">if</span>(<span class="variable constant_">CFG_USE_CACHE</span>.<span class="title function_">get</span>())&#123;</span><br><span class="line">     <span class="comment">// ...</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">static</span> final <span class="hljs-title class_">IConfigReference</span>&lt;<span class="hljs-title class_">Boolean</span>&gt; <span class="hljs-variable constant_">CFG_USE_CACHE</span> = <span class="hljs-title class_">AppConfig</span>.<span class="hljs-title function_">varRef</span>(<span class="hljs-string">&quot;global.use_cache&quot;</span>,<span class="hljs-literal">true</span>);<br><br>public <span class="hljs-keyword">void</span> <span class="hljs-title function_">myFunc</span>(<span class="hljs-params"></span>)&#123;<br>   <span class="hljs-keyword">if</span>(<span class="hljs-variable constant_">CFG_USE_CACHE</span>.<span class="hljs-title function_">get</span>())&#123;<br>     <span class="hljs-comment">// ...</span><br>   &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <ul>
 <li>在IoC容器中配置的ioc:config对象会被自动更新，所有引用该config对象的bean也会重新触发配置更新函数。 具体参见IoC容器的配置文档。</li>
 </ul>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">beans</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ioc:config</span> <span class="attr">id</span>=<span class="string">&quot;myConfig&quot;</span> <span class="attr">class</span>=<span class="string">&quot;xxx.MyConfig&quot;</span> <span class="attr">prefix</span>=<span class="string">&quot;app.xxx&quot;</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;myBean&quot;</span> <span class="attr">class</span>=<span class="string">&quot;xxx.MyBean&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;config&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;myConfig&quot;</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">beans</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">ioc:config</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;myConfig&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;xxx.MyConfig&quot;</span> <span class="hljs-attr">prefix</span>=<span class="hljs-string">&quot;app.xxx&quot;</span> /&gt;</span><br><br>  <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;myBean&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;xxx.MyBean&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;config&quot;</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;myConfig&quot;</span> /&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">beans</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>当myConfig变化时会触发myBean的配置更新函数。如果myBean实现了IConfigRefreshable方法，<br>则会调用IConfigRefreshable#refreshConfig方法。</p>
 <ul>
 <li>在IoC容器中通过@r-cfg来标记需要动态更新的配置值</li>
 </ul>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;myBean&quot;</span> <span class="attr">class</span>=<span class="string">&quot;xxx.MyBean&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;propA&quot;</span> <span class="attr">value</span>=<span class="string">&quot;@r-cfg: app.xxx.yyy&quot;</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;propB&quot;</span> <span class="attr">value</span>=<span class="string">&quot;@cfg: app.xxx.zzz&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;myBean&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;xxx.MyBean&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;propA&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;@r-cfg: app.xxx.yyy&quot;</span> /&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;propB&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;@cfg: app.xxx.zzz&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p><code>@cfg</code>前缀表示获取配置变量值，但仅在bean初始化的时候获取一次。而<code>@r-cfg:</code>表示reactive config，当配置项的值发生变化的时候<br>会重新调用myBean.setPropA来更新属性值。</p>
 <h2 id="初始化过程"><a href="#初始化过程" class="headerlink" title="初始化过程"></a>初始化过程</h2><ol>
@@ -1347,8 +1347,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

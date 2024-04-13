@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1253,10 +1253,10 @@
 <p>这样做的好处在于我们可以<strong>避免业务域和纯技术域之间的信息渗透和污染</strong>，使得业务代码的测试、技术框架的升级甚至更换变得异常简单。</p>
 <h3 id="POJO和轻量级框架"><a href="#POJO和轻量级框架" class="headerlink" title="POJO和轻量级框架"></a>POJO和轻量级框架</h3><p>轻量级框架的星星之火是从反对EJB这种重型容器技术开始燃起的。传统的框架往往关注重点是提供功能特性，在使用框架的过程中不可避免的在业务代码中会引用框架特有的对象、插入框架特有的函数调用等，这往往使得业务功能的实现与具体运行环境强绑定，甚至和框架的某个版本强绑定。而轻量级框架首次推广了POJO的概念，在编写一般性的业务代码时，业务代码所操纵的对象在形式上就是没有任何框架依赖的普通Java对象。比如Spring1.0的配置中，Bean的实现完全不需要具有Spring框架的知识，在beans.xml配置文件中即可实现任意复杂的bean的装配。</p>
 <p>在这一观点下，传统的SpringMVC框架的如下设计是不合适的，</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public <span class="keyword">void</span> <span class="title function_">myMethod</span>(<span class="params">HttpServletRequest request</span>)&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@<span class="title class_">RequestMapping</span>(<span class="string">&quot;/test&quot;</span>)</span><br><span class="line">public <span class="title class_">ModelAndView</span> <span class="title function_">test</span>(<span class="params"></span>)&#123;</span><br><span class="line">   <span class="title class_">ModelAndView</span> mav=<span class="keyword">new</span> <span class="title class_">ModelAndView</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">   mav.<span class="title function_">addObject</span>(<span class="string">&quot;time&quot;</span>, <span class="keyword">new</span> <span class="title class_">Date</span>());</span><br><span class="line">   mav.<span class="title function_">getModel</span>().<span class="title function_">put</span>(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;caoyc&quot;</span>);</span><br><span class="line"></span><br><span class="line">   <span class="keyword">return</span> mav;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">public <span class="hljs-keyword">void</span> <span class="hljs-title function_">myMethod</span>(<span class="hljs-params">HttpServletRequest request</span>)&#123;<br>    ...<br>&#125;<br><br>@<span class="hljs-title class_">RequestMapping</span>(<span class="hljs-string">&quot;/test&quot;</span>)<br>public <span class="hljs-title class_">ModelAndView</span> <span class="hljs-title function_">test</span>(<span class="hljs-params"></span>)&#123;<br>   <span class="hljs-title class_">ModelAndView</span> mav=<span class="hljs-keyword">new</span> <span class="hljs-title class_">ModelAndView</span>(<span class="hljs-string">&quot;hello&quot;</span>);<br>   mav.<span class="hljs-title function_">addObject</span>(<span class="hljs-string">&quot;time&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>());<br>   mav.<span class="hljs-title function_">getModel</span>().<span class="hljs-title function_">put</span>(<span class="hljs-string">&quot;name&quot;</span>, <span class="hljs-string">&quot;caoyc&quot;</span>);<br><br>   <span class="hljs-keyword">return</span> mav;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>在新的Web框架设计中，一般都是接收POJO对象，返回POJO对象，除了函数上的注解之外没有任何框架依赖的痕迹，而注解本身又只是一些纯粹的描述性信息</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@<span class="variable constant_">POST</span></span><br><span class="line">@<span class="title class_">Path</span>(<span class="string">&quot;/my-method2&quot;</span>)</span><br><span class="line"><span class="title class_">ApiResponse</span>&lt;<span class="title class_">MyResponseBean</span>&gt; <span class="title function_">myMethod2</span>(<span class="params">MyRequestBean requestBean</span>)&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">@<span class="hljs-variable constant_">POST</span><br>@<span class="hljs-title class_">Path</span>(<span class="hljs-string">&quot;/my-method2&quot;</span>)<br><span class="hljs-title class_">ApiResponse</span>&lt;<span class="hljs-title class_">MyResponseBean</span>&gt; <span class="hljs-title function_">myMethod2</span>(<span class="hljs-params">MyRequestBean requestBean</span>)&#123;<br>    ...<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <blockquote>
 <p>注解可以用最小化的、框架中立的方式引入所需信息。例如在Dao访问层，现在大量的ORM框架都可以识别JPA注解，这使得同一个实体定义可以应用于多种ORM框架。</p>
@@ -1311,7 +1311,7 @@
 <p>最典型的例子是Web框架中常用的JSON转换：Java对象和JSON文本之间的双向转换。早期的Web框架缺乏规范化的复杂参数编码方案，很多情况下我们需要手工编程解析前台发送的请求参数。而现在JSON序列化已经发展成为一个脱离Web环境的通用结构转换方案。</p>
 <p>因为自动的双向转换意味着信息总量保持不变，所以一般情况下它都是与具体业务无关的一种通用机制。从数学上说，这意味着对于结构空间A中的<strong>每一个结构</strong>，我们都可以在结构空间B中找到它的一个对应结构（或者一组等价的对应结构），反之对于结构B中的每一个结构，我们也能够在结构空间A中找到它的对应。</p>
 <p>自动转换可以很自然的连接在一起形成更为复杂的复合转换。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A &lt;=&gt; B &lt;=&gt; C</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">A &lt;=&gt; B &lt;=&gt; C<br></code></pre></td></tr></table></figure>
 
 <p>需要强调的是，这种转换是通用的，也就是说<strong>不存在特例，每一个可能会遇到的结构都能够被转换</strong>。而我们手工针对业务场景进行编程时使用的转换方式一般都是AdHoc的特殊实现，无法自动处理其他业务场景下的情况。</p>
 <p>基于可逆计算原理，Nop平台将自动转换的设计思想贯彻到了平台的方方面面：</p>
@@ -1325,11 +1325,11 @@
 <li><p>实现可视化编辑模型和领域对象之间的双向转换。只要通过简单描述即可自动实现领域对象的可视化编辑。比如，工作流的设计器和ORM设计器都可以根据领域模型的定义自动推导得到。</p>
 </li>
 </ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">YAML &lt;=&gt; JSON  &lt;=&gt; XML  &lt;=&gt; DomainObject &lt;=&gt; Excel &lt;=&gt; VisualModel</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">YAML &lt;=&gt; JSON  &lt;=&gt; XML  &lt;=&gt; DomainObject &lt;=&gt; Excel &lt;=&gt; VisualModel<br></code></pre></td></tr></table></figure>
 
 <p>      反观MyBatis、Hibernate、Spring等框架，它们对于模型文件的解析都是手工实现的，IDE插件和可视化编辑器等都需要单独去编写维护。</p>
 <p>还有一些双向转换并不是完全的信息等价，我们可以在转换过程中补充一些额外的信息。比如前台提交的请求数据可以被自动转换为数据库实体对象，从而实现主子表数据的保存和修改，但是这个转换过程需要进行数据有效性检查和权限检查，执行类型转换、格式转换等操作。另一个方向，取出数据库实体之后我们可以将它自动转换为JSON数据返回给前台，这个过程同样需要进行权限检查和格式转换。NopGraphQL引擎通过引入Meta对象来补全信息差，从而将复杂业务对象的增删改查操作自动化。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">JSON + Meta =&gt; Entity</span><br><span class="line">Entity + Meta =&gt; JSON</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">JSON + Meta =&gt; Entity<br>Entity + Meta =&gt; JSON<br></code></pre></td></tr></table></figure>
 
 <h3 id="四-在框架之外如何使用相关信息？"><a href="#四-在框架之外如何使用相关信息？" class="headerlink" title="四. 在框架之外如何使用相关信息？"></a>四. 在框架之外如何使用相关信息？</h3><p>传统上的框架设计只关注自身的功能特性，对于框架在外部信息网络中的位置和交互价值往往并不关心。但随着软件领域智能化程度的提高，我们希望推动信息在各个层面、各个组件之间无阻碍的自由流动，此时必须要考虑框架和外部信息网络如何相互作用的问题。</p>
 <h3 id="独立存在的模型信息"><a href="#独立存在的模型信息" class="headerlink" title="独立存在的模型信息"></a>独立存在的模型信息</h3><p>有一定复杂度的框架一定会建立自己的领域模型，并在内部大量使用可配置的模型信息，比如Hibernate内部使用的EntityModel，Spring内部使用的BeanDefinition模型等，但是在很多框架中，模型信息都只具有内部表现形态，与框架的运行时紧密纠缠在一起，外部系统无法通过很简单的方式来复用这些模型信息。</p>
@@ -1355,15 +1355,15 @@
 <p>在Excel的数据模型中我们可以指定部分显示相关的属性，它经由ORM层的扩展属性传递给Meta，然后再传递到前端页面模型中。</p>
 <h3 id="五-框架的设计完备性如何？"><a href="#五-框架的设计完备性如何？" class="headerlink" title="五. 框架的设计完备性如何？"></a>五. 框架的设计完备性如何？</h3><p>从科学的角度上说，一个科学的解决方案绝不会是一个孤立的设计，而必然是包含从简单到复杂的一组可以渐进演化的策略集合，针对不同的复杂性我们都需要拟定对应的解决策略。因此，一个立足于适应各种使用场景的底层框架一定要在某种程度上保证自己的设计完备性，而且这种完备性往往无法用穷举法来实现。</p>
 <h3 id="函数抽象和模板化"><a href="#函数抽象和模板化" class="headerlink" title="函数抽象和模板化"></a>函数抽象和模板化</h3><p>举一个简单的例子。假设我们现在要编写一个流程设计器，流程节点需要显示图标和文字，最简单的设计如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">type <span class="title class_">Node</span>&#123;</span><br><span class="line">    <span class="attr">icon</span>: string;</span><br><span class="line">    <span class="attr">label</span>: string;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><code class="hljs javascript">type <span class="hljs-title class_">Node</span>&#123;<br>    <span class="hljs-attr">icon</span>: string;<br>    <span class="hljs-attr">label</span>: string;<br>    ...<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>如果我们需要控制文字的显示位置，则还需要加入labelPosition这样的描述字段。如果要求根据流程状态的不同改变背景颜色或者显示额外的一个状态标识，则我们需要继续为节点增加statusIconMapping等属性。显然我们无法通过属性枚举来穷尽所有可能的需求，为了保证设计的完备性，我们必须要引入函数抽象，例如在节点级别提供一个渲染函数render，它负责实现节点的自定义渲染。</p>
 <p>一旦建立函数抽象，进一步的问题就是如何去实现这个函数的问题。一个有趣的解决方案是模板化。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span> <span class="attr">v-if</span>=<span class="string">&quot;prop.label&quot;</span>&gt;</span>&#123;&#123;prop.label&#125;&#125;<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span> <span class="attr">:class</span>=<span class="string">&quot;&#x27;status-&#x27;+prop.status&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">&quot;prop.label&quot;</span>&gt;</span>&#123;&#123;prop.label&#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">:class</span>=<span class="hljs-string">&quot;&#x27;status-&#x27;+prop.status&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p><strong>借助于一种图灵完备的模板语言，我们可以用描述式的方式实现对函数的分解，甚至可以提供一种可视化的设计器来支持客户自行设计函数内容</strong>。</p>
 <p>Nop平台系统化的利用Xpl模板语言来实现对函数的细粒度分解。比如在报表引擎中我们需要连接外部的数据源来获取数据</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">beforeExecute</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">report:UseSplDataSet</span> <span class="attr">src</span>=<span class="string">&quot;/report.splx&quot;</span> <span class="attr">var</span>=<span class="string">&quot;ds1&quot;</span> <span class="attr">xpl:lib</span>=<span class="string">&quot;/report.xlib&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beforeExecute</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">beforeExecute</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">report:UseSplDataSet</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/report.splx&quot;</span> <span class="hljs-attr">var</span>=<span class="hljs-string">&quot;ds1&quot;</span> <span class="hljs-attr">xpl:lib</span>=<span class="hljs-string">&quot;/report.xlib&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">beforeExecute</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>一般的报表引擎总是内置大量的数据源种类，试图穷尽所有外部数据源的连接方式。如果一种数据源没有内置在报表工具中，我们就需要等待报表工具厂商支持或者需要自行编写一个插件。在NopReport引擎中，数据源的概念并不是内置在引擎深处的一个概念，引擎只是在输出报表时调用一个beforeExecute函数来准备数据。具体如何获取数据我们是在beforeExecute模板函数中自行决定的。Nop平台提供了所谓的Xpl模板语言，它是一种采用XML语法格式、图灵完备的程序语言，除了手工编写之外，我们也可以通过可视化设计器来设计Xpl模板。</p>
 <blockquote>
@@ -1386,7 +1386,7 @@
 <h3 id="异步处理"><a href="#异步处理" class="headerlink" title="异步处理"></a>异步处理</h3><p>同步处理和异步处理看似只是技术层面的一种选择，但本质上它们对应着不同的世界观。一个没有考虑异步处理的框架设计是不完整的。</p>
 <p>在目前的程序实践中，如果事前没有考虑支持异步处理，则往往后期很难将整体框架转换为支持异步处理。为了系统化的支持异步处理，我们需要考虑如何将一个上下文对象在各个线程间进行传递的问题，同时也需要考虑各种并发场景下如何避免锁冲突等复杂的技术问题。</p>
 <h2 id="六-框架提供了哪些差量化机制？"><a href="#六-框架提供了哪些差量化机制？" class="headerlink" title="六. 框架提供了哪些差量化机制？"></a>六. 框架提供了哪些差量化机制？</h2><p>所有的框架都要考虑可扩展性的问题。在软件开发中，所谓的可扩展性指的是在不需要修改原始代码的情况下，通过添加额外的代码或差异信息，可以满足新的需求或实现新的功能。如果在完全抽象的数学层面去理解软件开发中的扩展机制，我们可以认为它对应于如下公式：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Y = X + Delta</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">Y = X + Delta<br></code></pre></td></tr></table></figure>
 
 <ul>
 <li>X对应于我们已经编写完毕的基础代码，它不会随需求的变化而变化</li>
@@ -1400,12 +1400,12 @@
 <li><strong>扩展机制往往会影响性能，扩展点越多，系统性能越差</strong></li>
 </ol>
 <p>以Hibernate中增加Gis扩展为例，需要实现ContribuerImplementor接口，实现contributionFunctions等函数，在其中注册GIS相关函数。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">    @Override</span><br><span class="line">public void contributeFunctions(FunctionContributions functionContributions) &#123;</span><br><span class="line">    HSMessageLogger.SPATIAL_MSG_LOGGER.functionContributions( this.getClass().getCanonicalName() );</span><br><span class="line"></span><br><span class="line">    KeyedSqmFunctionDescriptors functionDescriptors;</span><br><span class="line">    if ( useSTGeometry ) &#123;</span><br><span class="line">        functionDescriptors = new OracleSQLMMFunctionDescriptors( functionContributions );</span><br><span class="line">    &#125;</span><br><span class="line">    else &#123;</span><br><span class="line">        functionDescriptors = new OracleSDOFunctionDescriptors( functionContributions );</span><br><span class="line">    &#125;</span><br><span class="line">    SqmFunctionRegistry functionRegistry = functionContributions.getFunctionRegistry();</span><br><span class="line">    functionDescriptors.asMap().forEach( (key, funcDescr) -&gt; &#123;</span><br><span class="line">        functionRegistry.register( key.getName(), funcDescr );</span><br><span class="line">        key.getAltName().ifPresent( altName -&gt; functionRegistry.register( altName, funcDescr ) );</span><br><span class="line">    &#125; );</span><br><span class="line"></span><br><span class="line">    &#125; sdoGeometryType );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">    @Override<br>public void contributeFunctions(FunctionContributions functionContributions) &#123;<br>    HSMessageLogger.SPATIAL_MSG_LOGGER.functionContributions( this.getClass().getCanonicalName() );<br><br>    KeyedSqmFunctionDescriptors functionDescriptors;<br>    if ( useSTGeometry ) &#123;<br>        functionDescriptors = new OracleSQLMMFunctionDescriptors( functionContributions );<br>    &#125;<br>    else &#123;<br>        functionDescriptors = new OracleSDOFunctionDescriptors( functionContributions );<br>    &#125;<br>    SqmFunctionRegistry functionRegistry = functionContributions.getFunctionRegistry();<br>    functionDescriptors.asMap().forEach( (key, funcDescr) -&gt; &#123;<br>        functionRegistry.register( key.getName(), funcDescr );<br>        key.getAltName().ifPresent( altName -&gt; functionRegistry.register( altName, funcDescr ) );<br>    &#125; );<br><br>    &#125; sdoGeometryType );<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>而<strong>在Nop平台中我们可以通过统一的Delta定制来实现扩展</strong>。具体介绍参见<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/628770810">如何在不修改基础产品源码的情况下实现定制化开发</a></p>
 <h3 id="七-整体代码量是否更小？"><a href="#七-整体代码量是否更小？" class="headerlink" title="七. 整体代码量是否更小？"></a>七. 整体代码量是否更小？</h3><p>一个可以进行客观度量的标准是：使用框架之后，代码量是否发生了下降？代码量可以看作是对系统复杂性的一种度量（所谓的描述复杂性）。一个有价值的框架它应该可以降低系统的复杂度，从而使得代码量出现明显的下降。</p>
 <p>这里容易出现误导的是，我们必须考虑模型和应用两者的代码量之和：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">整体复杂度 = 模型复杂度 + 应用复杂度</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">整体复杂度 = 模型复杂度 + 应用复杂度<br></code></pre></td></tr></table></figure>
 
 <p>很容易想见，我们可以实现一个非常复杂的模型，把所有常见的业务需求都做成开关（穷举法），这样只要输入少量应用描述即可得到实现应用系统。另一个极端是，我们可以实现一个功能非常贫瘠的模型，然后完全依靠在应用层编码来实现业务需求。显然，我们需要实现这两者之间的平衡，让模型的复杂度与具体业务应用的复杂度相匹配，这样才可以保证模型可以在尽可能多的业务场景中发生作用（提升模型的泛化性能）。</p>
 <h3 id="八-框架的设计是阻碍还是促进了性能优化？"><a href="#八-框架的设计是阻碍还是促进了性能优化？" class="headerlink" title="八. 框架的设计是阻碍还是促进了性能优化？"></a>八. 框架的设计是阻碍还是促进了性能优化？</h3><p>如果一个框架提升了业务表达的抽象层次，那么原则上它应该扩大了性能优化的空间，允许使用更多的性能优化手段。</p>
@@ -1414,11 +1414,11 @@
 <p>死锁产生的原因一般是线程A先更新记录x，再更新记录y，而另一个线程先更新记录y，再更新记录x，解决的方法是对更新操作进行排序，总是按照同样的顺序进行更新，比如所有的线程都固定为先更新x，再更新y。</p>
 </blockquote>
 <p>对Hibernate的性能一个常见的诟病是一旦使用Hibernate出现性能问题，往往难以通过局部调整进行优化，很多时候都需要重写代码，而且重写后的代码看起来很不符合Hibernate的常见使用范式。这意味着Hibernate的常见使用范式和性能优化是冲突的，而且难以进行后期补救。比如说Hibernate中老大难的N+1问题，</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(MyEntity entity: entityList)&#123;</span><br><span class="line">    <span class="keyword">for</span>(MyChild child: entity.relatedChildren)&#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">for</span>(MyEntity entity: entityList)&#123;<br>    <span class="hljs-keyword">for</span>(MyChild child: entity.relatedChildren)&#123;<br>        ...<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>使用Hibernate的标准范式是遍历关联对象集合来执行操作，而每次访问关联集合都可能导致一次单独的数据库查询操作。在前期数据量比较小的情况下，直接通过集合属性获取可以避免额外的DAO调用，显得非常简单直观，但是如果发现性能有问题，就必须修改获取数据的方法，不能再使用属性集合直接获取。</p>
 <p>NopORM框架通过引入类似GraphQL DataLoader的BatchLoadQueue机制解决了这个问题。具体来说，在需要优化数据库加载的业务代码前面插入BatchLoad调用即可。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dao.batchLoadProps(entityList,Arrays.asList(<span class="string">&quot;relatedChildre.otherRelated&quot;</span>,<span class="string">&quot;relatedEntity&quot;</span>));</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java">dao.batchLoadProps(entityList,Arrays.asList(<span class="hljs-string">&quot;relatedChildre.otherRelated&quot;</span>,<span class="hljs-string">&quot;relatedEntity&quot;</span>));<br></code></pre></td></tr></table></figure>
 
 <blockquote>
 <p>在低代码开发的场景下，甚至可以由低代码平台收集运行时数据访问信息，然后自动在合适的地方插入性能优化指令。</p>
@@ -1480,8 +1480,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1235,7 +1235,7 @@
 <li>引入nop-auth-sso模块，这里提供了OAuthLoginServiceImpl，它会替换nop-auth-service模块提供的缺省实现LoginServiceImpl</li>
 <li>在application.yaml中启用sso相关的配置</li>
 </ol>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">nop:</span></span><br><span class="line">  <span class="attr">auth:</span></span><br><span class="line">    <span class="attr">sso:</span></span><br><span class="line">      <span class="attr">enabled:</span> <span class="literal">true</span></span><br><span class="line">      <span class="attr">server-url:</span> <span class="string">http://localhost:8041</span></span><br><span class="line">      <span class="attr">realm:</span> <span class="string">app</span></span><br><span class="line">      <span class="attr">client-id:</span> <span class="string">test-client</span></span><br><span class="line">      <span class="attr">client-secret:</span> <span class="string">qpgEjwXqd1TpgaA3aIi1jd4AVTLCrs8o</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">nop:</span><br>  <span class="hljs-attr">auth:</span><br>    <span class="hljs-attr">sso:</span><br>      <span class="hljs-attr">enabled:</span> <span class="hljs-literal">true</span><br>      <span class="hljs-attr">server-url:</span> <span class="hljs-string">http://localhost:8041</span><br>      <span class="hljs-attr">realm:</span> <span class="hljs-string">app</span><br>      <span class="hljs-attr">client-id:</span> <span class="hljs-string">test-client</span><br>      <span class="hljs-attr">client-secret:</span> <span class="hljs-string">qpgEjwXqd1TpgaA3aIi1jd4AVTLCrs8o</span><br></code></pre></td></tr></table></figure>
 
 <ul>
 <li>nop.auth.sso.server-url对应于keycloak单点服务器的url</li>
@@ -1243,7 +1243,7 @@
 <li>nop.auth.sso.client-id和nop.auth.sso.client-secret是keycloak服务器中配置的客户端信息</li>
 </ul>
 <h2 id="单点退出"><a href="#单点退出" class="headerlink" title="单点退出"></a>单点退出</h2><p>通过访问如下链接可以调用nop.auth.sso.logout-url来退出点点</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">POST /r/LoginApi__ssoLogout</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">   &quot;accessToken&quot;: &quot;xxx&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">POST /r/LoginApi__ssoLogout<br><br>&#123;<br>   &quot;accessToken&quot;: &quot;xxx&quot;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <h2 id="权限限制"><a href="#权限限制" class="headerlink" title="权限限制"></a>权限限制</h2><p>Nop平台只使用了单点服务器的用户和角色配置，对于更细粒度的资源访问权限，则需要在Nop平台内部配置。Nop平台通过指定Role可以访问哪些资源对象来控制用户操作权限。</p>
 
@@ -1283,8 +1283,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       

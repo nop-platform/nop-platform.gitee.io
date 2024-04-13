@@ -121,7 +121,7 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/docs/">指南</a>
+    <li><a href="/projects/nop-entropy/docs">指南</a>
 </li>
   
 
@@ -144,12 +144,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+    <li><a href="/projects/nop-entropy">Nop Entropy</a>
 </li>
   
 
   
-    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+    <li><a href="/projects/nop-chaos">Nop Chaos</a>
 </li>
   
 
@@ -162,12 +162,12 @@
       <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
       <ul class="dropdown-menu">
   
-    <li><a href="/community/">社区</a>
+    <li><a href="/community">社区</a>
 </li>
   
 
   
-    <li><a href="/team/">团队</a>
+    <li><a href="/team">团队</a>
 </li>
   
 
@@ -1232,7 +1232,7 @@
       </header>
       <div class="Article-content col-md-9"><p>Nop平台与其他开源软件开发平台相比，其最本质的区别在于Nop平台是<strong>从第一性的数学原理出发，基于严密的数学推导</strong>逐步得到各个层面的详细设计。它的各个组成部分具有一种内在的数学意义上的一致性。这直接导致Nop平台的实现相比于其他平台代码要短小精悍得多，而且<strong>在灵活性和可扩展性方面也达到了所有已知的公开技术都无法达到的高度</strong>，可以实现系统级的粗粒度软件复用。而主流的技术主要基于组件组装的思想进行设计，其理论基础已经决定了整体软件的复用度存在上限。</p>
 <p>Nop平台遵循了可逆计算理论所制定的技术战略</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">App = Delta x-extends Generator&lt;DSL&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">App = Delta x-extends Generator&lt;DSL&gt;<br></code></pre></td></tr></table></figure>
 
 <p>为了落实这一技术战略，Nop平台使用了如下具体的战术手段。</p>
 <h2 id="一-DSL森林"><a href="#一-DSL森林" class="headerlink" title="一. DSL森林"></a>一. DSL森林</h2><p>在Nop平台中，能使用DSL(Domain Specific Language)描述的逻辑一定会使用DSL来描述。这与主流框架的设计思想是完全不同的。比如说，</p>
@@ -1276,7 +1276,7 @@
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/631686718">低代码平台中的分布式RPC框架</a></li>
 </ul>
 <h2 id="三-差量化"><a href="#三-差量化" class="headerlink" title="三. 差量化"></a>三. 差量化</h2><p>在软件开发中，所谓的可扩展性指的是在不需要修改原始代码的情况下，通过添加额外的代码或差异信息，可以满足新的需求或实现新的功能。如果在完全抽象的数学层面去理解软件开发中的扩展机制，我们可以认为它对应于如下公式：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Y = X + Delta</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">Y = X + Delta<br></code></pre></td></tr></table></figure>
 
 <ul>
 <li>X对应于我们已经编写完毕的基础代码，它不会随需求的变化而变化</li>
@@ -1290,10 +1290,10 @@
 <li><strong>扩展机制往往会影响性能，扩展点越多，系统性能越差</strong></li>
 </ol>
 <p>以SpringBoot为例，如果我们在基础代码中创建了两个bean：beanA和beanB，在扩展代码中我们希望删除beanA，扩展beanB，则需要修改基础代码，在配置类的工厂方法上增加SpringBoot特有的注解。除了直接使用注解之外，SpringBoot也提供了其他机制可以对bean的创建过程进行精细控制，但是这些做法都需要实现Spring框架内部的接口，并且了解IoC容器的执行细节。如果我们弃用Spring容器，换成Quarkus等其他IoC框架，则针对Spring容器所设计的扩展机制就失去了意义。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyConfig</span>&#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="meta">@ConditionalOnProperty(name=&quot;beanA.enabled&quot;,matchIfMissing=true)</span></span><br><span class="line">    <span class="keyword">public</span> BeanA <span class="title function_">beanA</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">BeanA</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="meta">@ConditionalOnMissingBean</span></span><br><span class="line">    <span class="keyword">public</span> BeanB <span class="title function_">beanB</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">BeanB</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Configuration</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">MyConfig</span>&#123;<br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-meta">@ConditionalOnProperty(name=&quot;beanA.enabled&quot;,matchIfMissing=true)</span><br>    <span class="hljs-keyword">public</span> BeanA <span class="hljs-title function_">beanA</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BeanA</span>();<br>    &#125;<br><br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-meta">@ConditionalOnMissingBean</span><br>    <span class="hljs-keyword">public</span> BeanB <span class="hljs-title function_">beanB</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BeanB</span>();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>Nop平台基于可逆计算原理，建立了一整套系统化的差量分解、合并的机制，可以使用非常统一、通用的方式来实现差量化扩展。特别的，所有的DSL模型文件都支持Delta定制机制，可以在<code>_delta</code>目录下增加同名的文件来覆盖基础代码中已有的文件。以上面的Bean定制逻辑为例，</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- /_delta/default/beans/my.beans.xml 将会覆盖 /beans/my.beans.xml文件 --&gt;</span><br><span class="line">&lt;beans x:extends=&quot;super&quot; x:schema=&quot;/nop/schema/beans.xdef&quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- 删除基础代码中定义的beanA --&gt;</span><br><span class="line">    &lt;bean id=&quot;beanA&quot; x:override=&quot;remove&quot; /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- 在已有的beanB的配置基础上，增加fldA的设置 --&gt;</span><br><span class="line">    &lt;bean id=&quot;beanB&quot; &gt;</span><br><span class="line">        &lt;property name=&quot;fldA&quot; value=&quot;123&quot; /&gt;</span><br><span class="line">    &lt;/bean&gt;</span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">&lt;!-- /_delta/default/beans/my.beans.xml 将会覆盖 /beans/my.beans.xml文件 --&gt;<br>&lt;beans x:extends=&quot;super&quot; x:schema=&quot;/nop/schema/beans.xdef&quot;&gt;<br><br>    &lt;!-- 删除基础代码中定义的beanA --&gt;<br>    &lt;bean id=&quot;beanA&quot; x:override=&quot;remove&quot; /&gt;<br><br>    &lt;!-- 在已有的beanB的配置基础上，增加fldA的设置 --&gt;<br>    &lt;bean id=&quot;beanB&quot; &gt;<br>        &lt;property name=&quot;fldA&quot; value=&quot;123&quot; /&gt;<br>    &lt;/bean&gt;<br>&lt;/beans&gt;<br></code></pre></td></tr></table></figure>
 
 <p>这种DSL层面发生的Delta合并过程适用于Nop平台中的所有底层引擎，例如ORM引擎、工作流引擎、规则引擎、页面引擎等都可以使用类似的方式进行扩展定制。<strong>运行时引擎完全不需要内置任何关于此类可扩展性的知识</strong>。例如，在NopIoC引擎中，我们没有像SpringBoot那样设计大量的扩展接口，也没有在运行时执行大量的判断逻辑，而是尽量在DSL模型的编译阶段以统一的方式来实现动态扩展。</p>
 <p>基于Nop平台开发的软件产品无需在应用层做出特殊设计即可实现系统级的软件复用，在定制开发的时候可以复用整个基础产品。例如基于Nop平台开发的银行核心系统，在不同的银行进行定制化部署实施的时候，不需要修改基础产品的源码，只需要增加Delta差量代码即可。通过这种方式，我们可以实现<strong>基础产品和定制化版本之间的并行演化</strong>。</p>
@@ -1326,7 +1326,7 @@
 <p>当模板自身具有很强的结构化特征时，我们就可以使用XDSL通用的Delta定制机制来实现对模板本身的定制。</p>
 <p>需要注意的是，模型对象本身就可以被看作是一个模板：我们可以根据Model直接生成Model，<code>Model = Model&lt;EmptyConfig&gt;</code>，相当于是某种Identity函数，而在原始对象上进行某种标记、加工后相当于把它改造为某种复杂的生成函数，<code>Model = ModelTemplate&lt;Config&gt;</code>。</p>
 <h2 id="同像性"><a href="#同像性" class="headerlink" title="同像性"></a>同像性</h2><p>同像性是源自于Lisp函数式语言的一种特性，它指的是模板语言的语法结构和抽象语法树同形，因此可以用模板语言直接生成可执行的模板代码。Nop平台的做法是采用XML语法作为基础结构语法，模板语言采用XML格式，它的输出结果也是合法的XML。例如</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">orm</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">c:for</span> <span class="attr">var</span>=<span class="string">&quot;entity&quot;</span> <span class="attr">items</span>=<span class="string">&quot;$&#123;ormMode.entities&#125;&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">orm-gen:GenEntity</span> <span class="attr">entity</span>=<span class="string">&quot;$&#123;entity&#125;&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">c:for</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">orm</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">orm</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">c:for</span> <span class="hljs-attr">var</span>=<span class="hljs-string">&quot;entity&quot;</span> <span class="hljs-attr">items</span>=<span class="hljs-string">&quot;$&#123;ormMode.entities&#125;&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">orm-gen:GenEntity</span> <span class="hljs-attr">entity</span>=<span class="hljs-string">&quot;$&#123;entity&#125;&quot;</span> /&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">c:for</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">orm</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>保持同像性有如下好处:</p>
 <ol>
@@ -1358,7 +1358,7 @@
 </li>
 </ol>
 <p>根据Excel模型可以自动生成<code>_XORM</code>模型，然后在此基础上我们可以补充差量配置信息形成最终使用的XORM模型。下一步，我们再根据XORM模型生成<code>_XMeta</code>模型，依此类推。如果写成数学公式，相当于是</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">XORM  = CodeGen&lt;Excel&gt; + DeltaORM</span><br><span class="line">XMeta = CodeGen&lt;XORM&gt;  + DeltaMeta</span><br><span class="line">XView = CodeGen&lt;XMeta&gt; + DeltaView</span><br><span class="line">XPage = CodeGen&lt;XView&gt; + DeltaPage</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">XORM  = CodeGen&lt;Excel&gt; + DeltaORM<br>XMeta = CodeGen&lt;XORM&gt;  + DeltaMeta<br>XView = CodeGen&lt;XMeta&gt; + DeltaView<br>XPage = CodeGen&lt;XView&gt; + DeltaPage<br></code></pre></td></tr></table></figure>
 
 <p>整个推理关系的各个步骤都是可选环节：<strong>我们可以从任意步骤直接开始，也可以完全舍弃此前步骤所推理得到的所有信息</strong>。</p>
 <p>比如，我们可以手动增加XView模型，并不需要它一定具有特定的XMeta支持，也可以直接新建page.yaml文件，按照AMIS组件规范编写JSON代码，AMIS框架的能力完全不会受到推理管线的限制。</p>
@@ -1406,8 +1406,8 @@
       
         <!-- Important links -->
         <nav class="Footer-navs">
-          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
-</li><li><a href="/community/"><span>社区</span></a>
+          <ul><li><a href="/projects/nop-entropy/docs"><span>指南</span></a>
+</li><li><a href="/community"><span>社区</span></a>
 </li></ul>
         </nav>
       
