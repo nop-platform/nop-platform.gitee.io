@@ -1,109 +1,1375 @@
-<!DOCTYPE html> <html lang="zh-CN" dir="ltr"> <head> <meta charset="UTF-8"> <!-- SEO --> <title>Excel数据导入导出 - Nop</title> <meta property="og:title" content="Excel数据导入导出"> <meta name="description" content="在Nop平台中只需要增加imp.xml导入模型即可实现对存储在Excel中的复杂业务对象的解析，具体imp模型的定义参见imp.xdef"> <meta property="og:description" content="在Nop平台中只需要增加imp.xml导入模型即可实现对存储在Excel中的复杂业务对象的解析，具体imp模型的定义参见imp.xdef"> <meta name="keywords" content="Nop,Nop平台,Nop 平台,Nop Platform,Nop社区,Nop 社区,Nop Community,可逆计算,软件构造理论,低代码,lowcode,low-code,low code,低代码平台,lcdp,软件工程"> <link rel="canonical" href="https://nop-platform.gitee.io/projects/nop-entropy/docs/dev-guide/report/excel-import/"> <meta property="og:url" content="https://nop-platform.gitee.io/projects/nop-entropy/docs/dev-guide/report/excel-import/"> <meta property="og:site_name" content="Nop"> <script type="application/ld+json"> { "@context" : "http://schema.org", "@type" : "WebSite", "name" : "Nop", "url" : "https://nop-platform.gitee.io" } </script> <meta property="og:type" content="article"> <meta property="article:published_time" content="2024-04-13T09:39:39+08:00"> <link rel="next" href="https://nop-platform.gitee.io/projects/nop-entropy/docs/dev-guide/report/" title="[Excel报表](xpt-report.md)"> <link rel="prev" href="https://nop-platform.gitee.io/projects/nop-entropy/docs/dev-guide/report/excel-formula/" title="报表导出时支持Excel公式"> <script type="application/ld+json"> { "@context": "http://schema.org", "@type": "NewsArticle", "headline": "Excel数据导入导出", "image": null, "datePublished": "2024-04-13T09:39:39+08:00", "description": "在Nop平台中只需要增加imp.xml导入模型即可实现对存储在Excel中的复杂业务对象的解析，具体imp模型的定义参见imp.xdef" } </script> <script type="application/ld+json"> { "@context": "http://schema.org", "@type": "Organization", "url": "https://nop-platform.gitee.io", "logo": "https://nop-platform.gitee.io/assets/logo-9952a8b58c6582fc86a9608db8113158fb31de7a9db19d4358ac7cb96578d34e.png" } </script> <link rel="author" href="https://nop-platform.gitee.io"> <!-- 页面渲染兼容性 --> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <meta name="renderer" content="webkit"> <meta name="viewport" content="width=device-width,initial-scale=1.0"> <meta name="theme-color" content="#0871ab"> <link rel="icon" href="/assets/logo-9952a8b58c6582fc86a9608db8113158fb31de7a9db19d4358ac7cb96578d34e.png"> <!-- 静态资源 --> <link type="text/css" rel="stylesheet" href="/assets/global-f979fafa22c865e727cd15f83cdc43dbc73c1a324d7ad4fe6fa48e275dc4c063.css"> <link type="text/css" rel="stylesheet" href="/assets/ksio/vendors/share-c2e41222f5f34b2de38cb5213fa0e439c11da73b3907b444a32635563ae85ffd.css"> <link type="text/css" rel="stylesheet" href="/assets/local/layouts/doc-c5c0ab8b12485893472e680b5f067b74e240481232265b6cb0ab6edc95c20f65.css"> <script type="text/javascript" src="/assets/global-b3a80dd53acf48ad7228d6fd741dba15d3845cbc3783bdbbf7244151a45628aa.js"></script> <!--[if lt IE 9]> <script type="text/javascript" src="/assets/ksio/support_ie8-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.js"></script> <![endif]--> </head> <body class="Page" itemscope itemtype="http://schema.org/WebPage"> <header class="Page-header"> <div class="navbar navbar-static-top"> <div class="container-fluid"> <div class="navbar-header"> <button class="navbar-toggle collapsed" type="button" data-target=".Page-navs" data-toggle="collapse"> <span class="sr-only">Toggle navs</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button> <a class="navbar-brand" href="/">Nop</a> </div> <!-- Nav menus --> <nav class="Page-navs navbar-collapse collapse"> <ul class="nav navbar-nav navbar-right"> <li class="dropdown"> <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a> <ul class="dropdown-menu"> <li><a href="/projects/nop-entropy/docs/">指南</a> </li> <li><a href="https://www.zhihu.com/column/reversible-computation?utm_source=https://nop-platform.gitee.io&utm_medium=common-header" target="_blank" rel="external nofollow">文章</a> </li> <li><a href="https://space.bilibili.com/3493261219990250?utm_source=https://nop-platform.gitee.io&utm_medium=common-header" target="_blank" rel="external nofollow">视频</a> </li> </ul> </li> <li class="dropdown"> <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a> <ul class="dropdown-menu"> <li><a href="/projects/nop-entropy/">Nop Entropy</a> </li> <li><a href="/projects/nop-chaos/">Nop Chaos</a> </li> </ul> </li> <li class="dropdown"> <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a> <ul class="dropdown-menu"> <li><a href="/community/">社区</a> </li> <li><a href="/team/">团队</a> </li> <li><a href="https://gitee.com/nop-platform?utm_source=https://nop-platform.gitee.io&utm_medium=common-header" target="_blank" rel="external nofollow">Gitee 组织</a> </li> </ul> </li> <li><a href="https://nop-platform.github.io?utm_source=https://nop-platform.gitee.io&utm_medium=common-header" target="_blank" rel="external nofollow">English</a> </li> </ul> </nav> </div> </div> </header> <div class="Page-content"> <aside class="Page-aside"> <div class="AsideBrand"> <a href="/">Nop</a> </div> <nav class="AsideNav"><ul> <li> <a href="/projects/nop-entropy/docs/why-nop/">介绍</a> <ul> <li> <a href="/projects/nop-entropy/docs/">文档概览</a> </li> <li> <a href="/projects/nop-entropy/docs/tutorial/tutorial/">入门教程</a> <ul> <li> <a href="/projects/nop-entropy/docs/tutorial/simple/1-simple-service/">极简服务层开发</a> </li> <li> <a href="/projects/nop-entropy/docs/tutorial/simple/2-simple-dao/">极简数据访问层开发</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/compare/">与其他平台的对比</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/user-guide/">用户指南</a> <ul> <li> <a href="/projects/nop-entropy/docs/user-guide/installation/">安装和配置</a> </li> <li> <a href="/projects/nop-entropy/docs/user-guide/report/">报表引擎</a> </li> <li> <a href="/projects/nop-entropy/docs/user-guide/idea/idea-plugin/">IDEA插件使用</a> </li> <li> <a href="/projects/nop-entropy/docs/user-guide/monitor/grafana/">监控</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/arch/">软件架构</a> <ul> <li> <a href="/projects/nop-entropy/docs/arch/module-dependency/">模块依赖关系</a> </li> <li> <a href="/projects/nop-entropy/docs/core-code-guidance/">核心代码阅读导引</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/theory/">理论基础</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/">开发指南</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/codegen/">代码生成器</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/cli/">命令行工具</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/command/command/">命令行开发支持</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/config/">配置管理</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/ioc/">IoC容器</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/ioc/aop/">AOP支持</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/orm/">ORM框架</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/">XLang语言</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/xdef/">XDef元模型</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/xdsl/">XDSL领域语言</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/xscript/">XScript脚本语言</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/xpl/">Xpl模板语言</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/meta-programming/">元编程</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/model/">Excel模型</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/graphql/">GraphQL引擎</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/microservice/">分布式微服务</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/rule/rule/">规则引擎</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/workflow/task-flow/">逻辑编排</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/autotest/">自动化测试</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/tenant/">多租户</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/delta/delta-customization/">Delta定制</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/vfs/">Delta文件系统</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/auth/">权限配置</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/biz/">业务规则</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/nocode/">动态模型</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xui/">前端模型</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/integration/">第三方集成</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/spring/">spring集成</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/quarkus/">quarkus集成</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/ide/idea/">IDEA插件</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/ide/plugin-dev/">插件开发</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/faq/faq/">常见问题</a> <ul> <li> <a href="/projects/nop-entropy/docs/faq/debug-errors/">错误诊断</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/recipe/">常见问题解决方案</a> </li> </ul> </li> </ul> </nav> </aside> <main class="Page-main"> <article class="Article container-fluid"> <header class="Article-header"> <h1 class="Article-title">Excel数据导入导出</h1> </header> <div class="Article-content col-md-9"><p>在Nop平台中只需要增加imp.xml导入模型即可实现对存储在Excel中的复杂业务对象的解析，具体imp模型的定义参见<a href="https://gitee.com/canonical-entropy/nop-entropy/blob/master/nop-xdefs/src/main/resources/_vfs/nop/schema/excel/imp.xdef" target="_blank" rel="external nofollow">imp.xdef</a></p> <h2 id="section">基本原理</h2> <ul> <li>对于普通字段，按照左侧是label，右侧是值来解析</li> <li>对于列表字段，可以按照上面是label，下方是列表来解析</li> <li>列表的第一列必须是数字列，不要求编号唯一，也不要求编号列在字段列表中定义。它仅仅被用于确定列表行的范围。</li> <li>关键是在整体结构上能够明确的识别出父子关系。父字段必须覆盖子字段的范围。这样才能实现自动解析。</li> <li>label可以对应于field的displayName或者name，两者都可以</li> <li>字段的前后顺序不影响解析。在imp.xml中定义的field是全集，实际的模板中可以只使用部分字段。</li> <li>但是标记为mandatory的字段必须在模板中存在，否则解析后发现对应字段值为空，会抛出异常。</li> </ul> <h2 id="section-1">配置说明</h2> <h2 id="section-2">如果解析列表</h2> <ul> <li>sheet或者field上标注list=true，表示将会解析得到一个列表</li> <li>列表的第一列必须是数字列，不要求编号唯一，也不要求编号列在字段列表中定义。它仅仅被用于确定列表行的范围。</li> </ul> <h2 id="sheet">如何解析一组sheet得到一个值</h2> <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span></span><span class="nt">&lt;sheet</span> <span class="na">name=</span><span class="s">&quot;ss&quot;</span> <span class="na">namePattern=</span><span class="s">&quot;.*&quot;</span> <span class="na">multiple=</span><span class="s">&quot;true&quot;</span> <span class="na">multipleAsMap=</span><span class="s">&quot;true&quot;</span> <span class="na">field=</span><span class="s">&quot;ss&quot;</span><span class="nt">&gt;</span>
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+
+
+
+
+
+
+
+
+
+  
+  
+  
     
-<span class="nt">&lt;/sheet&gt;</span></code></pre></figure> <ul> <li>namePattern指定一个正则表达式，它描述如何匹配对应的sheet</li> <li>multiple=true表示会匹配到多个sheet</li> <li>multipleAsMap=true表示匹配到的多个sheet解析后，会按照sheetName汇总成一个Map。如果不指定这个属性或者设置为false，则多个sheet的解析结果会合并为一个List</li> </ul> <h2 id="section-3">使用导入模板来实现导出</h2> <ol> <li>首先制作一个空的导入模板，即把导入数据删除，保留列表数据的序号列。具体样例参考<a href="https://gitee.com/canonical-entropy/nop-entropy/blob/master/nop-orm-model/src/main/resources/_vfs/nop/orm/imp/template.orm.xlsx" target="_blank" rel="external nofollow">template.orm.xlsx</a></li> <li>在imp.xml文件中通过templatePath属性来指向导入模板</li> </ol> <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span></span><span class="nt">&lt;imp</span> <span class="na">x:schema=</span><span class="s">&quot;/nop/schema/excel/imp.xdef&quot;</span> <span class="na">xmlns:x=</span><span class="s">&quot;/nop/schema/xdsl.xdef&quot;</span> <span class="na">xmlns:c=</span><span class="s">&quot;c&quot;</span> <span class="na">xmlns:xpt=</span><span class="s">&quot;xpt&quot;</span>
-     <span class="na">templatePath=</span><span class="s">&quot;template.orm.xlsx&quot;</span> <span class="nt">&gt;</span>
-<span class="nt">&lt;/imp&gt;</span></code></pre></figure> <p>ExcelReportHelper中提供了根据导入的业务数据自动生成html或者xlsx文件的方法。</p> <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="nb">Object</span> <span class="nx">bean</span> <span class="o">=</span> <span class="nx">ExcelHelper</span><span class="p">.</span><span class="nx">loadXlsxObject</span><span class="p">(</span><span class="s2">&quot;/nop/test/imp/test5.imp.xml&quot;</span><span class="p">,</span> <span class="nx">resource</span><span class="p">);</span>    
-    <span class="nb">String</span> <span class="nx">html</span> <span class="o">=</span> <span class="nx">ExcelReportHelper</span><span class="p">.</span><span class="nx">getHtmlForXlsxObject</span><span class="p">(</span><span class="nx">impModelPath</span><span class="p">,</span> <span class="nx">bean</span><span class="p">,</span> <span class="nx">scope</span><span class="p">);</span>
-    <span class="nx">ExcelReportHelper</span><span class="p">.</span><span class="nx">saveXlsxObject</span><span class="p">(</span><span class="nx">impModelPath</span><span class="p">,</span> <span class="nx">resource</span><span class="p">,</span> <span class="nx">bean</span><span class="p">);</span></code></pre></figure> <p>在imp模型的帮助下，Excel可以被看作是Java对象的一种序列化形式，类似于JSON和Java对象之间的自动双向转换，我们可以实现Excel和Java对象之间的自动双向转换。</p> <p>具体示例参见<a href="https://gitee.com/canonical-entropy/nop-entropy/blob/master/nop-biz/src/test/java/io/nop/biz/impl/TestImportExcelModel.java" target="_blank" rel="external nofollow">TestImportExcelModel.java</a></p> <h2 id="section-4">动态确定需要导入的列</h2> <p>示例配置<a href="https://gitee.com/canonical-entropy/nop-entropy/blob/master/nop-biz/src/test/resources/_vfs/nop/test/imp/test3.imp.xml" target="_blank" rel="external nofollow">test3.imp.xml</a>, 测试用例<a href="https://gitee.com/canonical-entropy/nop-entropy/blob/master/nop-biz/src/test/java/io/nop/biz/impl/TestParseTreeTable.java" target="_blank" rel="external nofollow">TestParseTreeTable.java</a></p> <p>通过fieldDecider可以动态确定数据列所对应的解析配置。例如 2002指标、2003指标等列是动态变化的，我们希望解析这些列并把它们转换为一个列表属性。 <img src="/assets/knosys/project-nop-entropy/dev-guide/report/excel-import/import-dynamic-col-9e46e47ba3a1506c2bb0a9c9ba3034055f2f30d1c65648a4ca773e33c4f24414.png" alt="" /></p> <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span></span><span class="nt">&lt;field</span> <span class="na">name=</span><span class="s">&quot;columns&quot;</span> <span class="na">displayName=</span><span class="s">&quot;项目指标&quot;</span> <span class="na">list=</span><span class="s">&quot;true&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;fields&gt;</span>
-        <span class="nt">&lt;field</span> <span class="na">name=</span><span class="s">&quot;name&quot;</span> <span class="na">displayName=</span><span class="s">&quot;指标&quot;</span> <span class="na">mandatory=</span><span class="s">&quot;true&quot;</span><span class="nt">/&gt;</span>
+  
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <title>Excel数据导入导出 - Nop</title>
+
+
+  <meta property="og:title" content="Excel数据导入导出">
+
+
+  <meta name="description" content="Nop Platform 2.0 是基于可逆计算原理从零开始构建的新一代低代码平台，它致力于克服低代码平台无法摆脱穷举法的困境，从理论层面超越组件技术，有效的解决粗粒度软件复用的问题。">
+  <meta property="og:description" content="Nop Platform 2.0 是基于可逆计算原理从零开始构建的新一代低代码平台，它致力于克服低代码平台无法摆脱穷举法的困境，从理论层面超越组件技术，有效的解决粗粒度软件复用的问题。">
+
+
+
+  
+    
+  
+
+
+  <meta name="keywords" content="Nop,Nop平台,Nop 平台,Nop Platform,Nop社区,Nop 社区,Nop Community,可逆计算,软件构造理论,低代码,lowcode,low-code,low code,低代码平台,lcdp,软件工程">
+
+
+<!-- 页面渲染兼容性 -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<!-- 订阅 -->
+
+<meta name="theme-color" content="#0871ab">
+<link rel="shortcut icon" href="/images/nop/logo.png">
+
+
+    
+<link rel="stylesheet" href="/stylesheets/global.css">
+
+    
+<link rel="stylesheet" href="/stylesheets/ksio/vendors/share.css">
+
+<link rel="stylesheet" href="/local/syntax-highlighting.css">
+
+<link rel="stylesheet" href="/stylesheets/pages/post.css">
+
+<link rel="stylesheet" href="/stylesheets/pages/doc.css">
+
+    
+<script src="/javascripts/ksio/vendors/jquery-1.11.3.min.js"></script>
+
+    
+<script src="/javascripts/ksio/vendors/bootstrap.min.js"></script>
+
+  </head>
+  
+  
+  <body class="Page" itemscope itemtype="http://schema.org/WebPage">
+    
+
+  <header class="Page-header">
+  <div class="navbar navbar-static-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
         
-        <span class="nt">&lt;field</span> <span class="na">name=</span><span class="s">&quot;indexValue&quot;</span> <span class="na">displayName=</span><span class="s">&quot;X年指标&quot;</span> <span class="na">virtual=</span><span class="s">&quot;true&quot;</span><span class="nt">&gt;</span>
-            <span class="nt">&lt;schema</span> <span class="na">stdDomain=</span><span class="s">&quot;int&quot;</span><span class="nt">/&gt;</span>
-            <span class="nt">&lt;valueExpr&gt;</span>
-                // 如果是第一次访问indexValues属性，则自动创建一个List
-                let list = record.makeList(&#39;indexValues&#39;)
-                let year = fieldLabel.$removeTail(&#39;指标&#39;).$toInt()
-                list.add({ year, value})
-            <span class="nt">&lt;/valueExpr&gt;</span>
+          <button class="navbar-toggle collapsed" type="button" data-target=".Page-navs" data-toggle="collapse">
+            <span class="sr-only">Toggle navs</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        
+        
+          
 
-            <span class="nt">&lt;xpt:labelExpandExpr&gt;</span>
-                <span class="c">&lt;!-- 外部传入的年份列表数据 --&gt;</span>
-                indexYears
-            <span class="nt">&lt;/xpt:labelExpandExpr&gt;</span>
 
-            <span class="c">&lt;!-- 根据展开表达式值动态构建字段标题 --&gt;</span>
-            <span class="nt">&lt;xpt:labelValueExpr&gt;</span>
-                cell.ev + &#39;指标&#39;
-            <span class="nt">&lt;/xpt:labelValueExpr&gt;</span>
+  <a class="navbar-brand" href="/">Nop</a>
 
-            <span class="nt">&lt;xpt:valueExpr&gt;</span>
-                _.findWhere(cell.rp.ev.indexValues,&#39;year&#39;,cell.cp.ev.$toInt()).value
-            <span class="nt">&lt;/xpt:valueExpr&gt;</span>            
-        <span class="nt">&lt;/field&gt;</span>
 
-    <span class="nt">&lt;/fields&gt;</span>
+        
+      </div>
+      <!-- Nav menus -->
+      <nav class="Page-navs navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          
+  
+    <li class="dropdown">
+      <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+  
+    <li><a href="/projects/nop-entropy/docs/">指南</a>
+</li>
+  
 
-    <span class="c">&lt;!-- 如果字段标签以指标为后缀，则执行名称为indexValue的解析规则 --&gt;</span>
-    <span class="nt">&lt;fieldDecider&gt;</span>
-        fieldLabel.endsWith(&quot;指标&quot;) ? &quot;indexValue&quot; : null
-    <span class="nt">&lt;/fieldDecider&gt;</span>
-<span class="nt">&lt;/field&gt;</span></code></pre></figure> <ul> <li>virtual=true表示是虚拟字段。导入时只会执行字段的valueExpr，但并不会把返回的value设置到record的属性上。</li> <li>在valueExpr执行的时候可以通过fieldLabel来引用字段的标题，通过value引用从单元格中解析得到的值，通过cell引用当前单元格</li> <li>xpt:labelExpandExpr等以<code>xpt:</code>为前缀的标签在数据导出的时候使用。xpt:labelExpandExpr用于动态生成表格列</li> <li>xpt:valueExpr返回动态生成的列所对应的单元格的值。cell.rp.ev相当于 cell.rowParent.expandValue用于获取行父格的展开值，而 cell.cp.ev对应于cell.colParent.expandValue，用于获取列的展开值。_.findWhere根据行父格和列父格的值，动态查找得到当前单元格对应的值。</li> </ul> <h2 id="section-5">动态设置单元格样式</h2> <p>导出数据的时候可以增加动态样式：当单元格的值满足某些条件的时候采用指定的样式来显示。例如当单元格的值大于300的时候，将单元格背景设置为红色。</p> <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span></span><span class="nt">&lt;field&gt;</span>
-    <span class="nt">&lt;xpt:labelStyleIdExpr&gt;</span>
-        cell.ev == 2002 ? &#39;red&#39; : null
-    <span class="nt">&lt;/xpt:labelStyleIdExpr&gt;</span>
+  
+    <li><a href="https://www.zhihu.com/column/reversible-computation?utm_source=https://nop-platform.gitee.io&amp;utm_medium=common-header" target="_blank" rel="external nofollow">文章</a>
+</li>
+  
 
-    <span class="nt">&lt;xpt:styleIdExpr&gt;</span>
-        cell.value &gt; 300 ? &#39;red&#39; : null
-    <span class="nt">&lt;/xpt:styleIdExpr&gt;</span>
-<span class="nt">&lt;/field&gt;</span></code></pre></figure> <p>在数据模板中需要增加XptWorkbookModel这个Sheet页，在其中定义命名样式。 <img src="/assets/knosys/project-nop-entropy/dev-guide/report/excel-import/named-styles-21c934c80c67c021ddd2354d14fd40283d06b86cd670fc586a44452cdb636f79.png" alt="" /></p> <p>实际导出的结果为 <img src="/assets/knosys/project-nop-entropy/dev-guide/report/excel-import/export-with-style-ba68b25034fb6a726241a0edef1b83ffbdb36d6171e6df8af65305d9a0727bd6.png" alt="" /></p> <h2 id="section-6">支持复合表头</h2> <p>导入数据的时候可以支持多级表头（目前只支持两级） <img src="/assets/knosys/project-nop-entropy/dev-guide/report/excel-import/template-group-header-a4469b906b2f187ce7eace9d3151e3f13ba5cb4060b63b732afa2f6a4a53d97a.png" alt="" /></p> <p>导出结果为 <img src="/assets/knosys/project-nop-entropy/dev-guide/report/excel-import/group-header-export-87d7a337f450aa066db04ffff623ca1e6cbc64f25d19db1d57b738e234cad9fd.png" alt="" /></p> <p>在imp.xml导入模型中进行配置时，只考虑匹配最下层的字段，分组字段不会直接参与匹配。</p> <p>在field配置上增加groupField配置，它对应于另一个field配置，在其中可以配置<code>xpt:labelExpandExpr</code>等导出配置。</p> <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span></span><span class="nt">&lt;fields&gt;</span>
-    <span class="nt">&lt;field</span> <span class="na">name=</span><span class="s">&quot;indexValue&quot;</span> <span class="na">displayName=</span><span class="s">&quot;X年&quot;</span> <span class="na">virtual=</span><span class="s">&quot;true&quot;</span> <span class="na">groupField=</span><span class="s">&quot;group&quot;</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;schema</span> <span class="na">stdDomain=</span><span class="s">&quot;int&quot;</span><span class="nt">/&gt;</span>
-        <span class="nt">&lt;valueExpr&gt;</span>
-            // 如果是第一次访问indexValues属性，则自动创建一个List
-            let list = record.makeList(&#39;indexValues&#39;)
-            let year = fieldLabel.$removeTail(&#39;年&#39;).$toInt()
-            let group = labelData.groupLabel
-            list.add({ year, value,group})
-        <span class="nt">&lt;/valueExpr&gt;</span>
+  
+    <li><a href="https://space.bilibili.com/3493261219990250?utm_source=https://nop-platform.gitee.io&amp;utm_medium=common-header" target="_blank" rel="external nofollow">视频</a>
+</li>
+  
 
-        <span class="nt">&lt;xpt:labelExpandExpr&gt;</span>
-            <span class="c">&lt;!-- 外部传入的年份列表数据。也可以通过cell.cp.ev来访问分组单元格的值 --&gt;</span>
-            indexYears
-        <span class="nt">&lt;/xpt:labelExpandExpr&gt;</span>
+</ul>
+    </li>
+  
 
-        <span class="c">&lt;!-- 根据展开表达式值动态构建字段标题 --&gt;</span>
-        <span class="nt">&lt;xpt:labelValueExpr&gt;</span>
-            cell.ev + &#39;年&#39;
-        <span class="nt">&lt;/xpt:labelValueExpr&gt;</span>
+  
+    <li class="dropdown">
+      <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+  
+    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+</li>
+  
 
-        <span class="c">&lt;!-- xpt:valueExpr是导出时执行的，而valueExpr是导入时执行的。因为执行时机不同，它们的上下文环境中</span>
-<span class="c">        可访问的变量也不同。导出时主要是cell和xptRt，也就是NopReport中的变量。而导入时是record, cell, fieldLabel等，</span>
-<span class="c">        此时没有rowParent和colParent等概念。</span>
-<span class="c">        --&gt;</span>
-        <span class="nt">&lt;xpt:valueExpr&gt;</span>
-            // cell.cp.cp表示取当前单元格的列父格的列父格。
-            // cp是colParent的缩写。当前单元格的列父格就是动态展开的列的label所在的单元格。label单元格的父格就是分组单元格
-            _.findWhere(cell.rp.ev.indexValues,{ year: cell.cp.ev.$toInt(), group: cell.cp.cp.value})?.value
-        <span class="nt">&lt;/xpt:valueExpr&gt;</span>
+  
+    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+</li>
+  
 
-        <span class="nt">&lt;xpt:labelStyleIdExpr&gt;</span>
-            cell.ev == 2002 ? &#39;red&#39; : null
-        <span class="nt">&lt;/xpt:labelStyleIdExpr&gt;</span>
+</ul>
+    </li>
+  
 
-        <span class="nt">&lt;xpt:styleIdExpr&gt;</span>
-            cell.value &gt; 300 ? &#39;red&#39; : null
-            <span class="c">&lt;!--cell.value == &#39;A2&#39; ? &#39;red&#39; : null--&gt;</span>
-        <span class="nt">&lt;/xpt:styleIdExpr&gt;</span>
-    <span class="nt">&lt;/field&gt;</span>
+  
+    <li class="dropdown">
+      <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+  
+    <li><a href="/community/">社区</a>
+</li>
+  
 
-    <span class="c">&lt;!--</span>
-<span class="c">    indexValue字段的groupField属性指向这个分组字段。这里主要是引入labelExpandExpr配置，也就是导出报表时的一些相关配置</span>
-<span class="c">    --&gt;</span>
-    <span class="nt">&lt;field</span> <span class="na">name=</span><span class="s">&quot;group&quot;</span> <span class="na">displayName=</span><span class="s">&quot;group&quot;</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;schema</span> <span class="na">stdDomain=</span><span class="s">&quot;string&quot;</span> <span class="nt">/&gt;</span>
-        <span class="nt">&lt;xpt:labelExpandExpr&gt;</span>
-            groups
-        <span class="nt">&lt;/xpt:labelExpandExpr&gt;</span>
-    <span class="nt">&lt;/field&gt;</span>
-<span class="nt">&lt;/fields&gt;</span></code></pre></figure> <p>在导入具体数据单元格的时候，可以通过labelData变量（LabelData类型）访问到对应的labelCell和groupCell, 以及对应的field配置等。</p> <h2 id="spring">与Spring框架集成</h2> <p>如果要使用Nop平台的Excel导入导出功能，只需要在pom文件中引入如下模块</p> <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span></span><span class="c">&lt;!-- 实现Nop平台与spring框架的集成，不依赖于数据库，不依赖Web环境 --&gt;</span>
-<span class="nt">&lt;dependency&gt;</span>
-    <span class="nt">&lt;groupId&gt;</span>io.github.entropy-cloud<span class="nt">&lt;/groupId&gt;</span>
-    <span class="nt">&lt;artifactId&gt;</span>nop-spring-core-starter<span class="nt">&lt;/artifactId&gt;</span>
-<span class="nt">&lt;/dependency&gt;</span>
+  
+    <li><a href="/team/">团队</a>
+</li>
+  
 
-        <span class="c">&lt;!-- Excel解析和报表引擎支持 --&gt;</span>
-<span class="nt">&lt;dependency&gt;</span>
-<span class="nt">&lt;groupId&gt;</span>io.github.entropy-cloud<span class="nt">&lt;/groupId&gt;</span>
-<span class="nt">&lt;artifactId&gt;</span>nop-report-core<span class="nt">&lt;/artifactId&gt;</span>
-<span class="nt">&lt;/dependency&gt;</span></code></pre></figure> <p>具体示例项目参见 <a href="https://gitee.com/canonical-entropy/nop-entropy/tree/master/nop-demo/nop-spring-report-demo" target="_blank" rel="external nofollow">nop-spring-report-demo</a></p> </div> <footer class="Article-footer col-md-3"> <div class="Widget"> <div class="Widget-body"><a href="https://gitee.com/canonical-entropy/nop-entropy/edit/master/docs/dev-guide/report/excel-import.md" target="_blank" rel=" rel="external nofollow"">在 Gitee 上编辑文档内容</a></div> </div> <section class="Widget Widget--toc"> <div class="Widget-header"> <h2 class="Widget-title">目录</h2> </div> <div class="Widget-body"></div> </section> </footer> </article> <footer class="Page-footer Footer"> <div class="container-fluid"> <div class="Footer-description"> <!-- Important links --> <nav class="Footer-navs"> <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a> </li><li><a href="/community/"><span>社区</span></a> </li></ul> </nav> <!-- Copyright --> <div class="Footer-copyright"> <p>&copy; 2024 <a href="https://nop-platform.gitee.io?utm_source=https://nop-platform.gitee.io&utm_medium=common-footer" target="_blank" rel="external nofollow">Nop 社区</a> 版权所有 </p> </div> </div> </div> </footer> </main> </div> <script>$('table').addClass('table table-bordered')</script> <script type="text/javascript" src="/assets/ksio/vendors/share.min-3155ee636b84a04d036e0f1ba833227d3fd03a4c58a6f2e21c9ceb1c5d0198c7.js"></script><script type="text/javascript" src="/assets/ksio/components-a266f21fe1dfd61bebf40e74872cbf901eb3e201f7d33e9e5d5af9a55f4b24ea.js"></script> <script type="text/javascript" src="/assets/ksio/initializers/time-8d7a529a66ae6cb53c2283d21fd6a12c538b8473dd5bd76458366d09adce7bf6.js"></script><script type="text/javascript" src="/assets/ksio/initializers/lazyload-44b7df8a9282d598284d522e64d6be9ac88d466f3c4a734a514303e99347b2c9.js"></script> </body> </html>
+  
+    <li><a href="https://gitee.com/nop-platform?utm_source=https://nop-platform.gitee.io&amp;utm_medium=common-header" target="_blank" rel="external nofollow">Gitee 组织</a>
+</li>
+  
+
+</ul>
+    </li>
+  
+
+  
+    <li><a href="https://nop-platform.github.io?utm_source=https://nop-platform.gitee.io&amp;utm_medium=common-header" target="_blank" rel="external nofollow">English</a>
+</li>
+  
+
+
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<div class="Page-content">
+  
+  
+    <aside class="Page-aside">
+      <div class="AsideBrand">
+
+
+  <a href="/">Nop</a>
+
+</div>
+      <nav class="AsideNav"><ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/why-nop/">介绍</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+        
+        <a href="/projects/nop-entropy/docs/">文档概览</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/tutorial/tutorial/">入门教程</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/tutorial/simple/1-simple-service/">极简服务层开发</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/tutorial/simple/2-simple-dao/">极简数据访问层开发</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/compare/">与其他平台的对比</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/user-guide/">用户指南</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/user-guide/installation/">安装和配置</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/user-guide/report/">报表引擎</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/user-guide/idea/idea-plugin/">IDEA插件使用</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/user-guide/monitor/grafana/">监控</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/arch/">软件架构</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/arch/module-dependency/">模块依赖关系</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/core-code-guidance/">核心代码阅读导引</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/theory/">理论基础</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/">开发指南</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/codegen/">代码生成器</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/cli/">命令行工具</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/command/command/">命令行开发支持</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/config/">配置管理</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/ioc/">IoC容器</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/ioc/aop/">AOP支持</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/orm/">ORM框架</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/">XLang语言</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/xdef/">XDef元模型</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/xdsl/">XDSL领域语言</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/xscript/">XScript脚本语言</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/xpl/">Xpl模板语言</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/meta-programming/">元编程</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/model/">Excel模型</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/graphql/">GraphQL引擎</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/microservice/">分布式微服务</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/rule/rule/">规则引擎</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/workflow/task-flow/">逻辑编排</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/autotest/">自动化测试</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/tenant/">多租户</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/delta/delta-customization/">Delta定制</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/vfs/">Delta文件系统</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/auth/">权限配置</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/biz/">业务规则</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/nocode/">动态模型</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xui/">前端模型</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/integration/">第三方集成</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/spring/">spring集成</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/quarkus/">quarkus集成</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/ide/idea/">IDEA插件</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/ide/plugin-dev/">插件开发</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/faq/faq/">常见问题</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/faq/debug-errors/">错误诊断</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/recipe/">常见问题解决方案</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+</nav>
+    </aside>
+  
+  <main class="Page-main">
+    <article class="Article container-fluid">
+      <header class="Article-header">
+        
+  
+    <h1 class="Article-title">Excel数据导入导出</h1>
+  
+  
+
+
+      </header>
+      <div class="Article-content col-md-9"><p>在Nop平台中只需要增加imp.xml导入模型即可实现对存储在Excel中的复杂业务对象的解析，具体imp模型的定义参见<a target="_blank" rel="noopener" href="https://gitee.com/canonical-entropy/nop-entropy/blob/master/nop-xdefs/src/main/resources/_vfs/nop/schema/excel/imp.xdef">imp.xdef</a></p>
+<h2 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a>基本原理</h2><ul>
+<li>对于普通字段，按照左侧是label，右侧是值来解析</li>
+<li>对于列表字段，可以按照上面是label，下方是列表来解析</li>
+<li>列表的第一列必须是数字列，不要求编号唯一，也不要求编号列在字段列表中定义。它仅仅被用于确定列表行的范围。</li>
+<li>关键是在整体结构上能够明确的识别出父子关系。父字段必须覆盖子字段的范围。这样才能实现自动解析。</li>
+<li>label可以对应于field的displayName或者name，两者都可以</li>
+<li>字段的前后顺序不影响解析。在imp.xml中定义的field是全集，实际的模板中可以只使用部分字段。</li>
+<li>但是标记为mandatory的字段必须在模板中存在，否则解析后发现对应字段值为空，会抛出异常。</li>
+</ul>
+<h2 id="配置说明"><a href="#配置说明" class="headerlink" title="配置说明"></a>配置说明</h2><h2 id="如果解析列表"><a href="#如果解析列表" class="headerlink" title="如果解析列表"></a>如果解析列表</h2><ul>
+<li>sheet或者field上标注list&#x3D;true，表示将会解析得到一个列表</li>
+<li>列表的第一列必须是数字列，不要求编号唯一，也不要求编号列在字段列表中定义。它仅仅被用于确定列表行的范围。</li>
+</ul>
+<h2 id="如何解析一组sheet得到一个值"><a href="#如何解析一组sheet得到一个值" class="headerlink" title="如何解析一组sheet得到一个值"></a>如何解析一组sheet得到一个值</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">sheet</span> <span class="attr">name</span>=<span class="string">&quot;ss&quot;</span> <span class="attr">namePattern</span>=<span class="string">&quot;.*&quot;</span> <span class="attr">multiple</span>=<span class="string">&quot;true&quot;</span> <span class="attr">multipleAsMap</span>=<span class="string">&quot;true&quot;</span> <span class="attr">field</span>=<span class="string">&quot;ss&quot;</span>&gt;</span></span><br><span class="line">    </span><br><span class="line"><span class="tag">&lt;/<span class="name">sheet</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>namePattern指定一个正则表达式，它描述如何匹配对应的sheet</li>
+<li>multiple&#x3D;true表示会匹配到多个sheet</li>
+<li>multipleAsMap&#x3D;true表示匹配到的多个sheet解析后，会按照sheetName汇总成一个Map。如果不指定这个属性或者设置为false，则多个sheet的解析结果会合并为一个List</li>
+</ul>
+<h2 id="使用导入模板来实现导出"><a href="#使用导入模板来实现导出" class="headerlink" title="使用导入模板来实现导出"></a>使用导入模板来实现导出</h2><ol>
+<li>首先制作一个空的导入模板，即把导入数据删除，保留列表数据的序号列。具体样例参考<a target="_blank" rel="noopener" href="https://gitee.com/canonical-entropy/nop-entropy/blob/master/nop-orm-model/src/main/resources/_vfs/nop/orm/imp/template.orm.xlsx">template.orm.xlsx</a></li>
+<li>在imp.xml文件中通过templatePath属性来指向导入模板</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">imp</span> <span class="attr">x:schema</span>=<span class="string">&quot;/nop/schema/excel/imp.xdef&quot;</span> <span class="attr">xmlns:x</span>=<span class="string">&quot;/nop/schema/xdsl.xdef&quot;</span> <span class="attr">xmlns:c</span>=<span class="string">&quot;c&quot;</span> <span class="attr">xmlns:xpt</span>=<span class="string">&quot;xpt&quot;</span></span></span><br><span class="line"><span class="tag">     <span class="attr">templatePath</span>=<span class="string">&quot;template.orm.xlsx&quot;</span> &gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">imp</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>ExcelReportHelper中提供了根据导入的业务数据自动生成html或者xlsx文件的方法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Object</span> bean = <span class="title class_">ExcelHelper</span>.<span class="title function_">loadXlsxObject</span>(<span class="string">&quot;/nop/test/imp/test5.imp.xml&quot;</span>, resource);    </span><br><span class="line"><span class="title class_">String</span> html = <span class="title class_">ExcelReportHelper</span>.<span class="title function_">getHtmlForXlsxObject</span>(impModelPath, bean, scope);</span><br><span class="line"><span class="title class_">ExcelReportHelper</span>.<span class="title function_">saveXlsxObject</span>(impModelPath, resource, bean);</span><br></pre></td></tr></table></figure>
+
+<p>在imp模型的帮助下，Excel可以被看作是Java对象的一种序列化形式，类似于JSON和Java对象之间的自动双向转换，我们可以实现Excel和Java对象之间的自动双向转换。</p>
+<p>具体示例参见<a target="_blank" rel="noopener" href="https://gitee.com/canonical-entropy/nop-entropy/blob/master/nop-biz/src/test/java/io/nop/biz/impl/TestImportExcelModel.java">TestImportExcelModel.java</a></p>
+<h2 id="动态确定需要导入的列"><a href="#动态确定需要导入的列" class="headerlink" title="动态确定需要导入的列"></a>动态确定需要导入的列</h2><p>示例配置<a target="_blank" rel="noopener" href="https://gitee.com/canonical-entropy/nop-entropy/blob/master/nop-biz/src/test/resources/_vfs/nop/test/imp/test3.imp.xml">test3.imp.xml</a>,<br>测试用例<a target="_blank" rel="noopener" href="https://gitee.com/canonical-entropy/nop-entropy/blob/master/nop-biz/src/test/java/io/nop/biz/impl/TestParseTreeTable.java">TestParseTreeTable.java</a></p>
+<p>通过fieldDecider可以动态确定数据列所对应的解析配置。例如 2002指标、2003指标等列是动态变化的，我们希望解析这些列并把它们转换为一个列表属性。<br><img src="/knosys/project-nop-entropy/dev-guide/report/excel-import/import-dynamic-col.png"></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">field</span> <span class="attr">name</span>=<span class="string">&quot;columns&quot;</span> <span class="attr">displayName</span>=<span class="string">&quot;项目指标&quot;</span> <span class="attr">list</span>=<span class="string">&quot;true&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">fields</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">field</span> <span class="attr">name</span>=<span class="string">&quot;name&quot;</span> <span class="attr">displayName</span>=<span class="string">&quot;指标&quot;</span> <span class="attr">mandatory</span>=<span class="string">&quot;true&quot;</span>/&gt;</span></span><br><span class="line">        </span><br><span class="line">        <span class="tag">&lt;<span class="name">field</span> <span class="attr">name</span>=<span class="string">&quot;indexValue&quot;</span> <span class="attr">displayName</span>=<span class="string">&quot;X年指标&quot;</span> <span class="attr">virtual</span>=<span class="string">&quot;true&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">schema</span> <span class="attr">stdDomain</span>=<span class="string">&quot;int&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">valueExpr</span>&gt;</span></span><br><span class="line">                // 如果是第一次访问indexValues属性，则自动创建一个List</span><br><span class="line">                let list = record.makeList(&#x27;indexValues&#x27;)</span><br><span class="line">                let year = fieldLabel.$removeTail(&#x27;指标&#x27;).$toInt()</span><br><span class="line">                list.add(&#123; year, value&#125;)</span><br><span class="line">            <span class="tag">&lt;/<span class="name">valueExpr</span>&gt;</span></span><br><span class="line"></span><br><span class="line">            <span class="tag">&lt;<span class="name">xpt:labelExpandExpr</span>&gt;</span></span><br><span class="line">                <span class="comment">&lt;!-- 外部传入的年份列表数据 --&gt;</span></span><br><span class="line">                indexYears</span><br><span class="line">            <span class="tag">&lt;/<span class="name">xpt:labelExpandExpr</span>&gt;</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">&lt;!-- 根据展开表达式值动态构建字段标题 --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">xpt:labelValueExpr</span>&gt;</span></span><br><span class="line">                cell.ev + &#x27;指标&#x27;</span><br><span class="line">            <span class="tag">&lt;/<span class="name">xpt:labelValueExpr</span>&gt;</span></span><br><span class="line"></span><br><span class="line">            <span class="tag">&lt;<span class="name">xpt:valueExpr</span>&gt;</span></span><br><span class="line">                _.findWhere(cell.rp.ev.indexValues,&#x27;year&#x27;,cell.cp.ev.$toInt()).value</span><br><span class="line">            <span class="tag">&lt;/<span class="name">xpt:valueExpr</span>&gt;</span>            </span><br><span class="line">        <span class="tag">&lt;/<span class="name">field</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="name">fields</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 如果字段标签以指标为后缀，则执行名称为indexValue的解析规则 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">fieldDecider</span>&gt;</span></span><br><span class="line">        fieldLabel.endsWith(&quot;指标&quot;) ? &quot;indexValue&quot; : null</span><br><span class="line">    <span class="tag">&lt;/<span class="name">fieldDecider</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">field</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>virtual&#x3D;true表示是虚拟字段。导入时只会执行字段的valueExpr，但并不会把返回的value设置到record的属性上。</li>
+<li>在valueExpr执行的时候可以通过fieldLabel来引用字段的标题，通过value引用从单元格中解析得到的值，通过cell引用当前单元格</li>
+<li>xpt:labelExpandExpr等以<code>xpt:</code>为前缀的标签在数据导出的时候使用。xpt:labelExpandExpr用于动态生成表格列</li>
+<li>xpt:valueExpr返回动态生成的列所对应的单元格的值。cell.rp.ev相当于 cell.rowParent.expandValue用于获取行父格的展开值，而<br>cell.cp.ev对应于cell.colParent.expandValue，用于获取列的展开值。_.findWhere根据行父格和列父格的值，动态查找得到当前单元格对应的值。</li>
+</ul>
+<h2 id="动态设置单元格样式"><a href="#动态设置单元格样式" class="headerlink" title="动态设置单元格样式"></a>动态设置单元格样式</h2><p>导出数据的时候可以增加动态样式：当单元格的值满足某些条件的时候采用指定的样式来显示。例如当单元格的值大于300的时候，将单元格背景设置为红色。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">field</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">xpt:labelStyleIdExpr</span>&gt;</span></span><br><span class="line">        cell.ev == 2002 ? &#x27;red&#x27; : null</span><br><span class="line">    <span class="tag">&lt;/<span class="name">xpt:labelStyleIdExpr</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">xpt:styleIdExpr</span>&gt;</span></span><br><span class="line">        cell.value &gt; 300 ? &#x27;red&#x27; : null</span><br><span class="line">    <span class="tag">&lt;/<span class="name">xpt:styleIdExpr</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">field</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在数据模板中需要增加XptWorkbookModel这个Sheet页，在其中定义命名样式。<br><img src="/knosys/project-nop-entropy/dev-guide/report/excel-import/named-styles.png"></p>
+<p>实际导出的结果为<br><img src="/knosys/project-nop-entropy/dev-guide/report/excel-import/export-with-style.png"></p>
+<h2 id="支持复合表头"><a href="#支持复合表头" class="headerlink" title="支持复合表头"></a>支持复合表头</h2><p>导入数据的时候可以支持多级表头（目前只支持两级）<br><img src="/knosys/project-nop-entropy/dev-guide/report/excel-import/template-group-header.png"></p>
+<p>导出结果为<br><img src="/knosys/project-nop-entropy/dev-guide/report/excel-import/group-header-export.png"></p>
+<p>在imp.xml导入模型中进行配置时，只考虑匹配最下层的字段，分组字段不会直接参与匹配。</p>
+<p>在field配置上增加groupField配置，它对应于另一个field配置，在其中可以配置<code>xpt:labelExpandExpr</code>等导出配置。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">fields</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">field</span> <span class="attr">name</span>=<span class="string">&quot;indexValue&quot;</span> <span class="attr">displayName</span>=<span class="string">&quot;X年&quot;</span> <span class="attr">virtual</span>=<span class="string">&quot;true&quot;</span> <span class="attr">groupField</span>=<span class="string">&quot;group&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">schema</span> <span class="attr">stdDomain</span>=<span class="string">&quot;int&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">valueExpr</span>&gt;</span></span><br><span class="line">            // 如果是第一次访问indexValues属性，则自动创建一个List</span><br><span class="line">            let list = record.makeList(&#x27;indexValues&#x27;)</span><br><span class="line">            let year = fieldLabel.$removeTail(&#x27;年&#x27;).$toInt()</span><br><span class="line">            let group = labelData.groupLabel</span><br><span class="line">            list.add(&#123; year, value,group&#125;)</span><br><span class="line">        <span class="tag">&lt;/<span class="name">valueExpr</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">xpt:labelExpandExpr</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- 外部传入的年份列表数据。也可以通过cell.cp.ev来访问分组单元格的值 --&gt;</span></span><br><span class="line">            indexYears</span><br><span class="line">        <span class="tag">&lt;/<span class="name">xpt:labelExpandExpr</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- 根据展开表达式值动态构建字段标题 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">xpt:labelValueExpr</span>&gt;</span></span><br><span class="line">            cell.ev + &#x27;年&#x27;</span><br><span class="line">        <span class="tag">&lt;/<span class="name">xpt:labelValueExpr</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- xpt:valueExpr是导出时执行的，而valueExpr是导入时执行的。因为执行时机不同，它们的上下文环境中</span></span><br><span class="line"><span class="comment">        可访问的变量也不同。导出时主要是cell和xptRt，也就是NopReport中的变量。而导入时是record, cell, fieldLabel等，</span></span><br><span class="line"><span class="comment">        此时没有rowParent和colParent等概念。</span></span><br><span class="line"><span class="comment">        --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">xpt:valueExpr</span>&gt;</span></span><br><span class="line">            // cell.cp.cp表示取当前单元格的列父格的列父格。</span><br><span class="line">            // cp是colParent的缩写。当前单元格的列父格就是动态展开的列的label所在的单元格。label单元格的父格就是分组单元格</span><br><span class="line">            _.findWhere(cell.rp.ev.indexValues,&#123; year: cell.cp.ev.$toInt(), group: cell.cp.cp.value&#125;)?.value</span><br><span class="line">        <span class="tag">&lt;/<span class="name">xpt:valueExpr</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">xpt:labelStyleIdExpr</span>&gt;</span></span><br><span class="line">            cell.ev == 2002 ? &#x27;red&#x27; : null</span><br><span class="line">        <span class="tag">&lt;/<span class="name">xpt:labelStyleIdExpr</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">xpt:styleIdExpr</span>&gt;</span></span><br><span class="line">            cell.value &gt; 300 ? &#x27;red&#x27; : null</span><br><span class="line">            <span class="comment">&lt;!--cell.value == &#x27;A2&#x27; ? &#x27;red&#x27; : null--&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">xpt:styleIdExpr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">field</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">    indexValue字段的groupField属性指向这个分组字段。这里主要是引入labelExpandExpr配置，也就是导出报表时的一些相关配置</span></span><br><span class="line"><span class="comment">    --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">field</span> <span class="attr">name</span>=<span class="string">&quot;group&quot;</span> <span class="attr">displayName</span>=<span class="string">&quot;group&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">schema</span> <span class="attr">stdDomain</span>=<span class="string">&quot;string&quot;</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">xpt:labelExpandExpr</span>&gt;</span></span><br><span class="line">            groups</span><br><span class="line">        <span class="tag">&lt;/<span class="name">xpt:labelExpandExpr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">field</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">fields</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在导入具体数据单元格的时候，可以通过labelData变量（LabelData类型）访问到对应的labelCell和groupCell, 以及对应的field配置等。</p>
+<h2 id="与Spring框架集成"><a href="#与Spring框架集成" class="headerlink" title="与Spring框架集成"></a>与Spring框架集成</h2><p>如果要使用Nop平台的Excel导入导出功能，只需要在pom文件中引入如下模块</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">        <span class="comment">&lt;!-- 实现Nop平台与spring框架的集成，不依赖于数据库，不依赖Web环境 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.github.entropy-cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>nop-spring-core-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- Excel解析和报表引擎支持 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.github.entropy-cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>nop-report-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>具体示例项目参见 <a target="_blank" rel="noopener" href="https://gitee.com/canonical-entropy/nop-entropy/tree/master/nop-demo/nop-spring-report-demo">nop-spring-report-demo</a></p>
+
+</div>
+      <footer class="Article-footer col-md-3">
+        
+          
+          
+          
+          
+            
+          
+          
+            <div class="Widget">
+              <div class="Widget-body"><a href="https://gitee.com/canonical-entropy/nop-entropy/edit/master/docs/dev-guide/report/excel-import.md" target="_blank" rel=" rel="external nofollow"">在 Gitee 上编辑文档内容</a></div>
+            </div>
+          
+        
+        
+  
+
+  <section class="Widget Widget--toc">
+  <div class="Widget-header">
+    <h2 class="Widget-title">目录</h2>
+  </div>
+  <div class="Widget-body"></div>
+</section>
+
+
+
+      </footer>
+    </article>
+    <footer class="Page-footer Footer">
+  <div class="container-fluid">
+    
+    <div class="Footer-description">
+      
+        <!-- Important links -->
+        <nav class="Footer-navs">
+          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
+</li><li><a href="/community/"><span>社区</span></a>
+</li></ul>
+        </nav>
+      
+      
+        <!-- Copyright -->
+        <div class="Footer-copyright">
+          <p>
+
+&copy; 2024 <a href="https://nop-platform.gitee.io?utm_source=https://nop-platform.gitee.io&amp;utm_medium=common-footer" target="_blank" rel="external nofollow">Nop 社区</a> 版权所有
+
+</p>
+          
+          
+        </div>
+      
+    </div>
+  </div>
+</footer>
+
+  </main>
+</div>
+
+
+
+
+    <script>$('.Article-content > table').addClass('table table-bordered')</script>
+    
+<script src="/javascripts/ksio/vendors/share.min.js"></script>
+
+<script src="/javascripts/ksio/components/page.js"></script>
+
+<script src="/javascripts/ksio/components/toc.js"></script>
+
+<script src="/javascripts/ksio/vendors/jquery.timeago.js"></script>
+
+<script src="/javascripts/ksio/vendors/jquery.timeago.zh-CN.js"></script>
+
+<script src="/javascripts/ksio/initializers/time.js"></script>
+
+<script src="/javascripts/ksio/vendors/jquery.lazyload.js"></script>
+
+<script src="/javascripts/ksio/initializers/lazyload.js"></script>
+
+  </body>
+</html>
+

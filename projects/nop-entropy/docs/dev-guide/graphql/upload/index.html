@@ -1,141 +1,1385 @@
-<!DOCTYPE html> <html lang="zh-CN" dir="ltr"> <head> <meta charset="UTF-8"> <!-- SEO --> <title>GraphQL引擎的上传下载扩展 - Nop</title> <meta property="og:title" content="GraphQL引擎的上传下载扩展"> <meta name="description" content="标准的GraphQL引擎只支持JSON格式的输入输出。为了支持文件上传下载，NopGraphQL在接口层增加了一些扩展约定。"> <meta property="og:description" content="标准的GraphQL引擎只支持JSON格式的输入输出。为了支持文件上传下载，NopGraphQL在接口层增加了一些扩展约定。"> <meta name="keywords" content="Nop,Nop平台,Nop 平台,Nop Platform,Nop社区,Nop 社区,Nop Community,可逆计算,软件构造理论,低代码,lowcode,low-code,low code,低代码平台,lcdp,软件工程"> <link rel="canonical" href="https://nop-platform.gitee.io/projects/nop-entropy/docs/dev-guide/graphql/upload/"> <meta property="og:url" content="https://nop-platform.gitee.io/projects/nop-entropy/docs/dev-guide/graphql/upload/"> <meta property="og:site_name" content="Nop"> <script type="application/ld+json"> { "@context" : "http://schema.org", "@type" : "WebSite", "name" : "Nop", "url" : "https://nop-platform.gitee.io" } </script> <meta property="og:type" content="article"> <meta property="article:published_time" content="2024-04-13T09:39:39+08:00"> <link rel="next" href="https://nop-platform.gitee.io/projects/nop-entropy/docs/dev-guide/graphql/xbiz/" title="Biz模型"> <link rel="prev" href="https://nop-platform.gitee.io/projects/nop-entropy/docs/dev-guide/graphql/rest/" title="REST链接"> <script type="application/ld+json"> { "@context": "http://schema.org", "@type": "NewsArticle", "headline": "GraphQL引擎的上传下载扩展", "image": null, "datePublished": "2024-04-13T09:39:39+08:00", "description": "标准的GraphQL引擎只支持JSON格式的输入输出。为了支持文件上传下载，NopGraphQL在接口层增加了一些扩展约定。" } </script> <script type="application/ld+json"> { "@context": "http://schema.org", "@type": "Organization", "url": "https://nop-platform.gitee.io", "logo": "https://nop-platform.gitee.io/assets/logo-9952a8b58c6582fc86a9608db8113158fb31de7a9db19d4358ac7cb96578d34e.png" } </script> <link rel="author" href="https://nop-platform.gitee.io"> <!-- 页面渲染兼容性 --> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <meta name="renderer" content="webkit"> <meta name="viewport" content="width=device-width,initial-scale=1.0"> <meta name="theme-color" content="#0871ab"> <link rel="icon" href="/assets/logo-9952a8b58c6582fc86a9608db8113158fb31de7a9db19d4358ac7cb96578d34e.png"> <!-- 静态资源 --> <link type="text/css" rel="stylesheet" href="/assets/global-f979fafa22c865e727cd15f83cdc43dbc73c1a324d7ad4fe6fa48e275dc4c063.css"> <link type="text/css" rel="stylesheet" href="/assets/ksio/vendors/share-c2e41222f5f34b2de38cb5213fa0e439c11da73b3907b444a32635563ae85ffd.css"> <link type="text/css" rel="stylesheet" href="/assets/local/layouts/doc-c5c0ab8b12485893472e680b5f067b74e240481232265b6cb0ab6edc95c20f65.css"> <script type="text/javascript" src="/assets/global-b3a80dd53acf48ad7228d6fd741dba15d3845cbc3783bdbbf7244151a45628aa.js"></script> <!--[if lt IE 9]> <script type="text/javascript" src="/assets/ksio/support_ie8-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.js"></script> <![endif]--> </head> <body class="Page" itemscope itemtype="http://schema.org/WebPage"> <header class="Page-header"> <div class="navbar navbar-static-top"> <div class="container-fluid"> <div class="navbar-header"> <button class="navbar-toggle collapsed" type="button" data-target=".Page-navs" data-toggle="collapse"> <span class="sr-only">Toggle navs</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button> <a class="navbar-brand" href="/">Nop</a> </div> <!-- Nav menus --> <nav class="Page-navs navbar-collapse collapse"> <ul class="nav navbar-nav navbar-right"> <li class="dropdown"> <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a> <ul class="dropdown-menu"> <li><a href="/projects/nop-entropy/docs/">指南</a> </li> <li><a href="https://www.zhihu.com/column/reversible-computation?utm_source=https://nop-platform.gitee.io&utm_medium=common-header" target="_blank" rel="external nofollow">文章</a> </li> <li><a href="https://space.bilibili.com/3493261219990250?utm_source=https://nop-platform.gitee.io&utm_medium=common-header" target="_blank" rel="external nofollow">视频</a> </li> </ul> </li> <li class="dropdown"> <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a> <ul class="dropdown-menu"> <li><a href="/projects/nop-entropy/">Nop Entropy</a> </li> <li><a href="/projects/nop-chaos/">Nop Chaos</a> </li> </ul> </li> <li class="dropdown"> <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a> <ul class="dropdown-menu"> <li><a href="/community/">社区</a> </li> <li><a href="/team/">团队</a> </li> <li><a href="https://gitee.com/nop-platform?utm_source=https://nop-platform.gitee.io&utm_medium=common-header" target="_blank" rel="external nofollow">Gitee 组织</a> </li> </ul> </li> <li><a href="https://nop-platform.github.io?utm_source=https://nop-platform.gitee.io&utm_medium=common-header" target="_blank" rel="external nofollow">English</a> </li> </ul> </nav> </div> </div> </header> <div class="Page-content"> <aside class="Page-aside"> <div class="AsideBrand"> <a href="/">Nop</a> </div> <nav class="AsideNav"><ul> <li> <a href="/projects/nop-entropy/docs/why-nop/">介绍</a> <ul> <li> <a href="/projects/nop-entropy/docs/">文档概览</a> </li> <li> <a href="/projects/nop-entropy/docs/tutorial/tutorial/">入门教程</a> <ul> <li> <a href="/projects/nop-entropy/docs/tutorial/simple/1-simple-service/">极简服务层开发</a> </li> <li> <a href="/projects/nop-entropy/docs/tutorial/simple/2-simple-dao/">极简数据访问层开发</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/compare/">与其他平台的对比</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/user-guide/">用户指南</a> <ul> <li> <a href="/projects/nop-entropy/docs/user-guide/installation/">安装和配置</a> </li> <li> <a href="/projects/nop-entropy/docs/user-guide/report/">报表引擎</a> </li> <li> <a href="/projects/nop-entropy/docs/user-guide/idea/idea-plugin/">IDEA插件使用</a> </li> <li> <a href="/projects/nop-entropy/docs/user-guide/monitor/grafana/">监控</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/arch/">软件架构</a> <ul> <li> <a href="/projects/nop-entropy/docs/arch/module-dependency/">模块依赖关系</a> </li> <li> <a href="/projects/nop-entropy/docs/core-code-guidance/">核心代码阅读导引</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/theory/">理论基础</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/">开发指南</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/codegen/">代码生成器</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/cli/">命令行工具</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/command/command/">命令行开发支持</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/config/">配置管理</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/ioc/">IoC容器</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/ioc/aop/">AOP支持</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/orm/">ORM框架</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/">XLang语言</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/xdef/">XDef元模型</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/xdsl/">XDSL领域语言</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/xscript/">XScript脚本语言</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/xpl/">Xpl模板语言</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/meta-programming/">元编程</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/model/">Excel模型</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/graphql/">GraphQL引擎</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/microservice/">分布式微服务</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/rule/rule/">规则引擎</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/workflow/task-flow/">逻辑编排</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/autotest/">自动化测试</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/tenant/">多租户</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/delta/delta-customization/">Delta定制</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/vfs/">Delta文件系统</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/auth/">权限配置</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/biz/">业务规则</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/nocode/">动态模型</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xui/">前端模型</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/integration/">第三方集成</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/spring/">spring集成</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/quarkus/">quarkus集成</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/ide/idea/">IDEA插件</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/ide/plugin-dev/">插件开发</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/faq/faq/">常见问题</a> <ul> <li> <a href="/projects/nop-entropy/docs/faq/debug-errors/">错误诊断</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/recipe/">常见问题解决方案</a> </li> </ul> </li> </ul> </nav> </aside> <main class="Page-main"> <article class="Article container-fluid"> <header class="Article-header"> <h1 class="Article-title">GraphQL引擎的上传下载扩展</h1> </header> <div class="Article-content col-md-9"><p>标准的GraphQL引擎只支持JSON格式的输入输出。为了支持文件上传下载，NopGraphQL在接口层增加了一些扩展约定。</p> <ol> <li>文件上传信息被转换为UploadRequestBean对象，在GraphQL引擎内部只要针对UploadRequestBean进行编程即可。相当于是在JSON序列化协议的基础上增加一个自动的针对上传文件的序列化机制。 目前缺省情况下/f/upload这个端点会自动解析上传文件并调用GraphQL引擎。</li> <li>GraphQL引擎可以返回WebContentBean来表示下载资源文件。Web框架调用GraphQL引擎发现返回结果是WebContentBean之后，会自动从中读取到Resource对象，并设置Content-Type和Content-Disposition等header配置。 目前缺省情况下/p/{bizObjName}__{bizAction}以及/f/download/{fileId}这两种调用形式会自动识别WebContentBean</li> </ol> <figure class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="nd">@BizModel</span><span class="p">(</span><span class="s">&quot;NopFileStore&quot;</span><span class="p">)</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">NopFileStoreBizModel</span> <span class="p">{</span>
-    <span class="p">...</span>
-    <span class="nd">@BizMutation</span>
-    <span class="kd">public</span> <span class="n">UploadResponseBean</span> <span class="nf">upload</span><span class="p">(</span><span class="nd">@RequestBean</span> <span class="n">UploadRequestBean</span> <span class="n">record</span><span class="p">,</span> <span class="n">IServiceContext</span> <span class="n">context</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">checkMaxSize</span><span class="p">(</span><span class="n">record</span><span class="p">.</span><span class="na">getLength</span><span class="p">());</span>
-        <span class="n">checkFileExt</span><span class="p">(</span><span class="n">record</span><span class="p">.</span><span class="na">getFileExt</span><span class="p">());</span>
-        <span class="n">checkBizObjName</span><span class="p">(</span><span class="n">record</span><span class="p">.</span><span class="na">getBizObjName</span><span class="p">());</span>
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
 
-        <span class="n">String</span> <span class="n">fileId</span> <span class="o">=</span> <span class="n">fileStore</span><span class="p">.</span><span class="na">saveFile</span><span class="p">(</span><span class="n">record</span><span class="p">,</span> <span class="n">maxFileSize</span><span class="p">);</span>
 
-        <span class="n">UploadResponseBean</span> <span class="n">ret</span> <span class="o">=</span> <span class="k">new</span> <span class="n">UploadResponseBean</span><span class="p">();</span>
-        <span class="n">ret</span><span class="p">.</span><span class="na">setValue</span><span class="p">(</span><span class="n">fileStore</span><span class="p">.</span><span class="na">getFileLink</span><span class="p">(</span><span class="n">fileId</span><span class="p">));</span>
-        <span class="n">ret</span><span class="p">.</span><span class="na">setFilename</span><span class="p">(</span><span class="n">record</span><span class="p">.</span><span class="na">getFileName</span><span class="p">());</span>
-        <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
-    <span class="p">}</span>
 
-    <span class="nd">@BizQuery</span>
-    <span class="kd">public</span> <span class="n">WebContentBean</span> <span class="nf">download</span><span class="p">(</span><span class="nd">@Name</span><span class="p">(</span><span class="s">&quot;fileId&quot;</span><span class="p">)</span> <span class="n">String</span> <span class="n">fileId</span><span class="p">,</span>
-                                   <span class="nd">@Name</span><span class="p">(</span><span class="s">&quot;contentType&quot;</span><span class="p">)</span> <span class="n">String</span> <span class="n">contentType</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">IFileRecord</span> <span class="n">record</span> <span class="o">=</span> <span class="n">fileStore</span><span class="p">.</span><span class="na">getFile</span><span class="p">(</span><span class="n">fileId</span><span class="p">);</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">StringHelper</span><span class="p">.</span><span class="na">isEmpty</span><span class="p">(</span><span class="n">contentType</span><span class="p">))</span>
-            <span class="n">contentType</span> <span class="o">=</span> <span class="n">MediaType</span><span class="p">.</span><span class="na">APPLICATION_OCTET_STREAM</span><span class="p">;</span>
 
-        <span class="k">return</span> <span class="k">new</span> <span class="n">WebContentBean</span><span class="p">(</span><span class="n">contentType</span><span class="p">,</span> <span class="n">record</span><span class="p">.</span><span class="na">getResource</span><span class="p">(),</span> <span class="n">record</span><span class="p">.</span><span class="na">getFileName</span><span class="p">());</span>
-    <span class="p">}</span>
 
-    <span class="kd">protected</span> <span class="n">IFileRecord</span> <span class="nf">loadFileRecord</span><span class="p">(</span><span class="n">String</span> <span class="n">fileId</span><span class="p">,</span> <span class="n">IServiceContext</span> <span class="n">ctx</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">IFileRecord</span> <span class="n">record</span> <span class="o">=</span> <span class="n">fileStore</span><span class="p">.</span><span class="na">getFile</span><span class="p">(</span><span class="n">fileId</span><span class="p">);</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">bizAuthChecker</span> <span class="o">!=</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">bizAuthChecker</span><span class="p">.</span><span class="na">checkAuth</span><span class="p">(</span><span class="n">record</span><span class="p">.</span><span class="na">getBizObjName</span><span class="p">(),</span> <span class="n">record</span><span class="p">.</span><span class="na">getBizObjId</span><span class="p">(),</span> <span class="n">record</span><span class="p">.</span><span class="na">getFieldName</span><span class="p">(),</span> <span class="n">ctx</span><span class="p">);</span>
-        <span class="p">}</span>
-        <span class="k">return</span> <span class="n">record</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">}</span></code></pre></figure> <p>NopFileStoreBizModel只是针对POJO对象进行编程，它完全不需要具有任何关于特定Web框架的知识，因此我们可以将它适配到不同的Web框架。例如，对于SpringMVC，</p> <figure class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="nd">@RestController</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SpringFileService</span> <span class="kd">extends</span> <span class="n">AbstractGraphQLFileService</span> <span class="p">{</span>
 
-    <span class="nd">@PostMapping</span><span class="p">(</span><span class="s">&quot;/f/upload&quot;</span><span class="p">)</span>
-    <span class="kd">public</span> <span class="n">CompletionStage</span><span class="o">&lt;</span><span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;&gt;</span> <span class="nf">upload</span><span class="p">(</span><span class="n">MultipartFile</span> <span class="n">file</span><span class="p">,</span> <span class="n">HttpServletRequest</span> <span class="n">request</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">String</span> <span class="n">locale</span> <span class="o">=</span> <span class="n">ContextProvider</span><span class="p">.</span><span class="na">currentLocale</span><span class="p">();</span>
-        <span class="n">CompletionStage</span><span class="o">&lt;</span><span class="n">ApiResponse</span><span class="o">&lt;?&gt;&gt;</span> <span class="n">res</span><span class="p">;</span>
-        <span class="k">try</span> <span class="p">{</span>
-            <span class="n">InputStream</span> <span class="n">is</span> <span class="o">=</span> <span class="n">file</span><span class="p">.</span><span class="na">getInputStream</span><span class="p">();</span>
-            <span class="n">String</span> <span class="n">fileName</span> <span class="o">=</span> <span class="n">StringHelper</span><span class="p">.</span><span class="na">fileFullName</span><span class="p">(</span><span class="n">file</span><span class="p">.</span><span class="na">getOriginalFilename</span><span class="p">());</span>
-            <span class="n">String</span> <span class="n">mimeType</span> <span class="o">=</span> <span class="n">MediaTypeHelper</span><span class="p">.</span><span class="na">getMimeType</span><span class="p">(</span><span class="n">file</span><span class="p">.</span><span class="na">getContentType</span><span class="p">(),</span> <span class="n">StringHelper</span><span class="p">.</span><span class="na">fileExt</span><span class="p">(</span><span class="n">fileName</span><span class="p">));</span>
-            <span class="n">UploadRequestBean</span> <span class="n">input</span> <span class="o">=</span> <span class="k">new</span> <span class="n">UploadRequestBean</span><span class="p">(</span><span class="n">is</span><span class="p">,</span> <span class="n">fileName</span><span class="p">,</span> <span class="n">file</span><span class="p">.</span><span class="na">getSize</span><span class="p">(),</span> <span class="n">mimeType</span><span class="p">);</span>
-            <span class="n">input</span><span class="p">.</span><span class="na">setBizObjName</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="na">getParameter</span><span class="p">(</span><span class="n">FileConstants</span><span class="p">.</span><span class="na">PARAM_BIZ_OBJ_NAME</span><span class="p">));</span>
 
-            <span class="n">IGraphQLEngine</span> <span class="n">graphQLEngine</span> <span class="o">=</span> <span class="n">getGraphQLEngine</span><span class="p">();</span>
 
-            <span class="n">IGraphQLExecutionContext</span> <span class="n">ctx</span> <span class="o">=</span> <span class="n">graphQLEngine</span><span class="p">.</span><span class="na">newRpcContext</span><span class="p">(</span><span class="n">GraphQLOperationType</span><span class="p">.</span><span class="na">mutation</span><span class="p">,</span>
-                    <span class="s">&quot;NopFileStore__upload&quot;</span><span class="p">,</span> <span class="n">buildApiRequest</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="n">input</span><span class="p">));</span>
-            <span class="n">res</span> <span class="o">=</span> <span class="n">graphQLEngine</span><span class="p">.</span><span class="na">executeRpcAsync</span><span class="p">(</span><span class="n">ctx</span><span class="p">);</span>
-        <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="n">IOException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">res</span> <span class="o">=</span> <span class="n">FutureHelper</span><span class="p">.</span><span class="na">success</span><span class="p">(</span><span class="n">ErrorMessageManager</span><span class="p">.</span><span class="na">instance</span><span class="p">().</span><span class="na">buildResponse</span><span class="p">(</span><span class="n">locale</span><span class="p">,</span> <span class="n">e</span><span class="p">));</span>
-        <span class="p">}</span>
-        <span class="k">return</span> <span class="n">res</span><span class="p">.</span><span class="na">thenApply</span><span class="p">(</span><span class="n">response</span> <span class="o">-&gt;</span> <span class="n">SpringWebHelper</span><span class="p">.</span><span class="na">buildResponse</span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="na">getHttpStatus</span><span class="p">(),</span> <span class="n">response</span><span class="p">));</span>
-    <span class="p">}</span>
+
+  
+  
+  
     
-    <span class="kd">protected</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">ApiRequest</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">buildApiRequest</span><span class="p">(</span><span class="n">HttpServletRequest</span> <span class="n">req</span><span class="p">,</span> <span class="n">T</span> <span class="n">data</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">ApiRequest</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">ret</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ApiRequest</span><span class="o">&lt;&gt;</span><span class="p">();</span>
-        <span class="n">Enumeration</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">it</span> <span class="o">=</span> <span class="n">req</span><span class="p">.</span><span class="na">getHeaderNames</span><span class="p">();</span>
-        <span class="k">while</span> <span class="p">(</span><span class="n">it</span><span class="p">.</span><span class="na">hasMoreElements</span><span class="p">())</span> <span class="p">{</span>
-            <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="n">it</span><span class="p">.</span><span class="na">nextElement</span><span class="p">();</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="p">.</span><span class="na">toLowerCase</span><span class="p">(</span><span class="n">Locale</span><span class="p">.</span><span class="na">ENGLISH</span><span class="p">);</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">shouldIgnoreHeader</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
-                <span class="k">continue</span><span class="p">;</span>
-            <span class="n">ret</span><span class="p">.</span><span class="na">setHeader</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">req</span><span class="p">.</span><span class="na">getHeader</span><span class="p">(</span><span class="n">name</span><span class="p">));</span>
-        <span class="p">}</span>
-        <span class="n">ret</span><span class="p">.</span><span class="na">setData</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
-        <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">}</span></code></pre></figure> <h2 id="section">模块依赖</h2> <p>引入nop-quarkus-web-orm-starter或者nop-spring-web-orm-starter依赖后，会自动引入</p> <ul> <li>nop-file-dao： 包含文件上传下载服务NopFileStoreBizModel的实现</li> <li>nop-file-spring或者 nop-file-quarkus: 引入处理/f/upload和/f/download链接的REST服务</li> </ul> <p><strong>使用oss云存储支持时需要引入nop-integration-oss模块</strong></p> <ul> <li>nop-integration-oss: 包含AmazonS3对象存储支持，阿里云OSS，腾讯云COS，七牛云，京东云，minio都支持这一接口标准。</li> </ul> <p>nop-integration-oss目前是可选模块，使用云存储来保存附件时需要自行引入这个模块。</p> <h2 id="section-1">实体字段支持附件类型</h2> <p>NopORM并没有内置对于附件字段的支持，在应用层我们通过OrmFileComponent这种字段级别的抽象将文件存储与数据库存储结合在一起。</p> <ol> <li>附件字段中保存文件下载链接</li> <li>在数据库中插入NopFileRecord保存附件的大小、文件名、Hash值等元数据，同时保存fileId和实体之间的关联关系，下载文件时可以验证是否具有实体访问权限</li> <li>通过IFileStore接口保存具体的二进制文件数据。Nop平台中内置了本地文件存储以及AmazonS3对象存储支持，支持Minio、七牛云、腾讯云、阿里云等兼容S3的云存储。</li> </ol> <h2 id="excel">Excel数据模型</h2> <p>在Excel数据模型中为字段的domain指定stdDomain=file，表示它保存上传文件的链接地址。</p> <p><img src="/assets/knosys/project-nop-entropy/dev-guide/graphql/file-domain-3879a8f31bae53b0d10bfd4e543a2e69a2534fb8b6e9d1b39a7b121623ed5080.png" alt="" /> <img src="/assets/knosys/project-nop-entropy/dev-guide/graphql/field-domain-c3e0f42bf3655da5fe1d85598a59b1ae590de0b403a6deca0f3a8de339916fdb.png" alt="" /></p> <p>根据Excel模型生成orm.xml模型文件中会为字段生成stdDomain配置。</p> <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span></span><span class="nt">&lt;orm&gt;</span>
-    <span class="nt">&lt;x:post-extends</span> <span class="na">x:override=</span><span class="s">&quot;replace&quot;</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;orm-gen:DefaultPostExtends</span> <span class="na">xpl:lib=</span><span class="s">&quot;/nop/orm/xlib/orm-gen.xlib&quot;</span><span class="nt">/&gt;</span>
-    <span class="nt">&lt;/x:post-extends&gt;</span>
+  
 
-    <span class="nt">&lt;entites&gt;</span>
-        <span class="nt">&lt;entity</span> <span class="na">className=</span><span class="s">&quot;io.nop.auth.dao.entity.NopAuthUser&quot;</span><span class="nt">&gt;</span>
-            <span class="nt">&lt;columns&gt;</span>
-                <span class="nt">&lt;column</span> <span class="na">code=</span><span class="s">&quot;AVATAR&quot;</span> <span class="na">displayName=</span><span class="s">&quot;头像&quot;</span> <span class="na">domain=</span><span class="s">&quot;image&quot;</span> <span class="na">name=</span><span class="s">&quot;avatar&quot;</span> <span class="na">precision=</span><span class="s">&quot;100&quot;</span> <span class="na">propId=</span><span class="s">&quot;9&quot;</span>
-                        <span class="na">stdDataType=</span><span class="s">&quot;string&quot;</span> <span class="na">stdDomain=</span><span class="s">&quot;file&quot;</span> <span class="na">stdSqlType=</span><span class="s">&quot;VARCHAR&quot;</span> <span class="na">i18n-en:displayName=</span><span class="s">&quot;Avatar&quot;</span>
-                        <span class="na">ui:show=</span><span class="s">&quot;X&quot;</span><span class="nt">/&gt;</span>
-            <span class="nt">&lt;/columns&gt;</span>
-        <span class="nt">&lt;/entity&gt;</span>
-    <span class="nt">&lt;/entites&gt;</span>
-<span class="nt">&lt;/orm&gt;</span></code></pre></figure> <p>在编译期执行的<code>x:post-extends</code>段会执行标签函数 <code>&lt;orm-gen:FileComponentSupport/&gt;</code>，它会为每个文件链接字段生成一个对应的OrmFileComponent属性。</p> <h2 id="ormfilecomponent">OrmFileComponent实现文件与实体的绑定</h2> <p>上传文件会将具体文件数据保存到IFileStore中，同时会在数据库中插入NopFileRecord记录，用于保存文件名、文件大小等描述信息。</p> <p>当实体更新或者删除的时候，会触发IOrmComponent接口上的onEntityFlush和onEntityDelete回调函数，在回调函数中将更新NopFileRecord对象上的bizObjName,bizObjId属性。</p> <figure class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">OrmFileComponent</span> <span class="kd">extends</span> <span class="n">AbstractOrmComponent</span> <span class="p">{</span>
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">PROP_NAME_filePath</span> <span class="o">=</span> <span class="s">&quot;filePath&quot;</span><span class="p">;</span>
 
-    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getFilePath</span><span class="p">()</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="n">ConvertHelper</span><span class="p">.</span><span class="na">toString</span><span class="p">(</span><span class="n">internalGetPropValue</span><span class="p">(</span><span class="n">PROP_NAME_filePath</span><span class="p">));</span>
-    <span class="p">}</span>
+  
 
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setFilePath</span><span class="p">(</span><span class="n">String</span> <span class="n">value</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">internalSetPropValue</span><span class="p">(</span><span class="n">PROP_NAME_filePath</span><span class="p">,</span> <span class="n">value</span><span class="p">);</span>
-    <span class="p">}</span>
 
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onEntityFlush</span><span class="p">()</span> <span class="p">{</span>
-        <span class="n">IOrmEntity</span> <span class="n">entity</span> <span class="o">=</span> <span class="n">orm_owner</span><span class="p">();</span>
-        <span class="kt">int</span> <span class="n">propId</span> <span class="o">=</span> <span class="n">getColPropId</span><span class="p">(</span><span class="n">PROP_NAME_filePath</span><span class="p">);</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">entity</span><span class="p">.</span><span class="na">orm_state</span><span class="p">().</span><span class="na">isUnsaved</span><span class="p">()</span> <span class="o">||</span> <span class="n">entity</span><span class="p">.</span><span class="na">orm_propDirty</span><span class="p">(</span><span class="n">propId</span><span class="p">))</span> <span class="p">{</span>
-            <span class="n">IBeanProvider</span> <span class="n">beanProvider</span> <span class="o">=</span> <span class="n">entity</span><span class="p">.</span><span class="na">orm_enhancer</span><span class="p">().</span><span class="na">getBeanProvider</span><span class="p">();</span>
-            <span class="n">IOrmEntityFileStore</span> <span class="n">fileStore</span> <span class="o">=</span> <span class="p">(</span><span class="n">IOrmEntityFileStore</span><span class="p">)</span> <span class="n">beanProvider</span><span class="p">.</span><span class="na">getBean</span><span class="p">(</span><span class="n">OrmConstants</span><span class="p">.</span><span class="na">BEAN_ORM_ENTITY_FILE_STORE</span><span class="p">);</span>
-            <span class="n">String</span> <span class="n">oldValue</span> <span class="o">=</span> <span class="p">(</span><span class="n">String</span><span class="p">)</span> <span class="n">entity</span><span class="p">.</span><span class="na">orm_propOldValue</span><span class="p">(</span><span class="n">propId</span><span class="p">);</span>
+  
 
-            <span class="n">String</span> <span class="n">fileId</span> <span class="o">=</span> <span class="n">fileStore</span><span class="p">.</span><span class="na">decodeFileId</span><span class="p">(</span><span class="n">getFilePath</span><span class="p">());</span>
-            <span class="n">String</span> <span class="n">propName</span> <span class="o">=</span> <span class="n">entity</span><span class="p">.</span><span class="na">orm_propName</span><span class="p">(</span><span class="n">propId</span><span class="p">);</span>
 
-            <span class="n">String</span> <span class="n">bizObjName</span> <span class="o">=</span> <span class="n">getBizObjName</span><span class="p">();</span>
+  
 
-            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">StringHelper</span><span class="p">.</span><span class="na">isEmpty</span><span class="p">(</span><span class="n">oldValue</span><span class="p">))</span> <span class="p">{</span>
-                <span class="n">String</span> <span class="n">oldFileId</span> <span class="o">=</span> <span class="n">fileStore</span><span class="p">.</span><span class="na">decodeFileId</span><span class="p">(</span><span class="n">oldValue</span><span class="p">);</span>
-                <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">StringHelper</span><span class="p">.</span><span class="na">isEmpty</span><span class="p">(</span><span class="n">oldFileId</span><span class="p">))</span> <span class="p">{</span>
-                    <span class="n">fileStore</span><span class="p">.</span><span class="na">detachFile</span><span class="p">(</span><span class="n">oldFileId</span><span class="p">,</span> <span class="n">bizObjName</span><span class="p">,</span> <span class="n">entity</span><span class="p">.</span><span class="na">orm_idString</span><span class="p">(),</span> <span class="n">propName</span><span class="p">);</span>
-                <span class="p">}</span>
-            <span class="p">}</span>
 
-            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">StringHelper</span><span class="p">.</span><span class="na">isEmpty</span><span class="p">(</span><span class="n">fileId</span><span class="p">))</span> <span class="p">{</span>
-                <span class="n">fileStore</span><span class="p">.</span><span class="na">attachFile</span><span class="p">(</span><span class="n">fileId</span><span class="p">,</span> <span class="n">bizObjName</span><span class="p">,</span> <span class="n">entity</span><span class="p">.</span><span class="na">orm_idString</span><span class="p">(),</span> <span class="n">propName</span><span class="p">);</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
+
+
+
+
+  
+
+
+
+
+
+  <title>GraphQL引擎的上传下载扩展 - Nop</title>
+
+
+  <meta property="og:title" content="GraphQL引擎的上传下载扩展">
+
+
+  <meta name="description" content="Nop Platform 2.0 是基于可逆计算原理从零开始构建的新一代低代码平台，它致力于克服低代码平台无法摆脱穷举法的困境，从理论层面超越组件技术，有效的解决粗粒度软件复用的问题。">
+  <meta property="og:description" content="Nop Platform 2.0 是基于可逆计算原理从零开始构建的新一代低代码平台，它致力于克服低代码平台无法摆脱穷举法的困境，从理论层面超越组件技术，有效的解决粗粒度软件复用的问题。">
+
+
+
+  
     
-<span class="p">}</span></code></pre></figure> <p>这里很重要的一个设计就是实体层面上记录了附件字段是否已经被修改，以及修改前的值。可以想见，如果没有这种历史记录信息，我们就无法在单个字段层面确定如何实现文件存储与实体字段的同步， 而必须上升到整个实体的处理函数中进行。</p> <h2 id="section-2">前端控件</h2> <p>在control.xlib标签库中，根据stdDomain设置会自动为字段选择对应的编辑和显示控件。</p> <p><code>&lt;edit-file&gt;</code>控件缺省会上传文件到/f/upload这个链接，返回的数据格式为</p> <figure class="highlight"><pre><code class="language-text" data-lang="text"><span></span>{
-  status:0,
-  data:{
-     value: &quot;文件下载链接&quot;
-  }
-}</code></pre></figure> <p>下载链接的格式为 /f/download/{fileId}</p> <p>在meta的prop节点上，可以配置以下属性:</p> <ul> <li>ui:maxUploadSize 控制上传文件的最大大小</li> <li>ui:uploadUrl 定制上传文件端点</li> <li>ui:accept 可以控制允许的文件后缀，例如 .txt,.md表示只允许上传txt和markddown文件</li> </ul> <p>另外也可以通过全局配置来设置上传控件属性</p> <ul> <li>nop.file.upload-url 全局指定的上传文件端点，缺省为/f/upload</li> <li>nop.file.upload.max-size 全局指定的上传文件大小限制。每个prop上指定的ui:maxUploadSize不能超过这个值，实际起作用的是min(prop.uploadFileSize,global.uploadMaxSize)</li> </ul> <h2 id="minio">集成Minio</h2> <p>很多分布式存储都兼容Amazon的S3存储协议，例如阿里云OSS，腾讯云COS，七牛云，京东云，Minio等。</p> <p>使用如下配置启用Minio支持。<strong>注意，使用oss云存储支持时需要先引入nop-integration-oss模块</strong>。</p> <figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span></span><span class="nt">nop</span><span class="p">:</span>
-  <span class="nt">file</span><span class="p">:</span>
-    <span class="nt">store-impl</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">oss</span>
+  
 
-  <span class="nt">integration</span><span class="p">:</span>
-    <span class="nt">oss</span><span class="p">:</span>
-      <span class="nt">enabled</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-      <span class="nt">endpoint</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">http://localhost:9000</span>
-      <span class="c1">#default-bucket-name: nop-file</span>
-      <span class="nt">access-key</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">xxx</span>
-      <span class="nt">secret-key</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">yyy</span>
-      <span class="c1">#path-style-access: false</span></code></pre></figure> <ul> <li>nop.file.store-impl指定为oss时会使用对象存储来保存文件，否则会使用本地文件系统，存放在/nop/file目录下</li> <li>阿里云要求pathStyleAccess必须设置为false</li> </ul> <p><strong>注意: 配置项是nop.integration.oss.enabled，而不是nop.file.integration.oss.enabled</strong></p> <h2 id="section-3">配置变量</h2> <ul> <li>nop.file.store-dir 使用本地文件系统存储上传文件时使用的目录，缺省为/nop/file</li> <li>nop.file.store-impl 如果设置为oss则表示启用分布式存储，否则使用本地存储</li> <li>nop.file.upload-url 全局指定的上传文件端点，缺省为/f/upload</li> <li>nop.file.upload.max-size 全局指定的上传文件大小限制。每个prop上指定的ui:maxUploadSize不能超过这个值，实际起作用的是min(prop.uploadFileSize,global.uploadMaxSize)</li> </ul> </div> <footer class="Article-footer col-md-3"> <div class="Widget"> <div class="Widget-body"><a href="https://gitee.com/canonical-entropy/nop-entropy/edit/master/docs/dev-guide/graphql/upload.md" target="_blank" rel=" rel="external nofollow"">在 Gitee 上编辑文档内容</a></div> </div> <section class="Widget Widget--toc"> <div class="Widget-header"> <h2 class="Widget-title">目录</h2> </div> <div class="Widget-body"></div> </section> </footer> </article> <footer class="Page-footer Footer"> <div class="container-fluid"> <div class="Footer-description"> <!-- Important links --> <nav class="Footer-navs"> <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a> </li><li><a href="/community/"><span>社区</span></a> </li></ul> </nav> <!-- Copyright --> <div class="Footer-copyright"> <p>&copy; 2024 <a href="https://nop-platform.gitee.io?utm_source=https://nop-platform.gitee.io&utm_medium=common-footer" target="_blank" rel="external nofollow">Nop 社区</a> 版权所有 </p> </div> </div> </div> </footer> </main> </div> <script>$('table').addClass('table table-bordered')</script> <script type="text/javascript" src="/assets/ksio/vendors/share.min-3155ee636b84a04d036e0f1ba833227d3fd03a4c58a6f2e21c9ceb1c5d0198c7.js"></script><script type="text/javascript" src="/assets/ksio/components-a266f21fe1dfd61bebf40e74872cbf901eb3e201f7d33e9e5d5af9a55f4b24ea.js"></script> <script type="text/javascript" src="/assets/ksio/initializers/time-8d7a529a66ae6cb53c2283d21fd6a12c538b8473dd5bd76458366d09adce7bf6.js"></script><script type="text/javascript" src="/assets/ksio/initializers/lazyload-44b7df8a9282d598284d522e64d6be9ac88d466f3c4a734a514303e99347b2c9.js"></script> </body> </html>
+
+  <meta name="keywords" content="Nop,Nop平台,Nop 平台,Nop Platform,Nop社区,Nop 社区,Nop Community,可逆计算,软件构造理论,低代码,lowcode,low-code,low code,低代码平台,lcdp,软件工程">
+
+
+<!-- 页面渲染兼容性 -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<!-- 订阅 -->
+
+<meta name="theme-color" content="#0871ab">
+<link rel="shortcut icon" href="/images/nop/logo.png">
+
+
+    
+<link rel="stylesheet" href="/stylesheets/global.css">
+
+    
+<link rel="stylesheet" href="/stylesheets/ksio/vendors/share.css">
+
+<link rel="stylesheet" href="/local/syntax-highlighting.css">
+
+<link rel="stylesheet" href="/stylesheets/pages/post.css">
+
+<link rel="stylesheet" href="/stylesheets/pages/doc.css">
+
+    
+<script src="/javascripts/ksio/vendors/jquery-1.11.3.min.js"></script>
+
+    
+<script src="/javascripts/ksio/vendors/bootstrap.min.js"></script>
+
+  </head>
+  
+  
+  <body class="Page" itemscope itemtype="http://schema.org/WebPage">
+    
+
+  <header class="Page-header">
+  <div class="navbar navbar-static-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        
+          <button class="navbar-toggle collapsed" type="button" data-target=".Page-navs" data-toggle="collapse">
+            <span class="sr-only">Toggle navs</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        
+        
+          
+
+
+  <a class="navbar-brand" href="/">Nop</a>
+
+
+        
+      </div>
+      <!-- Nav menus -->
+      <nav class="Page-navs navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          
+  
+    <li class="dropdown">
+      <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+  
+    <li><a href="/projects/nop-entropy/docs/">指南</a>
+</li>
+  
+
+  
+    <li><a href="https://www.zhihu.com/column/reversible-computation?utm_source=https://nop-platform.gitee.io&amp;utm_medium=common-header" target="_blank" rel="external nofollow">文章</a>
+</li>
+  
+
+  
+    <li><a href="https://space.bilibili.com/3493261219990250?utm_source=https://nop-platform.gitee.io&amp;utm_medium=common-header" target="_blank" rel="external nofollow">视频</a>
+</li>
+  
+
+</ul>
+    </li>
+  
+
+  
+    <li class="dropdown">
+      <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+  
+    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+</li>
+  
+
+  
+    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+</li>
+  
+
+</ul>
+    </li>
+  
+
+  
+    <li class="dropdown">
+      <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+  
+    <li><a href="/community/">社区</a>
+</li>
+  
+
+  
+    <li><a href="/team/">团队</a>
+</li>
+  
+
+  
+    <li><a href="https://gitee.com/nop-platform?utm_source=https://nop-platform.gitee.io&amp;utm_medium=common-header" target="_blank" rel="external nofollow">Gitee 组织</a>
+</li>
+  
+
+</ul>
+    </li>
+  
+
+  
+    <li><a href="https://nop-platform.github.io?utm_source=https://nop-platform.gitee.io&amp;utm_medium=common-header" target="_blank" rel="external nofollow">English</a>
+</li>
+  
+
+
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<div class="Page-content">
+  
+  
+    <aside class="Page-aside">
+      <div class="AsideBrand">
+
+
+  <a href="/">Nop</a>
+
+</div>
+      <nav class="AsideNav"><ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/why-nop/">介绍</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+        
+        <a href="/projects/nop-entropy/docs/">文档概览</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/tutorial/tutorial/">入门教程</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/tutorial/simple/1-simple-service/">极简服务层开发</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/tutorial/simple/2-simple-dao/">极简数据访问层开发</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/compare/">与其他平台的对比</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/user-guide/">用户指南</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/user-guide/installation/">安装和配置</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/user-guide/report/">报表引擎</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/user-guide/idea/idea-plugin/">IDEA插件使用</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/user-guide/monitor/grafana/">监控</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/arch/">软件架构</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/arch/module-dependency/">模块依赖关系</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/core-code-guidance/">核心代码阅读导引</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/theory/">理论基础</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/">开发指南</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/codegen/">代码生成器</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/cli/">命令行工具</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/command/command/">命令行开发支持</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/config/">配置管理</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/ioc/">IoC容器</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/ioc/aop/">AOP支持</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/orm/">ORM框架</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/">XLang语言</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/xdef/">XDef元模型</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/xdsl/">XDSL领域语言</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/xscript/">XScript脚本语言</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/xpl/">Xpl模板语言</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/meta-programming/">元编程</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/model/">Excel模型</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/graphql/">GraphQL引擎</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/microservice/">分布式微服务</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/rule/rule/">规则引擎</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/workflow/task-flow/">逻辑编排</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/autotest/">自动化测试</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/tenant/">多租户</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/delta/delta-customization/">Delta定制</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/vfs/">Delta文件系统</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/auth/">权限配置</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/biz/">业务规则</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/nocode/">动态模型</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xui/">前端模型</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/integration/">第三方集成</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/spring/">spring集成</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/quarkus/">quarkus集成</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/ide/idea/">IDEA插件</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/ide/plugin-dev/">插件开发</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/faq/faq/">常见问题</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/faq/debug-errors/">错误诊断</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/recipe/">常见问题解决方案</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+</nav>
+    </aside>
+  
+  <main class="Page-main">
+    <article class="Article container-fluid">
+      <header class="Article-header">
+        
+  
+    <h1 class="Article-title">GraphQL引擎的上传下载扩展</h1>
+  
+  
+
+
+      </header>
+      <div class="Article-content col-md-9"><p>标准的GraphQL引擎只支持JSON格式的输入输出。为了支持文件上传下载，NopGraphQL在接口层增加了一些扩展约定。</p>
+<ol>
+<li>文件上传信息被转换为UploadRequestBean对象，在GraphQL引擎内部只要针对UploadRequestBean进行编程即可。相当于是在JSON序列化协议的基础上增加一个自动的针对上传文件的序列化机制。<br>目前缺省情况下&#x2F;f&#x2F;upload这个端点会自动解析上传文件并调用GraphQL引擎。</li>
+<li>GraphQL引擎可以返回WebContentBean来表示下载资源文件。Web框架调用GraphQL引擎发现返回结果是WebContentBean之后，会自动从中读取到Resource对象，并设置Content-Type和Content-Disposition等header配置。<br>目前缺省情况下&#x2F;p&#x2F;{bizObjName}__{bizAction}以及&#x2F;f&#x2F;download&#x2F;{fileId}这两种调用形式会自动识别WebContentBean</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">@BizModel(&quot;NopFileStore&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">NopFileStoreBizModel</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="meta">@BizMutation</span></span><br><span class="line">    <span class="keyword">public</span> UploadResponseBean <span class="title function_">upload</span><span class="params">(<span class="meta">@RequestBean</span> UploadRequestBean record, IServiceContext context)</span> &#123;</span><br><span class="line">        checkMaxSize(record.getLength());</span><br><span class="line">        checkFileExt(record.getFileExt());</span><br><span class="line">        checkBizObjName(record.getBizObjName());</span><br><span class="line"></span><br><span class="line">        <span class="type">String</span> <span class="variable">fileId</span> <span class="operator">=</span> fileStore.saveFile(record, maxFileSize);</span><br><span class="line"></span><br><span class="line">        <span class="type">UploadResponseBean</span> <span class="variable">ret</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">UploadResponseBean</span>();</span><br><span class="line">        ret.setValue(fileStore.getFileLink(fileId));</span><br><span class="line">        ret.setFilename(record.getFileName());</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@BizQuery</span></span><br><span class="line">    <span class="keyword">public</span> WebContentBean <span class="title function_">download</span><span class="params">(<span class="meta">@Name(&quot;fileId&quot;)</span> String fileId,</span></span><br><span class="line"><span class="params">                                   <span class="meta">@Name(&quot;contentType&quot;)</span> String contentType)</span> &#123;</span><br><span class="line">        <span class="type">IFileRecord</span> <span class="variable">record</span> <span class="operator">=</span> fileStore.getFile(fileId);</span><br><span class="line">        <span class="keyword">if</span> (StringHelper.isEmpty(contentType))</span><br><span class="line">            contentType = MediaType.APPLICATION_OCTET_STREAM;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">WebContentBean</span>(contentType, record.getResource(), record.getFileName());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> IFileRecord <span class="title function_">loadFileRecord</span><span class="params">(String fileId, IServiceContext ctx)</span> &#123;</span><br><span class="line">        <span class="type">IFileRecord</span> <span class="variable">record</span> <span class="operator">=</span> fileStore.getFile(fileId);</span><br><span class="line">        <span class="keyword">if</span> (bizAuthChecker != <span class="literal">null</span>) &#123;</span><br><span class="line">            bizAuthChecker.checkAuth(record.getBizObjName(), record.getBizObjId(), record.getFieldName(), ctx);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> record;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>NopFileStoreBizModel只是针对POJO对象进行编程，它完全不需要具有任何关于特定Web框架的知识，因此我们可以将它适配到不同的Web框架。例如，对于SpringMVC，</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SpringFileService</span> <span class="keyword">extends</span> <span class="title class_">AbstractGraphQLFileService</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostMapping(&quot;/f/upload&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> CompletionStage&lt;ResponseEntity&lt;Object&gt;&gt; <span class="title function_">upload</span><span class="params">(MultipartFile file, HttpServletRequest request)</span> &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">locale</span> <span class="operator">=</span> ContextProvider.currentLocale();</span><br><span class="line">        CompletionStage&lt;ApiResponse&lt;?&gt;&gt; res;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="type">InputStream</span> <span class="variable">is</span> <span class="operator">=</span> file.getInputStream();</span><br><span class="line">            <span class="type">String</span> <span class="variable">fileName</span> <span class="operator">=</span> StringHelper.fileFullName(file.getOriginalFilename());</span><br><span class="line">            <span class="type">String</span> <span class="variable">mimeType</span> <span class="operator">=</span> MediaTypeHelper.getMimeType(file.getContentType(), StringHelper.fileExt(fileName));</span><br><span class="line">            <span class="type">UploadRequestBean</span> <span class="variable">input</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">UploadRequestBean</span>(is, fileName, file.getSize(), mimeType);</span><br><span class="line">            input.setBizObjName(request.getParameter(FileConstants.PARAM_BIZ_OBJ_NAME));</span><br><span class="line"></span><br><span class="line">            <span class="type">IGraphQLEngine</span> <span class="variable">graphQLEngine</span> <span class="operator">=</span> getGraphQLEngine();</span><br><span class="line"></span><br><span class="line">            <span class="type">IGraphQLExecutionContext</span> <span class="variable">ctx</span> <span class="operator">=</span> graphQLEngine.newRpcContext(GraphQLOperationType.mutation,</span><br><span class="line">                    <span class="string">&quot;NopFileStore__upload&quot;</span>, buildApiRequest(request,input));</span><br><span class="line">            res = graphQLEngine.executeRpcAsync(ctx);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            res = FutureHelper.success(ErrorMessageManager.instance().buildResponse(locale, e));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res.thenApply(response -&gt; SpringWebHelper.buildResponse(response.getHttpStatus(), response));</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">protected</span> &lt;T&gt; ApiRequest&lt;T&gt; <span class="title function_">buildApiRequest</span><span class="params">(HttpServletRequest req, T data)</span> &#123;</span><br><span class="line">        ApiRequest&lt;T&gt; ret = <span class="keyword">new</span> <span class="title class_">ApiRequest</span>&lt;&gt;();</span><br><span class="line">        Enumeration&lt;String&gt; it = req.getHeaderNames();</span><br><span class="line">        <span class="keyword">while</span> (it.hasMoreElements()) &#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">name</span> <span class="operator">=</span> it.nextElement();</span><br><span class="line">            name = name.toLowerCase(Locale.ENGLISH);</span><br><span class="line">            <span class="keyword">if</span> (shouldIgnoreHeader(name))</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            ret.setHeader(name, req.getHeader(name));</span><br><span class="line">        &#125;</span><br><span class="line">        ret.setData(data);</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="模块依赖"><a href="#模块依赖" class="headerlink" title="模块依赖"></a>模块依赖</h2><p>引入nop-quarkus-web-orm-starter或者nop-spring-web-orm-starter依赖后，会自动引入</p>
+<ul>
+<li>nop-file-dao： 包含文件上传下载服务NopFileStoreBizModel的实现</li>
+<li>nop-file-spring或者 nop-file-quarkus: 引入处理&#x2F;f&#x2F;upload和&#x2F;f&#x2F;download链接的REST服务</li>
+</ul>
+<p><strong>使用oss云存储支持时需要引入nop-integration-oss模块</strong></p>
+<ul>
+<li>nop-integration-oss: 包含AmazonS3对象存储支持，阿里云OSS，腾讯云COS，七牛云，京东云，minio都支持这一接口标准。</li>
+</ul>
+<p>nop-integration-oss目前是可选模块，使用云存储来保存附件时需要自行引入这个模块。</p>
+<h2 id="实体字段支持附件类型"><a href="#实体字段支持附件类型" class="headerlink" title="实体字段支持附件类型"></a>实体字段支持附件类型</h2><p>NopORM并没有内置对于附件字段的支持，在应用层我们通过OrmFileComponent这种字段级别的抽象将文件存储与数据库存储结合在一起。</p>
+<ol>
+<li>附件字段中保存文件下载链接</li>
+<li>在数据库中插入NopFileRecord保存附件的大小、文件名、Hash值等元数据，同时保存fileId和实体之间的关联关系，下载文件时可以验证是否具有实体访问权限</li>
+<li>通过IFileStore接口保存具体的二进制文件数据。Nop平台中内置了本地文件存储以及AmazonS3对象存储支持，支持Minio、七牛云、腾讯云、阿里云等兼容S3的云存储。</li>
+</ol>
+<h2 id="Excel数据模型"><a href="#Excel数据模型" class="headerlink" title="Excel数据模型"></a>Excel数据模型</h2><p>在Excel数据模型中为字段的domain指定stdDomain&#x3D;file，表示它保存上传文件的链接地址。</p>
+<p><img src="/knosys/project-nop-entropy/dev-guide/graphql/file-domain.png"><br><img src="/knosys/project-nop-entropy/dev-guide/graphql/field-domain.png"></p>
+<p>根据Excel模型生成orm.xml模型文件中会为字段生成stdDomain配置。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">orm</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">x:post-extends</span> <span class="attr">x:override</span>=<span class="string">&quot;replace&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">orm-gen:DefaultPostExtends</span> <span class="attr">xpl:lib</span>=<span class="string">&quot;/nop/orm/xlib/orm-gen.xlib&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">x:post-extends</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">entites</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">entity</span> <span class="attr">className</span>=<span class="string">&quot;io.nop.auth.dao.entity.NopAuthUser&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">columns</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">column</span> <span class="attr">code</span>=<span class="string">&quot;AVATAR&quot;</span> <span class="attr">displayName</span>=<span class="string">&quot;头像&quot;</span> <span class="attr">domain</span>=<span class="string">&quot;image&quot;</span> <span class="attr">name</span>=<span class="string">&quot;avatar&quot;</span> <span class="attr">precision</span>=<span class="string">&quot;100&quot;</span> <span class="attr">propId</span>=<span class="string">&quot;9&quot;</span></span></span><br><span class="line"><span class="tag">                        <span class="attr">stdDataType</span>=<span class="string">&quot;string&quot;</span> <span class="attr">stdDomain</span>=<span class="string">&quot;file&quot;</span> <span class="attr">stdSqlType</span>=<span class="string">&quot;VARCHAR&quot;</span> <span class="attr">i18n-en:displayName</span>=<span class="string">&quot;Avatar&quot;</span></span></span><br><span class="line"><span class="tag">                        <span class="attr">ui:show</span>=<span class="string">&quot;X&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">columns</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">entity</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">entites</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">orm</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在编译期执行的<code>x:post-extends</code>段会执行标签函数 <code>&lt;orm-gen:FileComponentSupport/&gt;</code>，它会为每个文件链接字段生成一个对应的OrmFileComponent属性。</p>
+<h2 id="OrmFileComponent实现文件与实体的绑定"><a href="#OrmFileComponent实现文件与实体的绑定" class="headerlink" title="OrmFileComponent实现文件与实体的绑定"></a>OrmFileComponent实现文件与实体的绑定</h2><p>上传文件会将具体文件数据保存到IFileStore中，同时会在数据库中插入NopFileRecord记录，用于保存文件名、文件大小等描述信息。</p>
+<p>当实体更新或者删除的时候，会触发IOrmComponent接口上的onEntityFlush和onEntityDelete回调函数，在回调函数中将更新NopFileRecord对象上的bizObjName,bizObjId属性。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">OrmFileComponent</span> <span class="keyword">extends</span> <span class="title class_">AbstractOrmComponent</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">PROP_NAME_filePath</span> <span class="operator">=</span> <span class="string">&quot;filePath&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getFilePath</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> ConvertHelper.toString(internalGetPropValue(PROP_NAME_filePath));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setFilePath</span><span class="params">(String value)</span> &#123;</span><br><span class="line">        internalSetPropValue(PROP_NAME_filePath, value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onEntityFlush</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">IOrmEntity</span> <span class="variable">entity</span> <span class="operator">=</span> orm_owner();</span><br><span class="line">        <span class="type">int</span> <span class="variable">propId</span> <span class="operator">=</span> getColPropId(PROP_NAME_filePath);</span><br><span class="line">        <span class="keyword">if</span> (entity.orm_state().isUnsaved() || entity.orm_propDirty(propId)) &#123;</span><br><span class="line">            <span class="type">IBeanProvider</span> <span class="variable">beanProvider</span> <span class="operator">=</span> entity.orm_enhancer().getBeanProvider();</span><br><span class="line">            <span class="type">IOrmEntityFileStore</span> <span class="variable">fileStore</span> <span class="operator">=</span> (IOrmEntityFileStore) beanProvider.getBean(OrmConstants.BEAN_ORM_ENTITY_FILE_STORE);</span><br><span class="line">            <span class="type">String</span> <span class="variable">oldValue</span> <span class="operator">=</span> (String) entity.orm_propOldValue(propId);</span><br><span class="line"></span><br><span class="line">            <span class="type">String</span> <span class="variable">fileId</span> <span class="operator">=</span> fileStore.decodeFileId(getFilePath());</span><br><span class="line">            <span class="type">String</span> <span class="variable">propName</span> <span class="operator">=</span> entity.orm_propName(propId);</span><br><span class="line"></span><br><span class="line">            <span class="type">String</span> <span class="variable">bizObjName</span> <span class="operator">=</span> getBizObjName();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (!StringHelper.isEmpty(oldValue)) &#123;</span><br><span class="line">                <span class="type">String</span> <span class="variable">oldFileId</span> <span class="operator">=</span> fileStore.decodeFileId(oldValue);</span><br><span class="line">                <span class="keyword">if</span> (!StringHelper.isEmpty(oldFileId)) &#123;</span><br><span class="line">                    fileStore.detachFile(oldFileId, bizObjName, entity.orm_idString(), propName);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (!StringHelper.isEmpty(fileId)) &#123;</span><br><span class="line">                fileStore.attachFile(fileId, bizObjName, entity.orm_idString(), propName);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里很重要的一个设计就是实体层面上记录了附件字段是否已经被修改，以及修改前的值。可以想见，如果没有这种历史记录信息，我们就无法在单个字段层面确定如何实现文件存储与实体字段的同步，<br>而必须上升到整个实体的处理函数中进行。</p>
+<h2 id="前端控件"><a href="#前端控件" class="headerlink" title="前端控件"></a>前端控件</h2><p>在control.xlib标签库中，根据stdDomain设置会自动为字段选择对应的编辑和显示控件。</p>
+<p><code>&lt;edit-file&gt;</code>控件缺省会上传文件到&#x2F;f&#x2F;upload这个链接，返回的数据格式为</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  status:0,</span><br><span class="line">  data:&#123;</span><br><span class="line">     value: &quot;文件下载链接&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
+
+<p>下载链接的格式为 &#x2F;f&#x2F;download&#x2F;{fileId}</p>
+<p>在meta的prop节点上，可以配置以下属性:</p>
+<ul>
+<li>ui:maxUploadSize 控制上传文件的最大大小</li>
+<li>ui:uploadUrl 定制上传文件端点</li>
+<li>ui:accept 可以控制允许的文件后缀，例如 .txt,.md表示只允许上传txt和markddown文件</li>
+</ul>
+<p>另外也可以通过全局配置来设置上传控件属性</p>
+<ul>
+<li>nop.file.upload-url 全局指定的上传文件端点，缺省为&#x2F;f&#x2F;upload</li>
+<li>nop.file.upload.max-size 全局指定的上传文件大小限制。每个prop上指定的ui:maxUploadSize不能超过这个值，实际起作用的是min(prop.uploadFileSize,global.uploadMaxSize)</li>
+</ul>
+<h2 id="集成Minio"><a href="#集成Minio" class="headerlink" title="集成Minio"></a>集成Minio</h2><p>很多分布式存储都兼容Amazon的S3存储协议，例如阿里云OSS，腾讯云COS，七牛云，京东云，Minio等。</p>
+<p>使用如下配置启用Minio支持。<strong>注意，使用oss云存储支持时需要先引入nop-integration-oss模块</strong>。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">nop:</span></span><br><span class="line">  <span class="attr">file:</span></span><br><span class="line">    <span class="attr">store-impl:</span> <span class="string">oss</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">integration:</span></span><br><span class="line">    <span class="attr">oss:</span></span><br><span class="line">      <span class="attr">enabled:</span> <span class="literal">true</span></span><br><span class="line">      <span class="attr">endpoint:</span> <span class="string">http://localhost:9000</span></span><br><span class="line">      <span class="comment">#default-bucket-name: nop-file</span></span><br><span class="line">      <span class="attr">access-key:</span> <span class="string">xxx</span></span><br><span class="line">      <span class="attr">secret-key:</span> <span class="string">yyy</span></span><br><span class="line">      <span class="comment">#path-style-access: false</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>nop.file.store-impl指定为oss时会使用对象存储来保存文件，否则会使用本地文件系统，存放在&#x2F;nop&#x2F;file目录下</li>
+<li>阿里云要求pathStyleAccess必须设置为false</li>
+</ul>
+<p><strong>注意: 配置项是nop.integration.oss.enabled，而不是nop.file.integration.oss.enabled</strong></p>
+<h2 id="配置变量"><a href="#配置变量" class="headerlink" title="配置变量"></a>配置变量</h2><ul>
+<li>nop.file.store-dir<br>使用本地文件系统存储上传文件时使用的目录，缺省为&#x2F;nop&#x2F;file</li>
+<li>nop.file.store-impl<br>如果设置为oss则表示启用分布式存储，否则使用本地存储</li>
+<li>nop.file.upload-url 全局指定的上传文件端点，缺省为&#x2F;f&#x2F;upload</li>
+<li>nop.file.upload.max-size 全局指定的上传文件大小限制。每个prop上指定的ui:maxUploadSize不能超过这个值，实际起作用的是min(prop.uploadFileSize,global.uploadMaxSize)</li>
+</ul>
+
+</div>
+      <footer class="Article-footer col-md-3">
+        
+          
+          
+          
+          
+            
+          
+          
+            <div class="Widget">
+              <div class="Widget-body"><a href="https://gitee.com/canonical-entropy/nop-entropy/edit/master/docs/dev-guide/graphql/upload.md" target="_blank" rel=" rel="external nofollow"">在 Gitee 上编辑文档内容</a></div>
+            </div>
+          
+        
+        
+  
+
+  <section class="Widget Widget--toc">
+  <div class="Widget-header">
+    <h2 class="Widget-title">目录</h2>
+  </div>
+  <div class="Widget-body"></div>
+</section>
+
+
+
+      </footer>
+    </article>
+    <footer class="Page-footer Footer">
+  <div class="container-fluid">
+    
+    <div class="Footer-description">
+      
+        <!-- Important links -->
+        <nav class="Footer-navs">
+          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
+</li><li><a href="/community/"><span>社区</span></a>
+</li></ul>
+        </nav>
+      
+      
+        <!-- Copyright -->
+        <div class="Footer-copyright">
+          <p>
+
+&copy; 2024 <a href="https://nop-platform.gitee.io?utm_source=https://nop-platform.gitee.io&amp;utm_medium=common-footer" target="_blank" rel="external nofollow">Nop 社区</a> 版权所有
+
+</p>
+          
+          
+        </div>
+      
+    </div>
+  </div>
+</footer>
+
+  </main>
+</div>
+
+
+
+
+    <script>$('.Article-content > table').addClass('table table-bordered')</script>
+    
+<script src="/javascripts/ksio/vendors/share.min.js"></script>
+
+<script src="/javascripts/ksio/components/page.js"></script>
+
+<script src="/javascripts/ksio/components/toc.js"></script>
+
+<script src="/javascripts/ksio/vendors/jquery.timeago.js"></script>
+
+<script src="/javascripts/ksio/vendors/jquery.timeago.zh-CN.js"></script>
+
+<script src="/javascripts/ksio/initializers/time.js"></script>
+
+<script src="/javascripts/ksio/vendors/jquery.lazyload.js"></script>
+
+<script src="/javascripts/ksio/initializers/lazyload.js"></script>
+
+  </body>
+</html>
+

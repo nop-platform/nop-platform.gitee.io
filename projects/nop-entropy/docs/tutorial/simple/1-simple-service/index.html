@@ -1,66 +1,1377 @@
-<!DOCTYPE html> <html lang="zh-CN" dir="ltr"> <head> <meta charset="UTF-8"> <!-- SEO --> <title>Nop入门：极简服务层开发 - Nop</title> <meta property="og:title" content="Nop入门：极简服务层开发"> <meta name="description" content="Nop平台的后端服务采用NopGraphQL引擎来实现，它的设计相比于SpringMVC这种传统的Web框架要更加精炼、通用，仅包含数学层面上最小化的假定，通过类似数学的自动推理机制可以实现SpringMVC所无法达到的高度可组合性和可复用性。"> <meta property="og:description" content="Nop平台的后端服务采用NopGraphQL引擎来实现，它的设计相比于SpringMVC这种传统的Web框架要更加精炼、通用，仅包含数学层面上最小化的假定，通过类似数学的自动推理机制可以实现SpringMVC所无法达到的高度可组合性和可复用性。"> <meta name="keywords" content="Nop,Nop平台,Nop 平台,Nop Platform,Nop社区,Nop 社区,Nop Community,可逆计算,软件构造理论,低代码,lowcode,low-code,low code,低代码平台,lcdp,软件工程"> <link rel="canonical" href="https://nop-platform.gitee.io/projects/nop-entropy/docs/tutorial/simple/1-simple-service/"> <meta property="og:url" content="https://nop-platform.gitee.io/projects/nop-entropy/docs/tutorial/simple/1-simple-service/"> <meta property="og:site_name" content="Nop"> <script type="application/ld+json"> { "@context" : "http://schema.org", "@type" : "WebSite", "name" : "Nop", "url" : "https://nop-platform.gitee.io" } </script> <meta property="og:type" content="article"> <meta property="article:published_time" content="2024-04-13T09:39:39+08:00"> <link rel="next" href="https://nop-platform.gitee.io/projects/nop-entropy/docs/tutorial/simple/2-simple-dao/" title="Nop入门：极简数据访问层开发"> <link rel="prev" href="https://nop-platform.gitee.io/projects/nop-entropy/docs/theory/xml-json-equivalence/" title="XML、JSON和函数AST的等价性"> <script type="application/ld+json"> { "@context": "http://schema.org", "@type": "NewsArticle", "headline": "Nop入门：极简服务层开发", "image": null, "datePublished": "2024-04-13T09:39:39+08:00", "description": "Nop平台的后端服务采用NopGraphQL引擎来实现，它的设计相比于SpringMVC这种传统的Web框架要更加精炼、通用，仅包含数学层面上最小化的假定，通过类似数学的自动推理机制可以实现SpringMVC所无法达到的高度可组合性和可复用性。" } </script> <script type="application/ld+json"> { "@context": "http://schema.org", "@type": "Organization", "url": "https://nop-platform.gitee.io", "logo": "https://nop-platform.gitee.io/assets/logo-9952a8b58c6582fc86a9608db8113158fb31de7a9db19d4358ac7cb96578d34e.png" } </script> <link rel="author" href="https://nop-platform.gitee.io"> <!-- 页面渲染兼容性 --> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <meta name="renderer" content="webkit"> <meta name="viewport" content="width=device-width,initial-scale=1.0"> <meta name="theme-color" content="#0871ab"> <link rel="icon" href="/assets/logo-9952a8b58c6582fc86a9608db8113158fb31de7a9db19d4358ac7cb96578d34e.png"> <!-- 静态资源 --> <link type="text/css" rel="stylesheet" href="/assets/global-f979fafa22c865e727cd15f83cdc43dbc73c1a324d7ad4fe6fa48e275dc4c063.css"> <link type="text/css" rel="stylesheet" href="/assets/ksio/vendors/share-c2e41222f5f34b2de38cb5213fa0e439c11da73b3907b444a32635563ae85ffd.css"> <link type="text/css" rel="stylesheet" href="/assets/local/layouts/doc-c5c0ab8b12485893472e680b5f067b74e240481232265b6cb0ab6edc95c20f65.css"> <script type="text/javascript" src="/assets/global-b3a80dd53acf48ad7228d6fd741dba15d3845cbc3783bdbbf7244151a45628aa.js"></script> <!--[if lt IE 9]> <script type="text/javascript" src="/assets/ksio/support_ie8-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.js"></script> <![endif]--> </head> <body class="Page" itemscope itemtype="http://schema.org/WebPage"> <header class="Page-header"> <div class="navbar navbar-static-top"> <div class="container-fluid"> <div class="navbar-header"> <button class="navbar-toggle collapsed" type="button" data-target=".Page-navs" data-toggle="collapse"> <span class="sr-only">Toggle navs</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button> <a class="navbar-brand" href="/">Nop</a> </div> <!-- Nav menus --> <nav class="Page-navs navbar-collapse collapse"> <ul class="nav navbar-nav navbar-right"> <li class="dropdown"> <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a> <ul class="dropdown-menu"> <li><a href="/projects/nop-entropy/docs/">指南</a> </li> <li><a href="https://www.zhihu.com/column/reversible-computation?utm_source=https://nop-platform.gitee.io&utm_medium=common-header" target="_blank" rel="external nofollow">文章</a> </li> <li><a href="https://space.bilibili.com/3493261219990250?utm_source=https://nop-platform.gitee.io&utm_medium=common-header" target="_blank" rel="external nofollow">视频</a> </li> </ul> </li> <li class="dropdown"> <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a> <ul class="dropdown-menu"> <li><a href="/projects/nop-entropy/">Nop Entropy</a> </li> <li><a href="/projects/nop-chaos/">Nop Chaos</a> </li> </ul> </li> <li class="dropdown"> <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a> <ul class="dropdown-menu"> <li><a href="/community/">社区</a> </li> <li><a href="/team/">团队</a> </li> <li><a href="https://gitee.com/nop-platform?utm_source=https://nop-platform.gitee.io&utm_medium=common-header" target="_blank" rel="external nofollow">Gitee 组织</a> </li> </ul> </li> <li><a href="https://nop-platform.github.io?utm_source=https://nop-platform.gitee.io&utm_medium=common-header" target="_blank" rel="external nofollow">English</a> </li> </ul> </nav> </div> </div> </header> <div class="Page-content"> <aside class="Page-aside"> <div class="AsideBrand"> <a href="/">Nop</a> </div> <nav class="AsideNav"><ul> <li> <a href="/projects/nop-entropy/docs/why-nop/">介绍</a> <ul> <li> <a href="/projects/nop-entropy/docs/">文档概览</a> </li> <li> <a href="/projects/nop-entropy/docs/tutorial/tutorial/">入门教程</a> <ul> <li> <a class="is-selected" href="/projects/nop-entropy/docs/tutorial/simple/1-simple-service/">极简服务层开发</a> </li> <li> <a href="/projects/nop-entropy/docs/tutorial/simple/2-simple-dao/">极简数据访问层开发</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/compare/">与其他平台的对比</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/user-guide/">用户指南</a> <ul> <li> <a href="/projects/nop-entropy/docs/user-guide/installation/">安装和配置</a> </li> <li> <a href="/projects/nop-entropy/docs/user-guide/report/">报表引擎</a> </li> <li> <a href="/projects/nop-entropy/docs/user-guide/idea/idea-plugin/">IDEA插件使用</a> </li> <li> <a href="/projects/nop-entropy/docs/user-guide/monitor/grafana/">监控</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/arch/">软件架构</a> <ul> <li> <a href="/projects/nop-entropy/docs/arch/module-dependency/">模块依赖关系</a> </li> <li> <a href="/projects/nop-entropy/docs/core-code-guidance/">核心代码阅读导引</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/theory/">理论基础</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/">开发指南</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/codegen/">代码生成器</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/cli/">命令行工具</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/command/command/">命令行开发支持</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/config/">配置管理</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/ioc/">IoC容器</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/ioc/aop/">AOP支持</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/orm/">ORM框架</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/">XLang语言</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/xdef/">XDef元模型</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/xdsl/">XDSL领域语言</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/xscript/">XScript脚本语言</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/xpl/">Xpl模板语言</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/meta-programming/">元编程</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/model/">Excel模型</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/graphql/">GraphQL引擎</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/microservice/">分布式微服务</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/rule/rule/">规则引擎</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/workflow/task-flow/">逻辑编排</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/autotest/">自动化测试</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/tenant/">多租户</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/delta/delta-customization/">Delta定制</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/vfs/">Delta文件系统</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/auth/">权限配置</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/biz/">业务规则</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/nocode/">动态模型</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xui/">前端模型</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/integration/">第三方集成</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/spring/">spring集成</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/quarkus/">quarkus集成</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/ide/idea/">IDEA插件</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/ide/plugin-dev/">插件开发</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/faq/faq/">常见问题</a> <ul> <li> <a href="/projects/nop-entropy/docs/faq/debug-errors/">错误诊断</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/recipe/">常见问题解决方案</a> </li> </ul> </li> </ul> </nav> </aside> <main class="Page-main"> <article class="Article container-fluid"> <header class="Article-header"> <h1 class="Article-title">Nop入门：极简服务层开发</h1> </header> <div class="Article-content col-md-9"><p>Nop平台的后端服务采用NopGraphQL引擎来实现，它的设计相比于SpringMVC这种传统的Web框架要更加精炼、通用，仅包含<strong>数学层面上最小化的假定</strong>，通过类似数学的自动推理机制可以实现SpringMVC所无法达到的高度可组合性和可复用性。</p> <p>NopGraphQL引擎的实现原理可以参考文章： <a href="https://zhuanlan.zhihu.com/p/678597287" target="_blank" rel="external nofollow">为什么在数学的意义上GraphQL严格的优于REST？</a>和<a href="https://zhuanlan.zhihu.com/p/589565334" target="_blank" rel="external nofollow">低代码平台中的GraphQL引擎</a></p> <p>讲解视频：https://www.bilibili.com/video/BV1EC4y1k7s2/</p> <p>以下介绍如何集成spring框架，并实现一个最简单的后台服务函数。</p> <h2 id="nop-spring-web-starter">一. 引入nop-spring-web-starter依赖</h2> <p>一般情况下可以选择将pom文件的parent设置为nop-entropy模块，从而自动引入缺省的maven配置</p> <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span></span><span class="nt">&lt;pom&gt;</span>
-    <span class="nt">&lt;parent&gt;</span>
-        <span class="nt">&lt;groupId&gt;</span>io.github.entropy-cloud<span class="nt">&lt;/groupId&gt;</span>
-        <span class="nt">&lt;artifactId&gt;</span>nop-entropy<span class="nt">&lt;/artifactId&gt;</span>
-        <span class="nt">&lt;version&gt;</span>2.0.0-SNAPSHOT<span class="nt">&lt;/version&gt;</span>
-    <span class="nt">&lt;/parent&gt;</span>
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
 
-    <span class="nt">&lt;dependencies&gt;</span>
-        <span class="nt">&lt;dependency&gt;</span>
-            <span class="nt">&lt;groupId&gt;</span>io.github.entropy-cloud<span class="nt">&lt;/groupId&gt;</span>
-            <span class="nt">&lt;artifactId&gt;</span>nop-spring-web-starter<span class="nt">&lt;/artifactId&gt;</span>
-        <span class="nt">&lt;/dependency&gt;</span>
-    <span class="nt">&lt;/dependencies&gt;</span>
-<span class="nt">&lt;/pom&gt;</span></code></pre></figure> <p>如果需要支持orm，则需要引入nop-spring-web-orm-starter。</p> <h2 id="bizmodel">二. 实现BizModel</h2> <p>NopGraphQL中的BizModel类似于SpringMVC中的Controller，只是它的特殊假定更少，是一种数学意义上的最小化定义。</p> <figure class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="nd">@BizModel</span><span class="p">(</span><span class="s">&quot;Demo&quot;</span><span class="p">)</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DemoBizModel</span> <span class="p">{</span>
-    <span class="nd">@BizQuery</span>
-    <span class="kd">public</span> <span class="n">String</span> <span class="nf">hello</span><span class="p">(</span><span class="nd">@Name</span><span class="p">(</span><span class="s">&quot;message&quot;</span><span class="p">)</span> <span class="n">String</span> <span class="n">message</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="s">&quot;Hi,&quot;</span> <span class="o">+</span> <span class="n">message</span><span class="p">;</span>
-    <span class="p">}</span>
 
-    <span class="nd">@BizMutation</span>
-    <span class="kd">public</span> <span class="n">DemoResponse</span> <span class="nf">testOk</span><span class="p">(</span><span class="nd">@RequestBean</span> <span class="n">DemoRequest</span> <span class="n">request</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">DemoResponse</span> <span class="n">ret</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DemoResponse</span><span class="p">();</span>
-        <span class="n">ret</span><span class="p">.</span><span class="na">setName</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="na">getName</span><span class="p">());</span>
-        <span class="n">ret</span><span class="p">.</span><span class="na">setResult</span><span class="p">(</span><span class="s">&quot;ok&quot;</span><span class="p">);</span>
-        <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">}</span></code></pre></figure> <ol> <li>在类上增加<code>@BizModel</code>注解，指定后台的服务对象名</li> <li>在服务函数上增加<code>@BizQuery</code>或者<code>@BizMutation</code>注解，分别表示无副作用的查询操作和有副作用的修改操作。<code>@BizMutation</code>会指示NopGraphQL引擎自动打开数据库事务，确保后台服务函数在事务环境中执行。</li> <li>通过<code>@Name</code>注解指定服务函数的参数名。如果参数类型是JavaBean，则会自动执行JSON解析将前台参数转换为对应类型</li> </ol> <p>与SpringMVC的Controller对比，NopGraphQL会自动推定很多事情，从而极大降低的系统的不确定性：</p> <ol> <li>前端的REST链接根据对象名和方法名自动推定，而无需手工指定，固定格式为 <code>/r/{bizObjName}__{bizMethod}</code>。<strong>注意是两个下划线</strong>。</li> <li><code>@BizQuery</code>允许通过GET和POST两种HTTP方法调用，而<code>@BizMutation</code>只允许通过POST方法调用</li> <li>通过GET方式调用时，可以通过URL链接来传递参数，例如<code>/r/Demo__hello?message=abc</code>。通过POST方式调用时可以通过URL来传参，也可以通过Http的body使用JSON格式传递。</li> <li>可以通过<code>@Name</code>来一个个的指定前台参数，也可以通过<code>@RequestBean</code>将前台传递过来的所有参数包装为指定的JavaBean类型</li> <li>服务函数总是返回POJO对象，并指定按照JSON格式进行编码</li> </ol> <blockquote> <p>如果参数是可选的，可以使用@io.nop.api.core.annotations.core.Optional注解来标记，否则框架会自动校验参数不能为空。</p> </blockquote> <p>与springboot不同，Nop平台并不会通过类扫描来发现bean，所以需要在模块的beans目录下增加ioc配置文件。</p> <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span></span><span class="c">&lt;!-- _vfs/nop/demo/beans/app-simple-demo.beans.xml --&gt;</span>
-<span class="nt">&lt;beans</span> <span class="na">x:schema=</span><span class="s">&quot;/nop/schema/beans.xdef&quot;</span> <span class="na">xmlns:x=</span><span class="s">&quot;/nop/schema/xdsl.xdef&quot;</span><span class="nt">&gt;</span>
 
-    <span class="nt">&lt;bean</span> <span class="na">id=</span><span class="s">&quot;DemoBizModel&quot;</span> <span class="na">class=</span><span class="s">&quot;io.nop.demo.biz.DemoBizModel&quot;</span><span class="nt">/&gt;</span>
-<span class="nt">&lt;/beans&gt;</span></code></pre></figure> <p><code>_vfs/nop/demo</code>目录下存在一个空文件<code>_module</code>，它标识<code>nop/demo</code>是一个Nop模块。Nop平台启动时会自动加载所有模块的beans目录下以<code>app-</code>为前缀的beans.xml 配置文件。注意，并不是beans目录下的配置文件都会被加载，只有哪些以<code>app-</code>为前缀的beans.xml文件才会被自动加载。</p> <h2 id="section">三. 通用错误处理</h2> <p>NopGraphQL返回到前台的结果对象永远是<code>ApiResponse&lt;T&gt;</code>类型, 但是后台服务函数实现时并不需要像SpringMVC那样手工进行包装。</p> <figure class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="kd">class</span> <span class="nc">ApiResponse</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">{</span>
-    <span class="kt">int</span> <span class="n">status</span><span class="p">;</span>
-    <span class="n">String</span> <span class="n">code</span><span class="p">;</span>
-    <span class="n">String</span> <span class="n">msg</span><span class="p">;</span>
-    <span class="n">T</span> <span class="n">data</span><span class="p">;</span>
-<span class="p">}</span></code></pre></figure> <ul> <li><code>status=0</code>的时候表示执行成功，不为0表示执行失败</li> <li>失败时通过code来传递错误码，通过msg来传递国际化后的错误消息。</li> <li>执行成功的时候通过data来返回结果数据，也就是后台服务函数中的返回值。</li> <li>Nop平台的这种标准返回格式与前端AMIS框架所需要的服务返回格式一致。</li> </ul> <p>后端需要把错误信息返回到前台时，直接抛出异常即可</p> <figure class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="nd">@BizModel</span><span class="p">(</span><span class="s">&quot;Demo&quot;</span><span class="p">)</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DemoBizModel</span> <span class="p">{</span>
 
-    <span class="nd">@BizMutation</span>
-    <span class="kd">public</span> <span class="n">DemoResponse</span> <span class="nf">testError</span><span class="p">(</span><span class="nd">@RequestBean</span> <span class="n">DemoRequest</span> <span class="n">request</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">throw</span> <span class="k">new</span> <span class="n">NopException</span><span class="p">(</span><span class="n">ERR_DEMO_NOT_FOUND</span><span class="p">).</span><span class="na">param</span><span class="p">(</span><span class="n">ARG_NAME</span><span class="p">,</span> <span class="n">request</span><span class="p">.</span><span class="na">getName</span><span class="p">());</span>
-    <span class="p">}</span>
-<span class="p">}</span>
 
-<span class="nd">@Locale</span><span class="p">(</span><span class="s">&quot;zh-CN&quot;</span><span class="p">)</span>
-<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">DemoErrors</span> <span class="p">{</span>
-   <span class="n">String</span> <span class="n">ARG_NAME</span> <span class="o">=</span> <span class="s">&quot;name&quot;</span><span class="p">;</span>
 
-   <span class="n">ErrorCode</span> <span class="n">ERR_DEMO_NOT_FOUND</span> <span class="o">=</span>
-           <span class="n">define</span><span class="p">(</span><span class="s">&quot;nop.err.demo.not-found&quot;</span><span class="p">,</span> <span class="s">&quot;指定数据不存在: {name}&quot;</span><span class="p">,</span> <span class="n">ARG_NAME</span><span class="p">);</span>
-<span class="p">}</span></code></pre></figure> <p>错误码的定义和使用参见<a href="https://gitee.com/canonical-entropy/nop-entropy/blob/master/docs/dev-guide/error-code.md" target="_blank" rel="external nofollow">error-code.md</a></p> <h2 id="section-1">四. 框架中立</h2> <p>SpringMVC这种框架本质上是一个Web框架，很多人在使用时都会不自觉的引入对特定Web运行时的依赖，比如使用HttpServletRequest和HttpServletResponse对象等。</p> <p>NopGraphQL强调框架的技术中立性，它仅表达业务逻辑，不依赖任何特定的运行时。即使是下载文件功能，也是通过WebContentBean这个POJO对象来返回结果，而不是使用HttpServletResponse中获取到的输出流。</p> <p>NopGraphQL仅使用了<code>/graphql</code>和<code>/r/{operationName}</code>等少数几个Http端点，可以很容易的运行在任何Web运行时环境中，甚至可以自己使用Netty编写一个简单的HttpServer即可， 不需要任何复杂的Web标准支持。目前NopGraphQL与Spring框架集成时底层是使用SpringMVC实现URL路由，而与Quarkus框架集成时是使用JAXRS标准注解。</p> <p>有些人可能对GraphQL感到陌生，对于将整个前端迁移到GraphQL的调用模式上存在疑虑。NopGraphQL所强调的信息中立表达的概念，为这种问题提供了一个完美的解决方案： 我们通过代码表达的应该是某种技术中立的业务信息，框架可以根据这些技术中立的信息自动推导得到各种技术相关的接口形式。目前，基于NopGraphQL框架实现的业务函数， 可以自动发布为REST服务、GraphQL服务、Grpc服务、消息队列服务、批处理服务等。比如说：</p> <ol> <li>我们可以通过<code>/r/Demo__hello?message=abc</code>这种REST接口形式调用DemoBizModel类中的hello方法</li> <li>也可以通过<code>query{ Demo__hello(message:'abc') }</code> 这种GraphQL请求来访问同一个服务函数</li> <li>如果引入了<code>nop-rpc-grpc</code>模块依赖，NopGraphQL引擎启动的时候还会自动生成如下proto服务定义，使得我们可以通过grpc来访问这个服务函数</li> </ol> <figure class="highlight"><pre><code class="language-protobuf" data-lang="protobuf"><span></span><span class="k">syntax</span> <span class="o">=</span> <span class="s">&quot;proto3&quot;</span><span class="p">;</span>
 
-<span class="kn">package</span> <span class="nn">graphql</span><span class="o">.</span><span class="n">api</span><span class="p">;</span>
 
-<span class="kd">message</span> <span class="nc">Demo__hello_request</span><span class="p">{</span>
-   <span class="k">optional</span> <span class="kt">string</span> <span class="na">value</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-<span class="p">}</span>
 
-<span class="kd">message</span> <span class="nc">Demo__hello_response</span><span class="p">{</span>
-  <span class="k">optional</span> <span class="kt">string</span> <span class="na">value</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-<span class="p">}</span>
+  
+  
+  
+    
+  
 
-<span class="kd">service</span> <span class="n">Demo</span><span class="p">{</span>
-  <span class="k">rpc</span> <span class="n">hello</span><span class="p">(</span><span class="n">Demo__hello_request</span><span class="p">)</span> <span class="k">returns</span> <span class="p">(</span><span class="n">Demo__hello_response</span><span class="p">);</span>
-<span class="p">}</span></code></pre></figure> <h2 id="section-2">五. 查看服务定义</h2> <p>设置了nop.debug=true的时候，Nop平台会以调试模式启动。此时可以访问如下链接来获取所有服务定义：</p> <ol> <li>/p/DevDoc__graphql</li> <li>/p/DevDoc__beans</li> </ol> </div> <footer class="Article-footer col-md-3"> <div class="Widget"> <div class="Widget-body"><a href="https://gitee.com/canonical-entropy/nop-entropy/edit/master/docs/tutorial/simple/1-simple-service.md" target="_blank" rel=" rel="external nofollow"">在 Gitee 上编辑文档内容</a></div> </div> <section class="Widget Widget--toc"> <div class="Widget-header"> <h2 class="Widget-title">目录</h2> </div> <div class="Widget-body"></div> </section> </footer> </article> <footer class="Page-footer Footer"> <div class="container-fluid"> <div class="Footer-description"> <!-- Important links --> <nav class="Footer-navs"> <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a> </li><li><a href="/community/"><span>社区</span></a> </li></ul> </nav> <!-- Copyright --> <div class="Footer-copyright"> <p>&copy; 2024 <a href="https://nop-platform.gitee.io?utm_source=https://nop-platform.gitee.io&utm_medium=common-footer" target="_blank" rel="external nofollow">Nop 社区</a> 版权所有 </p> </div> </div> </div> </footer> </main> </div> <script>$('table').addClass('table table-bordered')</script> <script type="text/javascript" src="/assets/ksio/vendors/share.min-3155ee636b84a04d036e0f1ba833227d3fd03a4c58a6f2e21c9ceb1c5d0198c7.js"></script><script type="text/javascript" src="/assets/ksio/components-a266f21fe1dfd61bebf40e74872cbf901eb3e201f7d33e9e5d5af9a55f4b24ea.js"></script> <script type="text/javascript" src="/assets/ksio/initializers/time-8d7a529a66ae6cb53c2283d21fd6a12c538b8473dd5bd76458366d09adce7bf6.js"></script><script type="text/javascript" src="/assets/ksio/initializers/lazyload-44b7df8a9282d598284d522e64d6be9ac88d466f3c4a734a514303e99347b2c9.js"></script> </body> </html>
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <title>Nop入门：极简服务层开发 - Nop</title>
+
+
+  <meta property="og:title" content="Nop入门：极简服务层开发">
+
+
+  <meta name="description" content="Nop Platform 2.0 是基于可逆计算原理从零开始构建的新一代低代码平台，它致力于克服低代码平台无法摆脱穷举法的困境，从理论层面超越组件技术，有效的解决粗粒度软件复用的问题。">
+  <meta property="og:description" content="Nop Platform 2.0 是基于可逆计算原理从零开始构建的新一代低代码平台，它致力于克服低代码平台无法摆脱穷举法的困境，从理论层面超越组件技术，有效的解决粗粒度软件复用的问题。">
+
+
+
+  
+    
+  
+
+
+  <meta name="keywords" content="Nop,Nop平台,Nop 平台,Nop Platform,Nop社区,Nop 社区,Nop Community,可逆计算,软件构造理论,低代码,lowcode,low-code,low code,低代码平台,lcdp,软件工程">
+
+
+<!-- 页面渲染兼容性 -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<!-- 订阅 -->
+
+<meta name="theme-color" content="#0871ab">
+<link rel="shortcut icon" href="/images/nop/logo.png">
+
+
+    
+<link rel="stylesheet" href="/stylesheets/global.css">
+
+    
+<link rel="stylesheet" href="/stylesheets/ksio/vendors/share.css">
+
+<link rel="stylesheet" href="/local/syntax-highlighting.css">
+
+<link rel="stylesheet" href="/stylesheets/pages/post.css">
+
+<link rel="stylesheet" href="/stylesheets/pages/doc.css">
+
+    
+<script src="/javascripts/ksio/vendors/jquery-1.11.3.min.js"></script>
+
+    
+<script src="/javascripts/ksio/vendors/bootstrap.min.js"></script>
+
+  </head>
+  
+  
+  <body class="Page" itemscope itemtype="http://schema.org/WebPage">
+    
+
+  <header class="Page-header">
+  <div class="navbar navbar-static-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        
+          <button class="navbar-toggle collapsed" type="button" data-target=".Page-navs" data-toggle="collapse">
+            <span class="sr-only">Toggle navs</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        
+        
+          
+
+
+  <a class="navbar-brand" href="/">Nop</a>
+
+
+        
+      </div>
+      <!-- Nav menus -->
+      <nav class="Page-navs navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          
+  
+    <li class="dropdown">
+      <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+  
+    <li><a href="/projects/nop-entropy/docs/">指南</a>
+</li>
+  
+
+  
+    <li><a href="https://www.zhihu.com/column/reversible-computation?utm_source=https://nop-platform.gitee.io&amp;utm_medium=common-header" target="_blank" rel="external nofollow">文章</a>
+</li>
+  
+
+  
+    <li><a href="https://space.bilibili.com/3493261219990250?utm_source=https://nop-platform.gitee.io&amp;utm_medium=common-header" target="_blank" rel="external nofollow">视频</a>
+</li>
+  
+
+</ul>
+    </li>
+  
+
+  
+    <li class="dropdown">
+      <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+  
+    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+</li>
+  
+
+  
+    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+</li>
+  
+
+</ul>
+    </li>
+  
+
+  
+    <li class="dropdown">
+      <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+  
+    <li><a href="/community/">社区</a>
+</li>
+  
+
+  
+    <li><a href="/team/">团队</a>
+</li>
+  
+
+  
+    <li><a href="https://gitee.com/nop-platform?utm_source=https://nop-platform.gitee.io&amp;utm_medium=common-header" target="_blank" rel="external nofollow">Gitee 组织</a>
+</li>
+  
+
+</ul>
+    </li>
+  
+
+  
+    <li><a href="https://nop-platform.github.io?utm_source=https://nop-platform.gitee.io&amp;utm_medium=common-header" target="_blank" rel="external nofollow">English</a>
+</li>
+  
+
+
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<div class="Page-content">
+  
+  
+    <aside class="Page-aside">
+      <div class="AsideBrand">
+
+
+  <a href="/">Nop</a>
+
+</div>
+      <nav class="AsideNav"><ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/why-nop/">介绍</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+        
+        <a href="/projects/nop-entropy/docs/">文档概览</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/tutorial/tutorial/">入门教程</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a class="is-selected" href="/projects/nop-entropy/docs/tutorial/simple/1-simple-service/">极简服务层开发</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/tutorial/simple/2-simple-dao/">极简数据访问层开发</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/compare/">与其他平台的对比</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/user-guide/">用户指南</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/user-guide/installation/">安装和配置</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/user-guide/report/">报表引擎</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/user-guide/idea/idea-plugin/">IDEA插件使用</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/user-guide/monitor/grafana/">监控</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/arch/">软件架构</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/arch/module-dependency/">模块依赖关系</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/core-code-guidance/">核心代码阅读导引</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/theory/">理论基础</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/">开发指南</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/codegen/">代码生成器</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/cli/">命令行工具</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/command/command/">命令行开发支持</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/config/">配置管理</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/ioc/">IoC容器</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/ioc/aop/">AOP支持</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/orm/">ORM框架</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/">XLang语言</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/xdef/">XDef元模型</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/xdsl/">XDSL领域语言</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/xscript/">XScript脚本语言</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/xpl/">Xpl模板语言</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/meta-programming/">元编程</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/model/">Excel模型</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/graphql/">GraphQL引擎</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/microservice/">分布式微服务</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/rule/rule/">规则引擎</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/workflow/task-flow/">逻辑编排</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/autotest/">自动化测试</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/tenant/">多租户</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/delta/delta-customization/">Delta定制</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/vfs/">Delta文件系统</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/auth/">权限配置</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/biz/">业务规则</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/nocode/">动态模型</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xui/">前端模型</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/integration/">第三方集成</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/spring/">spring集成</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/quarkus/">quarkus集成</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/ide/idea/">IDEA插件</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/ide/plugin-dev/">插件开发</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/faq/faq/">常见问题</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/faq/debug-errors/">错误诊断</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/recipe/">常见问题解决方案</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+</nav>
+    </aside>
+  
+  <main class="Page-main">
+    <article class="Article container-fluid">
+      <header class="Article-header">
+        
+  
+    <h1 class="Article-title">Nop入门：极简服务层开发</h1>
+  
+  
+
+
+      </header>
+      <div class="Article-content col-md-9"><p>Nop平台的后端服务采用NopGraphQL引擎来实现，它的设计相比于SpringMVC这种传统的Web框架要更加精炼、通用，仅包含<strong>数学层面上最小化的假定</strong>，通过类似数学的自动推理机制可以实现SpringMVC所无法达到的高度可组合性和可复用性。</p>
+<p>NopGraphQL引擎的实现原理可以参考文章： <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/678597287">为什么在数学的意义上GraphQL严格的优于REST？</a>和<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/589565334">低代码平台中的GraphQL引擎</a></p>
+<p>讲解视频：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1EC4y1k7s2/">https://www.bilibili.com/video/BV1EC4y1k7s2/</a></p>
+<p>以下介绍如何集成spring框架，并实现一个最简单的后台服务函数。</p>
+<h2 id="一-引入nop-spring-web-starter依赖"><a href="#一-引入nop-spring-web-starter依赖" class="headerlink" title="一. 引入nop-spring-web-starter依赖"></a>一. 引入nop-spring-web-starter依赖</h2><p>一般情况下可以选择将pom文件的parent设置为nop-entropy模块，从而自动引入缺省的maven配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">pom</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.github.entropy-cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>nop-entropy<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.0.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.github.entropy-cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>nop-spring-web-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">pom</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果需要支持orm，则需要引入nop-spring-web-orm-starter。</p>
+<h2 id="二-实现BizModel"><a href="#二-实现BizModel" class="headerlink" title="二. 实现BizModel"></a>二. 实现BizModel</h2><p>NopGraphQL中的BizModel类似于SpringMVC中的Controller，只是它的特殊假定更少，是一种数学意义上的最小化定义。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@BizModel(&quot;Demo&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DemoBizModel</span> &#123;</span><br><span class="line">    <span class="meta">@BizQuery</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">hello</span><span class="params">(<span class="meta">@Name(&quot;message&quot;)</span> String message)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Hi,&quot;</span> + message;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@BizMutation</span></span><br><span class="line">    <span class="keyword">public</span> DemoResponse <span class="title function_">testOk</span><span class="params">(<span class="meta">@RequestBean</span> DemoRequest request)</span> &#123;</span><br><span class="line">        <span class="type">DemoResponse</span> <span class="variable">ret</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">DemoResponse</span>();</span><br><span class="line">        ret.setName(request.getName());</span><br><span class="line">        ret.setResult(<span class="string">&quot;ok&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>在类上增加<code>@BizModel</code>注解，指定后台的服务对象名</li>
+<li>在服务函数上增加<code>@BizQuery</code>或者<code>@BizMutation</code>注解，分别表示无副作用的查询操作和有副作用的修改操作。<code>@BizMutation</code>会指示NopGraphQL引擎自动打开数据库事务，确保后台服务函数在事务环境中执行。</li>
+<li>通过<code>@Name</code>注解指定服务函数的参数名。如果参数类型是JavaBean，则会自动执行JSON解析将前台参数转换为对应类型</li>
+</ol>
+<p>与SpringMVC的Controller对比，NopGraphQL会自动推定很多事情，从而极大降低的系统的不确定性：</p>
+<ol>
+<li>前端的REST链接根据对象名和方法名自动推定，而无需手工指定，固定格式为 <code>/r/&#123;bizObjName&#125;__&#123;bizMethod&#125;</code>。<strong>注意是两个下划线</strong>。</li>
+<li><code>@BizQuery</code>允许通过GET和POST两种HTTP方法调用，而<code>@BizMutation</code>只允许通过POST方法调用</li>
+<li>通过GET方式调用时，可以通过URL链接来传递参数，例如<code>/r/Demo__hello?message=abc</code>。通过POST方式调用时可以通过URL来传参，也可以通过Http的body使用JSON格式传递。</li>
+<li>可以通过<code>@Name</code>来一个个的指定前台参数，也可以通过<code>@RequestBean</code>将前台传递过来的所有参数包装为指定的JavaBean类型</li>
+<li>服务函数总是返回POJO对象，并指定按照JSON格式进行编码</li>
+</ol>
+<blockquote>
+<p>如果参数是可选的，可以使用@io.nop.api.core.annotations.core.Optional注解来标记，否则框架会自动校验参数不能为空。</p>
+</blockquote>
+<p>与springboot不同，Nop平台并不会通过类扫描来发现bean，所以需要在模块的beans目录下增加ioc配置文件。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- _vfs/nop/demo/beans/app-simple-demo.beans.xml --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">x:schema</span>=<span class="string">&quot;/nop/schema/beans.xdef&quot;</span> <span class="attr">xmlns:x</span>=<span class="string">&quot;/nop/schema/xdsl.xdef&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;DemoBizModel&quot;</span> <span class="attr">class</span>=<span class="string">&quot;io.nop.demo.biz.DemoBizModel&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>_vfs/nop/demo</code>目录下存在一个空文件<code>_module</code>，它标识<code>nop/demo</code>是一个Nop模块。Nop平台启动时会自动加载所有模块的beans目录下以<code>app-</code>为前缀的beans.xml<br>配置文件。注意，并不是beans目录下的配置文件都会被加载，只有哪些以<code>app-</code>为前缀的beans.xml文件才会被自动加载。</p>
+<h2 id="三-通用错误处理"><a href="#三-通用错误处理" class="headerlink" title="三. 通用错误处理"></a>三. 通用错误处理</h2><p>NopGraphQL返回到前台的结果对象永远是<code>ApiResponse&lt;T&gt;</code>类型, 但是后台服务函数实现时并不需要像SpringMVC那样手工进行包装。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ApiResponse</span>&lt;T&gt;&#123;</span><br><span class="line">    <span class="type">int</span> status;</span><br><span class="line">    String code;</span><br><span class="line">    String msg;</span><br><span class="line">    T data;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>status=0</code>的时候表示执行成功，不为0表示执行失败</li>
+<li>失败时通过code来传递错误码，通过msg来传递国际化后的错误消息。</li>
+<li>执行成功的时候通过data来返回结果数据，也就是后台服务函数中的返回值。</li>
+<li>Nop平台的这种标准返回格式与前端AMIS框架所需要的服务返回格式一致。</li>
+</ul>
+<p>后端需要把错误信息返回到前台时，直接抛出异常即可</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@BizModel(&quot;Demo&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DemoBizModel</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@BizMutation</span></span><br><span class="line">    <span class="keyword">public</span> DemoResponse <span class="title function_">testError</span><span class="params">(<span class="meta">@RequestBean</span> DemoRequest request)</span> &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">NopException</span>(ERR_DEMO_NOT_FOUND).param(ARG_NAME, request.getName());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Locale(&quot;zh-CN&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">DemoErrors</span> &#123;</span><br><span class="line">   <span class="type">String</span> <span class="variable">ARG_NAME</span> <span class="operator">=</span> <span class="string">&quot;name&quot;</span>;</span><br><span class="line"></span><br><span class="line">   <span class="type">ErrorCode</span> <span class="variable">ERR_DEMO_NOT_FOUND</span> <span class="operator">=</span></span><br><span class="line">           define(<span class="string">&quot;nop.err.demo.not-found&quot;</span>, <span class="string">&quot;指定数据不存在: &#123;name&#125;&quot;</span>, ARG_NAME);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>错误码的定义和使用参见<a target="_blank" rel="noopener" href="https://gitee.com/canonical-entropy/nop-entropy/blob/master/docs/dev-guide/error-code.md">error-code.md</a></p>
+<h2 id="四-框架中立"><a href="#四-框架中立" class="headerlink" title="四. 框架中立"></a>四. 框架中立</h2><p>SpringMVC这种框架本质上是一个Web框架，很多人在使用时都会不自觉的引入对特定Web运行时的依赖，比如使用HttpServletRequest和HttpServletResponse对象等。</p>
+<p>NopGraphQL强调框架的技术中立性，它仅表达业务逻辑，不依赖任何特定的运行时。即使是下载文件功能，也是通过WebContentBean这个POJO对象来返回结果，而不是使用HttpServletResponse中获取到的输出流。</p>
+<p>NopGraphQL仅使用了<code>/graphql</code>和<code>/r/&#123;operationName&#125;</code>等少数几个Http端点，可以很容易的运行在任何Web运行时环境中，甚至可以自己使用Netty编写一个简单的HttpServer即可，<br>不需要任何复杂的Web标准支持。目前NopGraphQL与Spring框架集成时底层是使用SpringMVC实现URL路由，而与Quarkus框架集成时是使用JAXRS标准注解。</p>
+<p>有些人可能对GraphQL感到陌生，对于将整个前端迁移到GraphQL的调用模式上存在疑虑。NopGraphQL所强调的信息中立表达的概念，为这种问题提供了一个完美的解决方案：<br>我们通过代码表达的应该是某种技术中立的业务信息，框架可以根据这些技术中立的信息自动推导得到各种技术相关的接口形式。目前，基于NopGraphQL框架实现的业务函数，<br>可以自动发布为REST服务、GraphQL服务、Grpc服务、消息队列服务、批处理服务等。比如说：</p>
+<ol>
+<li>我们可以通过<code>/r/Demo__hello?message=abc</code>这种REST接口形式调用DemoBizModel类中的hello方法</li>
+<li>也可以通过<code>query&#123; Demo__hello(message:&#39;abc&#39;) &#125;</code> 这种GraphQL请求来访问同一个服务函数</li>
+<li>如果引入了<code>nop-rpc-grpc</code>模块依赖，NopGraphQL引擎启动的时候还会自动生成如下proto服务定义，使得我们可以通过grpc来访问这个服务函数</li>
+</ol>
+<figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">syntax = <span class="string">&quot;proto3&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> graphql.api;</span><br><span class="line"></span><br><span class="line"><span class="keyword">message </span><span class="title class_">Demo__hello_request</span>&#123;</span><br><span class="line">   <span class="keyword">optional</span> <span class="type">string</span> value = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">message </span><span class="title class_">Demo__hello_response</span>&#123;</span><br><span class="line">  <span class="keyword">optional</span> <span class="type">string</span> value = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">service </span><span class="title class_">Demo</span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">rpc</span> hello(Demo__hello_request) <span class="keyword">returns</span> (Demo__hello_response)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="五-查看服务定义"><a href="#五-查看服务定义" class="headerlink" title="五. 查看服务定义"></a>五. 查看服务定义</h2><p>设置了nop.debug&#x3D;true的时候，Nop平台会以调试模式启动。此时可以访问如下链接来获取所有服务定义：</p>
+<ol>
+<li>&#x2F;p&#x2F;DevDoc__graphql</li>
+<li>&#x2F;p&#x2F;DevDoc__beans</li>
+</ol>
+
+</div>
+      <footer class="Article-footer col-md-3">
+        
+          
+          
+          
+          
+            
+          
+          
+            <div class="Widget">
+              <div class="Widget-body"><a href="https://gitee.com/canonical-entropy/nop-entropy/edit/master/docs/tutorial/simple/1-simple-service.md" target="_blank" rel=" rel="external nofollow"">在 Gitee 上编辑文档内容</a></div>
+            </div>
+          
+        
+        
+  
+
+  <section class="Widget Widget--toc">
+  <div class="Widget-header">
+    <h2 class="Widget-title">目录</h2>
+  </div>
+  <div class="Widget-body"></div>
+</section>
+
+
+
+      </footer>
+    </article>
+    <footer class="Page-footer Footer">
+  <div class="container-fluid">
+    
+    <div class="Footer-description">
+      
+        <!-- Important links -->
+        <nav class="Footer-navs">
+          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
+</li><li><a href="/community/"><span>社区</span></a>
+</li></ul>
+        </nav>
+      
+      
+        <!-- Copyright -->
+        <div class="Footer-copyright">
+          <p>
+
+&copy; 2024 <a href="https://nop-platform.gitee.io?utm_source=https://nop-platform.gitee.io&amp;utm_medium=common-footer" target="_blank" rel="external nofollow">Nop 社区</a> 版权所有
+
+</p>
+          
+          
+        </div>
+      
+    </div>
+  </div>
+</footer>
+
+  </main>
+</div>
+
+
+
+
+    <script>$('.Article-content > table').addClass('table table-bordered')</script>
+    
+<script src="/javascripts/ksio/vendors/share.min.js"></script>
+
+<script src="/javascripts/ksio/components/page.js"></script>
+
+<script src="/javascripts/ksio/components/toc.js"></script>
+
+<script src="/javascripts/ksio/vendors/jquery.timeago.js"></script>
+
+<script src="/javascripts/ksio/vendors/jquery.timeago.zh-CN.js"></script>
+
+<script src="/javascripts/ksio/initializers/time.js"></script>
+
+<script src="/javascripts/ksio/vendors/jquery.lazyload.js"></script>
+
+<script src="/javascripts/ksio/initializers/lazyload.js"></script>
+
+  </body>
+</html>
+

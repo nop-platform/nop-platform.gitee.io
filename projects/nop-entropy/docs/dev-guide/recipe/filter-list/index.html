@@ -1,94 +1,1370 @@
-<!DOCTYPE html> <html lang="zh-CN" dir="ltr"> <head> <meta charset="UTF-8"> <!-- SEO --> <title> 表格过滤 - Nop</title> <meta property="og:title" content=" 表格过滤"> <meta name="description" content="问题：希望为表格增加过滤条件，比如只显示type=2的数据，或者只显示用户有权限看到的数据。存在以下多种解决方案："> <meta property="og:description" content="问题：希望为表格增加过滤条件，比如只显示type=2的数据，或者只显示用户有权限看到的数据。存在以下多种解决方案："> <meta name="keywords" content="Nop,Nop平台,Nop 平台,Nop Platform,Nop社区,Nop 社区,Nop Community,可逆计算,软件构造理论,低代码,lowcode,low-code,low code,低代码平台,lcdp,软件工程"> <link rel="canonical" href="https://nop-platform.gitee.io/projects/nop-entropy/docs/dev-guide/recipe/filter-list/"> <meta property="og:url" content="https://nop-platform.gitee.io/projects/nop-entropy/docs/dev-guide/recipe/filter-list/"> <meta property="og:site_name" content="Nop"> <script type="application/ld+json"> { "@context" : "http://schema.org", "@type" : "WebSite", "name" : "Nop", "url" : "https://nop-platform.gitee.io" } </script> <meta property="og:type" content="article"> <meta property="article:published_time" content="2024-04-13T09:39:39+08:00"> <link rel="next" href="https://nop-platform.gitee.io/projects/nop-entropy/docs/dev-guide/recipe/" title="常见问题解决方案"> <link rel="prev" href="https://nop-platform.gitee.io/projects/nop-entropy/docs/dev-guide/recipe/crud/" title="1. 传递一些实体上没有的字段到后台"> <script type="application/ld+json"> { "@context": "http://schema.org", "@type": "NewsArticle", "headline": "1. 表格过滤", "image": null, "datePublished": "2024-04-13T09:39:39+08:00", "description": "问题：希望为表格增加过滤条件，比如只显示type=2的数据，或者只显示用户有权限看到的数据。存在以下多种解决方案：" } </script> <script type="application/ld+json"> { "@context": "http://schema.org", "@type": "Organization", "url": "https://nop-platform.gitee.io", "logo": "https://nop-platform.gitee.io/assets/logo-9952a8b58c6582fc86a9608db8113158fb31de7a9db19d4358ac7cb96578d34e.png" } </script> <link rel="author" href="https://nop-platform.gitee.io"> <!-- 页面渲染兼容性 --> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <meta name="renderer" content="webkit"> <meta name="viewport" content="width=device-width,initial-scale=1.0"> <meta name="theme-color" content="#0871ab"> <link rel="icon" href="/assets/logo-9952a8b58c6582fc86a9608db8113158fb31de7a9db19d4358ac7cb96578d34e.png"> <!-- 静态资源 --> <link type="text/css" rel="stylesheet" href="/assets/global-f979fafa22c865e727cd15f83cdc43dbc73c1a324d7ad4fe6fa48e275dc4c063.css"> <link type="text/css" rel="stylesheet" href="/assets/ksio/vendors/share-c2e41222f5f34b2de38cb5213fa0e439c11da73b3907b444a32635563ae85ffd.css"> <link type="text/css" rel="stylesheet" href="/assets/local/layouts/doc-c5c0ab8b12485893472e680b5f067b74e240481232265b6cb0ab6edc95c20f65.css"> <script type="text/javascript" src="/assets/global-b3a80dd53acf48ad7228d6fd741dba15d3845cbc3783bdbbf7244151a45628aa.js"></script> <!--[if lt IE 9]> <script type="text/javascript" src="/assets/ksio/support_ie8-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.js"></script> <![endif]--> </head> <body class="Page" itemscope itemtype="http://schema.org/WebPage"> <header class="Page-header"> <div class="navbar navbar-static-top"> <div class="container-fluid"> <div class="navbar-header"> <button class="navbar-toggle collapsed" type="button" data-target=".Page-navs" data-toggle="collapse"> <span class="sr-only">Toggle navs</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button> <a class="navbar-brand" href="/">Nop</a> </div> <!-- Nav menus --> <nav class="Page-navs navbar-collapse collapse"> <ul class="nav navbar-nav navbar-right"> <li class="dropdown"> <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a> <ul class="dropdown-menu"> <li><a href="/projects/nop-entropy/docs/">指南</a> </li> <li><a href="https://www.zhihu.com/column/reversible-computation?utm_source=https://nop-platform.gitee.io&utm_medium=common-header" target="_blank" rel="external nofollow">文章</a> </li> <li><a href="https://space.bilibili.com/3493261219990250?utm_source=https://nop-platform.gitee.io&utm_medium=common-header" target="_blank" rel="external nofollow">视频</a> </li> </ul> </li> <li class="dropdown"> <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a> <ul class="dropdown-menu"> <li><a href="/projects/nop-entropy/">Nop Entropy</a> </li> <li><a href="/projects/nop-chaos/">Nop Chaos</a> </li> </ul> </li> <li class="dropdown"> <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a> <ul class="dropdown-menu"> <li><a href="/community/">社区</a> </li> <li><a href="/team/">团队</a> </li> <li><a href="https://gitee.com/nop-platform?utm_source=https://nop-platform.gitee.io&utm_medium=common-header" target="_blank" rel="external nofollow">Gitee 组织</a> </li> </ul> </li> <li><a href="https://nop-platform.github.io?utm_source=https://nop-platform.gitee.io&utm_medium=common-header" target="_blank" rel="external nofollow">English</a> </li> </ul> </nav> </div> </div> </header> <div class="Page-content"> <aside class="Page-aside"> <div class="AsideBrand"> <a href="/">Nop</a> </div> <nav class="AsideNav"><ul> <li> <a href="/projects/nop-entropy/docs/why-nop/">介绍</a> <ul> <li> <a href="/projects/nop-entropy/docs/">文档概览</a> </li> <li> <a href="/projects/nop-entropy/docs/tutorial/tutorial/">入门教程</a> <ul> <li> <a href="/projects/nop-entropy/docs/tutorial/simple/1-simple-service/">极简服务层开发</a> </li> <li> <a href="/projects/nop-entropy/docs/tutorial/simple/2-simple-dao/">极简数据访问层开发</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/compare/">与其他平台的对比</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/user-guide/">用户指南</a> <ul> <li> <a href="/projects/nop-entropy/docs/user-guide/installation/">安装和配置</a> </li> <li> <a href="/projects/nop-entropy/docs/user-guide/report/">报表引擎</a> </li> <li> <a href="/projects/nop-entropy/docs/user-guide/idea/idea-plugin/">IDEA插件使用</a> </li> <li> <a href="/projects/nop-entropy/docs/user-guide/monitor/grafana/">监控</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/arch/">软件架构</a> <ul> <li> <a href="/projects/nop-entropy/docs/arch/module-dependency/">模块依赖关系</a> </li> <li> <a href="/projects/nop-entropy/docs/core-code-guidance/">核心代码阅读导引</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/theory/">理论基础</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/">开发指南</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/codegen/">代码生成器</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/cli/">命令行工具</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/command/command/">命令行开发支持</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/config/">配置管理</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/ioc/">IoC容器</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/ioc/aop/">AOP支持</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/orm/">ORM框架</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/">XLang语言</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/xdef/">XDef元模型</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/xdsl/">XDSL领域语言</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/xscript/">XScript脚本语言</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/xpl/">Xpl模板语言</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/meta-programming/">元编程</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/model/">Excel模型</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/graphql/">GraphQL引擎</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/microservice/">分布式微服务</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/rule/rule/">规则引擎</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/workflow/task-flow/">逻辑编排</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/autotest/">自动化测试</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/tenant/">多租户</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/delta/delta-customization/">Delta定制</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/vfs/">Delta文件系统</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/auth/">权限配置</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/biz/">业务规则</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/nocode/">动态模型</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xui/">前端模型</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/integration/">第三方集成</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/spring/">spring集成</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/quarkus/">quarkus集成</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/ide/idea/">IDEA插件</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/ide/plugin-dev/">插件开发</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/faq/faq/">常见问题</a> <ul> <li> <a href="/projects/nop-entropy/docs/faq/debug-errors/">错误诊断</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/recipe/">常见问题解决方案</a> </li> </ul> </li> </ul> </nav> </aside> <main class="Page-main"> <article class="Article container-fluid"> <header class="Article-header"> <h1 class="Article-title">1. 表格过滤</h1> </header> <div class="Article-content col-md-9"><p>问题：希望为表格增加过滤条件，比如只显示type=2的数据，或者只显示用户有权限看到的数据。 存在以下多种解决方案：</p> <h2 id="a-">A. 通过数据权限实现过滤</h2> <p>后台内置的findPage、findList和findFirst动作都会应用数据权限检查接口 IDataAuthChecker。 通过nop.auth.enable-data-auth来启用数据权限，缺省为true</p> <ul> <li>通过auth模块的数据权限菜单配置数据权限，它对应于NopAuthRoleDataAuth表。</li> <li>在/nop/main/auth/app.data-auth.xml文件中配置数据权限</li> </ul> <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span></span><span class="nt">&lt;data-auth&gt;</span>
-    <span class="nt">&lt;objs&gt;</span>
-        <span class="nt">&lt;obj</span> <span class="na">name=</span><span class="s">&quot;MyEntity&quot;</span><span class="nt">&gt;</span>
-            <span class="nt">&lt;role-auths&gt;</span>
-                <span class="nt">&lt;role-auth</span> <span class="na">roleId=</span><span class="s">&quot;manager&quot;</span><span class="nt">&gt;</span>
-                    <span class="nt">&lt;filter&gt;</span>
-                        <span class="nt">&lt;eq</span> <span class="na">name=</span><span class="s">&quot;type&quot;</span> <span class="na">value=</span><span class="s">&quot;1&quot;</span> <span class="nt">/&gt;</span>
-                    <span class="nt">&lt;/filter&gt;</span>
-                <span class="nt">&lt;/role-auth&gt;</span>
-            <span class="nt">&lt;/role-auths&gt;</span>
-        <span class="nt">&lt;/obj&gt;</span>
-    <span class="nt">&lt;/objs&gt;</span>
-<span class="nt">&lt;/data-auth&gt;</span></code></pre></figure> <p>具体数据权限配置参见 <a href="../../auth/auth/">auth.md</a></p> <h3 id="b-">B. 在前台拼接过滤条件</h3> <p>XView模型中定义的grid可以配置filter条件，使用该grid生成的表格查询数据时会自动携带过滤条件。</p> <figure class="highlight"><pre><code class="language-text" data-lang="text"><span></span>&lt;grid id=&quot;list&quot;&gt;
-  &lt;cols&gt;
-    ...
-  &lt;/cols&gt;
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+
+
+
+
+
+
+
+
+
   
-  &lt;filter&gt;
-    &lt;eq name=&quot;type&quot; value=&quot;1&quot; /&gt;
-  &lt;/filter&gt;
-&lt;/grid&gt;</code></pre></figure> <p><strong>注意在grid中配置的条件是作为前端的查询条件传播到后台的</strong></p> <h3 id="c-xmeta">C. 后台XMeta对象配置过滤条件</h3> <p>xmeta配置文件中可以配置filter过滤条件。如果在meta中配置，则新增、修改的时候也会按照这里的过滤条件自动设置。例如</p> <figure class="highlight"><pre><code class="language-text" data-lang="text"><span></span>&lt;filter&gt;
-   &lt;eq name=&quot;type&quot; value=&quot;1&quot; /&gt;
-&lt;/filter&gt;</code></pre></figure> <p>则新增和修改的时候都会固定设置type=1。</p> <p>基于已有的xmeta，可以新建xmeta。例如 MyEntity_ext.xmeta</p> <figure class="highlight"><pre><code class="language-text" data-lang="text"><span></span>&lt;meta x:extends=&quot;MyEntity.xmeta&quot;&gt;
-  &lt;filter&gt;
-     &lt;eq name=&quot;type&quot; value=&quot;1&quot; /&gt;
-  &lt;/filter&gt;
-&lt;/meta&gt;</code></pre></figure> <p>前台调用时使用对象名MyEntity_ext就会自动应用这里的meta。例如</p> <figure class="highlight"><pre><code class="language-text" data-lang="text"><span></span>query{
-   MyEntity_ext__findPage{
-      ...
-   }
-}</code></pre></figure> <p>在meta中增加的过滤条件是在后台拼接的，前台看不见。而且它会影响到新建和修改操作，新建和修改会按照过滤条件中的值进行设置，确保实体满足filer要求</p> <h3 id="d-bizmodel">D. 在后台BizModel中增加新的方法</h3> <figure class="highlight"><pre><code class="language-text" data-lang="text"><span></span>class MyEntityBizModel extends CrudBizModel&lt;MyEntity&gt;{
-    @BizQuery
-    @GraphQLReturn(bizObjName = BIZ_OBJ_NAME_THIS_OBJ)
-    public PageBean&lt;T&gt; findPage_ext(@Name(&quot;query&quot;) @Description(&quot;@i18n:biz.query|查询条件&quot;) QueryBean query,
-                                FieldSelectionBean selection, IServiceContext context) {
-        if (query != null)
-            query.setDisableLogicalDelete(false);
-
-        return doFindPage(query, this::addExtQuery, selection, context);
-    }
+  
+  
     
-    protected void defaultPrepareQuery(@Name(&quot;query&quot;) QueryBean query, IServiceContext context) {
-        query.addFilter(FilterBeans.eq(MyEntity.PROP_NAME_status,1));
-    }
-}</code></pre></figure> <p>在前台可以继承已有的页面，然后定制其中的api数据请求链接</p> <figure class="highlight"><pre><code class="language-text" data-lang="text"><span></span>&lt;form id=&quot;edit&quot;&gt;
-  &lt;cells&gt;
-    &lt;cell id=&quot;productId&quot;&gt;
-       &lt;gen-control&gt;
-          return {
-                &quot;x:extends&quot;:&quot;xxx.page.yaml&quot;,
-                initApi: {
-                   url: &quot;@query:MyEntity__findPage_ext/{@gridSelection}&quot;
-                }
-            }
-       &lt;/gen-control&gt;
-    &lt;/cell&gt;
-  &lt;/cells&gt;
-&lt;/form&gt;</code></pre></figure> <h3 id="e-">E. 采用子查询进行过滤</h3> <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span></span><span class="nt">&lt;filter&gt;</span>
-    <span class="nt">&lt;eq</span> <span class="na">name=</span><span class="s">&quot;type&quot;</span> <span class="na">value=</span><span class="s">&quot;${3}&quot;</span> <span class="nt">/&gt;</span>
-    <span class="nt">&lt;filter:sql</span> <span class="na">xpl:lib=</span><span class="s">&quot;/nop/core/xlib/filter.xlib&quot;</span><span class="nt">&gt;</span>
-        o.id in (select t.task.id from MyTask t where t.userId = ${$context.userId || &#39;1&#39;})
-    <span class="nt">&lt;/filter:sql&gt;</span>    
-<span class="nt">&lt;/filter&gt;</span></code></pre></figure> <p><code>&lt;filter:sql&gt;</code>会生成<code>&lt;sql value="SQL" /&gt;</code>这样的过滤条件。</p> <p>这里的o表示当前实体类，整个filter段会被翻译为where条件，例如上面的过滤条件会被翻译为</p> <figure class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span><span class="n">o</span><span class="p">.</span><span class="k">type</span> <span class="o">=</span> <span class="mi">3</span>
-<span class="k">and</span> <span class="n">o</span><span class="p">.</span><span class="n">id</span> <span class="k">in</span> <span class="p">(</span><span class="k">select</span> <span class="n">t</span><span class="p">.</span><span class="n">task</span><span class="p">.</span><span class="n">id</span> <span class="k">from</span> <span class="n">MyTask</span> <span class="n">t</span> <span class="k">where</span> <span class="n">t</span><span class="p">.</span><span class="n">userId</span> <span class="o">=</span> <span class="err">${$</span><span class="n">context</span><span class="p">.</span><span class="n">userId</span> <span class="o">||</span> <span class="s1">&#39;1&#39;</span><span class="err">}</span><span class="p">)</span></code></pre></figure> <blockquote> <p>sql节点的value属性必须是SQL类型，不能是简单的文本字符串，这样约定的目的是避免前台提交filter查询条件插入子查询形成SQL注入攻击。要求value必须是SQL类型，就只能是在后台通过程序来构造。</p> </blockquote> <p>在Java程序中可以通过如下方式追加子查询条件</p> <figure class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="n">QueryBean</span> <span class="n">query</span><span class="o">=</span> <span class="p">...;</span>
-<span class="n">SQL</span> <span class="n">sql</span> <span class="o">=</span> <span class="n">SQL</span><span class="p">.</span><span class="na">begin</span><span class="p">().</span><span class="na">sql</span><span class="p">(</span><span class="s">&quot;o.id in (select t.task.id from MyTask t where t.userId = ?&quot;</span><span class="p">,</span><span class="n">userId</span><span class="p">).</span><span class="na">end</span><span class="p">();</span>
-<span class="n">query</span><span class="p">.</span><span class="na">addFilter</span><span class="p">(</span><span class="n">FilterBeans</span><span class="p">.</span><span class="na">assertOp</span><span class="p">(</span><span class="s">&quot;sql&quot;</span><span class="p">,</span><span class="n">sql</span><span class="p">));</span></code></pre></figure> <p>SQL.begin()会返回一个SqlBuilder对象，它提供了很多帮助函数用于简化SQL语句的拼接。</p> <h3 id="f-xbiz">F. 在XBiz模型文件中配置过滤条件</h3> <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span></span><span class="nt">&lt;query</span> <span class="na">name=</span><span class="s">&quot;active_findPage&quot;</span> <span class="na">x:prototype=</span><span class="s">&quot;findPage&quot;</span><span class="nt">&gt;</span>
+  
 
-    <span class="nt">&lt;source&gt;</span>
-        <span class="nt">&lt;c:import</span> <span class="na">class=</span><span class="s">&quot;io.nop.auth.api.AuthApiConstants&quot;</span> <span class="nt">/&gt;</span>
 
-        <span class="nt">&lt;bo:DoFindPage</span> <span class="na">query=</span><span class="s">&quot;${query}&quot;</span> <span class="na">selection=</span><span class="s">&quot;${selection}&quot;</span> <span class="na">xpl:lib=</span><span class="s">&quot;/nop/biz/xlib/bo.xlib&quot;</span><span class="nt">&gt;</span>
-            <span class="nt">&lt;filter&gt;</span>
-                <span class="nt">&lt;eq</span> <span class="na">name=</span><span class="s">&quot;status&quot;</span> <span class="na">value=</span><span class="s">&quot;${AuthApiConstants.USER_STATUS_ACTIVE}&quot;</span> <span class="nt">/&gt;</span>
-            <span class="nt">&lt;/filter&gt;</span>
-        <span class="nt">&lt;/bo:DoFindPage&gt;</span>
-    <span class="nt">&lt;/source&gt;</span>
-<span class="nt">&lt;/query&gt;</span></code></pre></figure> <ul> <li> <p>在xbiz文件中配置的方法优先级更高，如果和Java中BizModel的函数名重名，则会覆盖Java中的实现。</p> </li> <li> <p>bo.xlib提供了一系列缺省实现，我们可以在缺省实现的基础上增加额外的过滤条件。</p> </li> <li> <p>自动生成xbiz文件中已经包含了findPage/findList/save/update等标准CRUD函数的参数声明，通过<code>x:prototype="findPage"</code>继承已有配置，则可以简化类似函数的编写。 一般在标准函数上的扩展，我们命名时都采用规则<code>{extName}_{stdName}</code>，这样前台可以自动推定得到GraphQL调用的参数类型和返回值类型，从而避免在前台再声明类型。</p> </li> </ul> <p>上面的代码完全展开后对应如下代码(可以在<code>_dump</code>目录下查看)</p> <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span></span><span class="c">&lt;!--LOC:[49:26:0:0]/nop/core/xlib/biz-gen.xlib#/nop/auth/model/NopAuthUser/_NopAuthUser.xbiz</span>
-<span class="c"> @name=[6:22:0:0]/nop/auth/model/NopAuthUser/NopAuthUser.xbiz</span>
-<span class="c">--&gt;</span>
-<span class="nt">&lt;query</span> <span class="na">name=</span><span class="s">&quot;active_findPage&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;query&quot;</span> <span class="na">type=</span><span class="s">&quot;io.nop.api.core.beans.query.QueryBean&quot;</span><span class="nt">/&gt;</span>
-    <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;selection&quot;</span> <span class="na">type=</span><span class="s">&quot;io.nop.api.core.beans.FieldSelectionBean&quot;</span> <span class="na">kind=</span><span class="s">&quot;FieldSelection&quot;</span><span class="nt">/&gt;</span>
-    <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;svcCtx&quot;</span> <span class="na">type=</span><span class="s">&quot;io.nop.core.context.IServiceContext&quot;</span> <span class="na">kind=</span><span class="s">&quot;ServiceContext&quot;</span><span class="nt">/&gt;</span>
-    <span class="nt">&lt;return</span> <span class="na">type=</span><span class="s">&quot;PageBean&amp;lt;io.nop.auth.dao.entity.NopAuthUser&amp;gt;&quot;</span><span class="nt">/&gt;</span>
-<span class="c">&lt;!--LOC:[8:14:0:0]/nop/auth/model/NopAuthUser/NopAuthUser.xbiz--&gt;</span>
-    <span class="nt">&lt;source&gt;</span>
-        <span class="nt">&lt;c:import</span> <span class="na">class=</span><span class="s">&quot;io.nop.auth.api.AuthApiConstants&quot;</span><span class="nt">/&gt;</span>
-        <span class="nt">&lt;bo:DoFindPage</span> <span class="na">query=</span><span class="s">&quot;${query}&quot;</span> <span class="na">selection=</span><span class="s">&quot;${selection}&quot;</span> <span class="na">xpl:lib=</span><span class="s">&quot;/nop/biz/xlib/bo.xlib&quot;</span><span class="nt">&gt;</span>
-            <span class="nt">&lt;filter&gt;</span>
-                <span class="nt">&lt;eq</span> <span class="na">name=</span><span class="s">&quot;status&quot;</span> <span class="na">value=</span><span class="s">&quot;${AuthApiConstants.USER_STATUS_ACTIVE}&quot;</span><span class="nt">/&gt;</span>
-            <span class="nt">&lt;/filter&gt;</span>
-        <span class="nt">&lt;/bo:DoFindPage&gt;</span>
-    <span class="nt">&lt;/source&gt;</span>
-<span class="nt">&lt;/query&gt;</span></code></pre></figure> </div> <footer class="Article-footer col-md-3"> <div class="Widget"> <div class="Widget-body"><a href="https://gitee.com/canonical-entropy/nop-entropy/edit/master/docs/dev-guide/recipe/filter-list.md" target="_blank" rel=" rel="external nofollow"">在 Gitee 上编辑文档内容</a></div> </div> <section class="Widget Widget--toc"> <div class="Widget-header"> <h2 class="Widget-title">目录</h2> </div> <div class="Widget-body"></div> </section> </footer> </article> <footer class="Page-footer Footer"> <div class="container-fluid"> <div class="Footer-description"> <!-- Important links --> <nav class="Footer-navs"> <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a> </li><li><a href="/community/"><span>社区</span></a> </li></ul> </nav> <!-- Copyright --> <div class="Footer-copyright"> <p>&copy; 2024 <a href="https://nop-platform.gitee.io?utm_source=https://nop-platform.gitee.io&utm_medium=common-footer" target="_blank" rel="external nofollow">Nop 社区</a> 版权所有 </p> </div> </div> </div> </footer> </main> </div> <script>$('table').addClass('table table-bordered')</script> <script type="text/javascript" src="/assets/ksio/vendors/share.min-3155ee636b84a04d036e0f1ba833227d3fd03a4c58a6f2e21c9ceb1c5d0198c7.js"></script><script type="text/javascript" src="/assets/ksio/components-a266f21fe1dfd61bebf40e74872cbf901eb3e201f7d33e9e5d5af9a55f4b24ea.js"></script> <script type="text/javascript" src="/assets/ksio/initializers/time-8d7a529a66ae6cb53c2283d21fd6a12c538b8473dd5bd76458366d09adce7bf6.js"></script><script type="text/javascript" src="/assets/ksio/initializers/lazyload-44b7df8a9282d598284d522e64d6be9ac88d466f3c4a734a514303e99347b2c9.js"></script> </body> </html>
+  
+
+
+  
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <title>表格过滤 - Nop</title>
+
+
+  <meta property="og:title" content="表格过滤">
+
+
+  <meta name="description" content="Nop Platform 2.0 是基于可逆计算原理从零开始构建的新一代低代码平台，它致力于克服低代码平台无法摆脱穷举法的困境，从理论层面超越组件技术，有效的解决粗粒度软件复用的问题。">
+  <meta property="og:description" content="Nop Platform 2.0 是基于可逆计算原理从零开始构建的新一代低代码平台，它致力于克服低代码平台无法摆脱穷举法的困境，从理论层面超越组件技术，有效的解决粗粒度软件复用的问题。">
+
+
+
+  
+    
+  
+
+
+  <meta name="keywords" content="Nop,Nop平台,Nop 平台,Nop Platform,Nop社区,Nop 社区,Nop Community,可逆计算,软件构造理论,低代码,lowcode,low-code,low code,低代码平台,lcdp,软件工程">
+
+
+<!-- 页面渲染兼容性 -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<!-- 订阅 -->
+
+<meta name="theme-color" content="#0871ab">
+<link rel="shortcut icon" href="/images/nop/logo.png">
+
+
+    
+<link rel="stylesheet" href="/stylesheets/global.css">
+
+    
+<link rel="stylesheet" href="/stylesheets/ksio/vendors/share.css">
+
+<link rel="stylesheet" href="/local/syntax-highlighting.css">
+
+<link rel="stylesheet" href="/stylesheets/pages/post.css">
+
+<link rel="stylesheet" href="/stylesheets/pages/doc.css">
+
+    
+<script src="/javascripts/ksio/vendors/jquery-1.11.3.min.js"></script>
+
+    
+<script src="/javascripts/ksio/vendors/bootstrap.min.js"></script>
+
+  </head>
+  
+  
+  <body class="Page" itemscope itemtype="http://schema.org/WebPage">
+    
+
+  <header class="Page-header">
+  <div class="navbar navbar-static-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        
+          <button class="navbar-toggle collapsed" type="button" data-target=".Page-navs" data-toggle="collapse">
+            <span class="sr-only">Toggle navs</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        
+        
+          
+
+
+  <a class="navbar-brand" href="/">Nop</a>
+
+
+        
+      </div>
+      <!-- Nav menus -->
+      <nav class="Page-navs navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          
+  
+    <li class="dropdown">
+      <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+  
+    <li><a href="/projects/nop-entropy/docs/">指南</a>
+</li>
+  
+
+  
+    <li><a href="https://www.zhihu.com/column/reversible-computation?utm_source=https://nop-platform.gitee.io&amp;utm_medium=common-header" target="_blank" rel="external nofollow">文章</a>
+</li>
+  
+
+  
+    <li><a href="https://space.bilibili.com/3493261219990250?utm_source=https://nop-platform.gitee.io&amp;utm_medium=common-header" target="_blank" rel="external nofollow">视频</a>
+</li>
+  
+
+</ul>
+    </li>
+  
+
+  
+    <li class="dropdown">
+      <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+  
+    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+</li>
+  
+
+  
+    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+</li>
+  
+
+</ul>
+    </li>
+  
+
+  
+    <li class="dropdown">
+      <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+  
+    <li><a href="/community/">社区</a>
+</li>
+  
+
+  
+    <li><a href="/team/">团队</a>
+</li>
+  
+
+  
+    <li><a href="https://gitee.com/nop-platform?utm_source=https://nop-platform.gitee.io&amp;utm_medium=common-header" target="_blank" rel="external nofollow">Gitee 组织</a>
+</li>
+  
+
+</ul>
+    </li>
+  
+
+  
+    <li><a href="https://nop-platform.github.io?utm_source=https://nop-platform.gitee.io&amp;utm_medium=common-header" target="_blank" rel="external nofollow">English</a>
+</li>
+  
+
+
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<div class="Page-content">
+  
+  
+    <aside class="Page-aside">
+      <div class="AsideBrand">
+
+
+  <a href="/">Nop</a>
+
+</div>
+      <nav class="AsideNav"><ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/why-nop/">介绍</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+        
+        <a href="/projects/nop-entropy/docs/">文档概览</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/tutorial/tutorial/">入门教程</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/tutorial/simple/1-simple-service/">极简服务层开发</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/tutorial/simple/2-simple-dao/">极简数据访问层开发</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/compare/">与其他平台的对比</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/user-guide/">用户指南</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/user-guide/installation/">安装和配置</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/user-guide/report/">报表引擎</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/user-guide/idea/idea-plugin/">IDEA插件使用</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/user-guide/monitor/grafana/">监控</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/arch/">软件架构</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/arch/module-dependency/">模块依赖关系</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/core-code-guidance/">核心代码阅读导引</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/theory/">理论基础</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/">开发指南</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/codegen/">代码生成器</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/cli/">命令行工具</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/command/command/">命令行开发支持</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/config/">配置管理</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/ioc/">IoC容器</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/ioc/aop/">AOP支持</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/orm/">ORM框架</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/">XLang语言</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/xdef/">XDef元模型</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/xdsl/">XDSL领域语言</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/xscript/">XScript脚本语言</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/xpl/">Xpl模板语言</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/meta-programming/">元编程</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/model/">Excel模型</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/graphql/">GraphQL引擎</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/microservice/">分布式微服务</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/rule/rule/">规则引擎</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/workflow/task-flow/">逻辑编排</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/autotest/">自动化测试</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/tenant/">多租户</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/delta/delta-customization/">Delta定制</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/vfs/">Delta文件系统</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/auth/">权限配置</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/biz/">业务规则</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/nocode/">动态模型</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xui/">前端模型</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/integration/">第三方集成</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/spring/">spring集成</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/quarkus/">quarkus集成</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/ide/idea/">IDEA插件</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/ide/plugin-dev/">插件开发</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/faq/faq/">常见问题</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/faq/debug-errors/">错误诊断</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/recipe/">常见问题解决方案</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+</nav>
+    </aside>
+  
+  <main class="Page-main">
+    <article class="Article container-fluid">
+      <header class="Article-header">
+        
+  
+    <h1 class="Article-title">1. 表格过滤</h1>
+  
+  
+
+
+      </header>
+      <div class="Article-content col-md-9"><p>问题：希望为表格增加过滤条件，比如只显示type&#x3D;2的数据，或者只显示用户有权限看到的数据。<br>存在以下多种解决方案：</p>
+<h2 id="A-通过数据权限实现过滤"><a href="#A-通过数据权限实现过滤" class="headerlink" title="A. 通过数据权限实现过滤"></a>A. 通过数据权限实现过滤</h2><p>后台内置的findPage、findList和findFirst动作都会应用数据权限检查接口 IDataAuthChecker。<br>通过nop.auth.enable-data-auth来启用数据权限，缺省为true</p>
+<ul>
+<li>通过auth模块的数据权限菜单配置数据权限，它对应于NopAuthRoleDataAuth表。</li>
+<li>在&#x2F;nop&#x2F;main&#x2F;auth&#x2F;app.data-auth.xml文件中配置数据权限</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">data-auth</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">objs</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">obj</span> <span class="attr">name</span>=<span class="string">&quot;MyEntity&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">role-auths</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">role-auth</span> <span class="attr">roleId</span>=<span class="string">&quot;manager&quot;</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line">                        <span class="tag">&lt;<span class="name">eq</span> <span class="attr">name</span>=<span class="string">&quot;type&quot;</span> <span class="attr">value</span>=<span class="string">&quot;1&quot;</span> /&gt;</span></span><br><span class="line">                    <span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">role-auth</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">role-auths</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">obj</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">objs</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">data-auth</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>具体数据权限配置参见 <a href="../../auth/auth/">auth.md</a></p>
+<h3 id="B-在前台拼接过滤条件"><a href="#B-在前台拼接过滤条件" class="headerlink" title="B. 在前台拼接过滤条件"></a>B. 在前台拼接过滤条件</h3><p>XView模型中定义的grid可以配置filter条件，使用该grid生成的表格查询数据时会自动携带过滤条件。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;grid id=&quot;list&quot;&gt;</span><br><span class="line">  &lt;cols&gt;</span><br><span class="line">    ...</span><br><span class="line">  &lt;/cols&gt;</span><br><span class="line">  </span><br><span class="line">  &lt;filter&gt;</span><br><span class="line">    &lt;eq name=&quot;type&quot; value=&quot;1&quot; /&gt;</span><br><span class="line">  &lt;/filter&gt;</span><br><span class="line">&lt;/grid&gt;    </span><br></pre></td></tr></table></figure>
+
+<p><strong>注意在grid中配置的条件是作为前端的查询条件传播到后台的</strong></p>
+<h3 id="C-后台XMeta对象配置过滤条件"><a href="#C-后台XMeta对象配置过滤条件" class="headerlink" title="C. 后台XMeta对象配置过滤条件"></a>C. 后台XMeta对象配置过滤条件</h3><p>xmeta配置文件中可以配置filter过滤条件。如果在meta中配置，则新增、修改的时候也会按照这里的过滤条件自动设置。例如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;filter&gt;</span><br><span class="line">   &lt;eq name=&quot;type&quot; value=&quot;1&quot; /&gt;</span><br><span class="line">&lt;/filter&gt;</span><br></pre></td></tr></table></figure>
+
+<p>则新增和修改的时候都会固定设置type&#x3D;1。</p>
+<p>基于已有的xmeta，可以新建xmeta。例如 MyEntity_ext.xmeta</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta x:extends=&quot;MyEntity.xmeta&quot;&gt;</span><br><span class="line">  &lt;filter&gt;</span><br><span class="line">     &lt;eq name=&quot;type&quot; value=&quot;1&quot; /&gt;</span><br><span class="line">  &lt;/filter&gt;</span><br><span class="line">&lt;/meta&gt;</span><br></pre></td></tr></table></figure>
+
+<p>前台调用时使用对象名MyEntity_ext就会自动应用这里的meta。例如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">query&#123;</span><br><span class="line">   MyEntity_ext__findPage&#123;</span><br><span class="line">      ...</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在meta中增加的过滤条件是在后台拼接的，前台看不见。而且它会影响到新建和修改操作，新建和修改会按照过滤条件中的值进行设置，确保实体满足filer要求</p>
+<h3 id="D-在后台BizModel中增加新的方法"><a href="#D-在后台BizModel中增加新的方法" class="headerlink" title="D. 在后台BizModel中增加新的方法"></a>D. 在后台BizModel中增加新的方法</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">class MyEntityBizModel extends CrudBizModel&lt;MyEntity&gt;&#123;</span><br><span class="line">    @BizQuery</span><br><span class="line">    @GraphQLReturn(bizObjName = BIZ_OBJ_NAME_THIS_OBJ)</span><br><span class="line">    public PageBean&lt;T&gt; findPage_ext(@Name(&quot;query&quot;) @Description(&quot;@i18n:biz.query|查询条件&quot;) QueryBean query,</span><br><span class="line">                                FieldSelectionBean selection, IServiceContext context) &#123;</span><br><span class="line">        if (query != null)</span><br><span class="line">            query.setDisableLogicalDelete(false);</span><br><span class="line"></span><br><span class="line">        return doFindPage(query, this::addExtQuery, selection, context);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    protected void defaultPrepareQuery(@Name(&quot;query&quot;) QueryBean query, IServiceContext context) &#123;</span><br><span class="line">        query.addFilter(FilterBeans.eq(MyEntity.PROP_NAME_status,1));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在前台可以继承已有的页面，然后定制其中的api数据请求链接</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;form id=&quot;edit&quot;&gt;</span><br><span class="line">  &lt;cells&gt;</span><br><span class="line">    &lt;cell id=&quot;productId&quot;&gt;</span><br><span class="line">       &lt;gen-control&gt;</span><br><span class="line">          return &#123;</span><br><span class="line">                &quot;x:extends&quot;:&quot;xxx.page.yaml&quot;,</span><br><span class="line">                initApi: &#123;</span><br><span class="line">                   url: &quot;@query:MyEntity__findPage_ext/&#123;@gridSelection&#125;&quot;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">       &lt;/gen-control&gt;</span><br><span class="line">    &lt;/cell&gt;</span><br><span class="line">  &lt;/cells&gt;</span><br><span class="line">&lt;/form&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="E-采用子查询进行过滤"><a href="#E-采用子查询进行过滤" class="headerlink" title="E. 采用子查询进行过滤"></a>E. 采用子查询进行过滤</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">eq</span> <span class="attr">name</span>=<span class="string">&quot;type&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;3&#125;&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">filter:sql</span> <span class="attr">xpl:lib</span>=<span class="string">&quot;/nop/core/xlib/filter.xlib&quot;</span>&gt;</span></span><br><span class="line">        o.id in (select t.task.id from MyTask t where t.userId = $&#123;$context.userId || &#x27;1&#x27;&#125;)</span><br><span class="line">    <span class="tag">&lt;/<span class="name">filter:sql</span>&gt;</span>    </span><br><span class="line"><span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>&lt;filter:sql&gt;</code>会生成<code>&lt;sql value=&quot;SQL&quot; /&gt;</code>这样的过滤条件。</p>
+<p>这里的o表示当前实体类，整个filter段会被翻译为where条件，例如上面的过滤条件会被翻译为</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">o.type <span class="operator">=</span> <span class="number">3</span></span><br><span class="line"><span class="keyword">and</span> o.id <span class="keyword">in</span> (<span class="keyword">select</span> t.task.id <span class="keyword">from</span> MyTask t <span class="keyword">where</span> t.userId <span class="operator">=</span> $&#123;$context.userId <span class="operator">||</span> <span class="string">&#x27;1&#x27;</span>&#125;)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>sql节点的value属性必须是SQL类型，不能是简单的文本字符串，这样约定的目的是避免前台提交filter查询条件插入子查询形成SQL注入攻击。要求value必须是SQL类型，就只能是在后台通过程序来构造。</p>
+</blockquote>
+<p>在Java程序中可以通过如下方式追加子查询条件</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">QueryBean query= ...;</span><br><span class="line"><span class="type">SQL</span> <span class="variable">sql</span> <span class="operator">=</span> SQL.begin().sql(<span class="string">&quot;o.id in (select t.task.id from MyTask t where t.userId = ?&quot;</span>,userId).end();</span><br><span class="line">query.addFilter(FilterBeans.assertOp(<span class="string">&quot;sql&quot;</span>,sql));</span><br></pre></td></tr></table></figure>
+
+<p>SQL.begin()会返回一个SqlBuilder对象，它提供了很多帮助函数用于简化SQL语句的拼接。</p>
+<h3 id="F-在XBiz模型文件中配置过滤条件"><a href="#F-在XBiz模型文件中配置过滤条件" class="headerlink" title="F. 在XBiz模型文件中配置过滤条件"></a>F. 在XBiz模型文件中配置过滤条件</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">query</span> <span class="attr">name</span>=<span class="string">&quot;active_findPage&quot;</span> <span class="attr">x:prototype</span>=<span class="string">&quot;findPage&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">source</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">c:import</span> <span class="attr">class</span>=<span class="string">&quot;io.nop.auth.api.AuthApiConstants&quot;</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">bo:DoFindPage</span> <span class="attr">query</span>=<span class="string">&quot;$&#123;query&#125;&quot;</span> <span class="attr">selection</span>=<span class="string">&quot;$&#123;selection&#125;&quot;</span> <span class="attr">xpl:lib</span>=<span class="string">&quot;/nop/biz/xlib/bo.xlib&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">eq</span> <span class="attr">name</span>=<span class="string">&quot;status&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;AuthApiConstants.USER_STATUS_ACTIVE&#125;&quot;</span> /&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">bo:DoFindPage</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">source</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">query</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>在xbiz文件中配置的方法优先级更高，如果和Java中BizModel的函数名重名，则会覆盖Java中的实现。</p>
+</li>
+<li><p>bo.xlib提供了一系列缺省实现，我们可以在缺省实现的基础上增加额外的过滤条件。</p>
+</li>
+<li><p>自动生成xbiz文件中已经包含了findPage&#x2F;findList&#x2F;save&#x2F;update等标准CRUD函数的参数声明，通过<code>x:prototype=&quot;findPage&quot;</code>继承已有配置，则可以简化类似函数的编写。<br>一般在标准函数上的扩展，我们命名时都采用规则<code>&#123;extName&#125;_&#123;stdName&#125;</code>，这样前台可以自动推定得到GraphQL调用的参数类型和返回值类型，从而避免在前台再声明类型。</p>
+</li>
+</ul>
+<p>上面的代码完全展开后对应如下代码(可以在<code>_dump</code>目录下查看)</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--LOC:[49:26:0:0]/nop/core/xlib/biz-gen.xlib#/nop/auth/model/NopAuthUser/_NopAuthUser.xbiz</span></span><br><span class="line"><span class="comment"> @name=[6:22:0:0]/nop/auth/model/NopAuthUser/NopAuthUser.xbiz</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">query</span> <span class="attr">name</span>=<span class="string">&quot;active_findPage&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">arg</span> <span class="attr">name</span>=<span class="string">&quot;query&quot;</span> <span class="attr">type</span>=<span class="string">&quot;io.nop.api.core.beans.query.QueryBean&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">arg</span> <span class="attr">name</span>=<span class="string">&quot;selection&quot;</span> <span class="attr">type</span>=<span class="string">&quot;io.nop.api.core.beans.FieldSelectionBean&quot;</span> <span class="attr">kind</span>=<span class="string">&quot;FieldSelection&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">arg</span> <span class="attr">name</span>=<span class="string">&quot;svcCtx&quot;</span> <span class="attr">type</span>=<span class="string">&quot;io.nop.core.context.IServiceContext&quot;</span> <span class="attr">kind</span>=<span class="string">&quot;ServiceContext&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">return</span> <span class="attr">type</span>=<span class="string">&quot;PageBean<span class="symbol">&amp;lt;</span>io.nop.auth.dao.entity.NopAuthUser<span class="symbol">&amp;gt;</span>&quot;</span>/&gt;</span></span><br><span class="line"><span class="comment">&lt;!--LOC:[8:14:0:0]/nop/auth/model/NopAuthUser/NopAuthUser.xbiz--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">source</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">c:import</span> <span class="attr">class</span>=<span class="string">&quot;io.nop.auth.api.AuthApiConstants&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">bo:DoFindPage</span> <span class="attr">query</span>=<span class="string">&quot;$&#123;query&#125;&quot;</span> <span class="attr">selection</span>=<span class="string">&quot;$&#123;selection&#125;&quot;</span> <span class="attr">xpl:lib</span>=<span class="string">&quot;/nop/biz/xlib/bo.xlib&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">eq</span> <span class="attr">name</span>=<span class="string">&quot;status&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;AuthApiConstants.USER_STATUS_ACTIVE&#125;&quot;</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">bo:DoFindPage</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">source</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">query</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</div>
+      <footer class="Article-footer col-md-3">
+        
+          
+          
+          
+          
+            
+          
+          
+            <div class="Widget">
+              <div class="Widget-body"><a href="https://gitee.com/canonical-entropy/nop-entropy/edit/master/docs/dev-guide/recipe/filter-list.md" target="_blank" rel=" rel="external nofollow"">在 Gitee 上编辑文档内容</a></div>
+            </div>
+          
+        
+        
+  
+
+  <section class="Widget Widget--toc">
+  <div class="Widget-header">
+    <h2 class="Widget-title">目录</h2>
+  </div>
+  <div class="Widget-body"></div>
+</section>
+
+
+
+      </footer>
+    </article>
+    <footer class="Page-footer Footer">
+  <div class="container-fluid">
+    
+    <div class="Footer-description">
+      
+        <!-- Important links -->
+        <nav class="Footer-navs">
+          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
+</li><li><a href="/community/"><span>社区</span></a>
+</li></ul>
+        </nav>
+      
+      
+        <!-- Copyright -->
+        <div class="Footer-copyright">
+          <p>
+
+&copy; 2024 <a href="https://nop-platform.gitee.io?utm_source=https://nop-platform.gitee.io&amp;utm_medium=common-footer" target="_blank" rel="external nofollow">Nop 社区</a> 版权所有
+
+</p>
+          
+          
+        </div>
+      
+    </div>
+  </div>
+</footer>
+
+  </main>
+</div>
+
+
+
+
+    <script>$('.Article-content > table').addClass('table table-bordered')</script>
+    
+<script src="/javascripts/ksio/vendors/share.min.js"></script>
+
+<script src="/javascripts/ksio/components/page.js"></script>
+
+<script src="/javascripts/ksio/components/toc.js"></script>
+
+<script src="/javascripts/ksio/vendors/jquery.timeago.js"></script>
+
+<script src="/javascripts/ksio/vendors/jquery.timeago.zh-CN.js"></script>
+
+<script src="/javascripts/ksio/initializers/time.js"></script>
+
+<script src="/javascripts/ksio/vendors/jquery.lazyload.js"></script>
+
+<script src="/javascripts/ksio/initializers/lazyload.js"></script>
+
+  </body>
+</html>
+

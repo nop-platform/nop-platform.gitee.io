@@ -1,59 +1,1370 @@
-<!DOCTYPE html> <html lang="zh-CN" dir="ltr"> <head> <meta charset="UTF-8"> <!-- SEO --> <title>从React Hooks看React的本质 - Nop</title> <meta property="og:title" content="从React Hooks看React的本质"> <meta name="description" content="后jQuery时代的前端革命是由AngularJs发起的，它最初的一个想法是将后台的技术架构复制到前台来。后端的一个核心技术是所谓的模板技术(template)。它可以用一个公式来描述"> <meta property="og:description" content="后jQuery时代的前端革命是由AngularJs发起的，它最初的一个想法是将后台的技术架构复制到前台来。后端的一个核心技术是所谓的模板技术(template)。它可以用一个公式来描述"> <meta name="keywords" content="Nop,Nop平台,Nop 平台,Nop Platform,Nop社区,Nop 社区,Nop Community,可逆计算,软件构造理论,低代码,lowcode,low-code,low code,低代码平台,lcdp,软件工程"> <link rel="canonical" href="https://nop-platform.gitee.io/projects/nop-entropy/docs/theory/essence-of-react/"> <meta property="og:url" content="https://nop-platform.gitee.io/projects/nop-entropy/docs/theory/essence-of-react/"> <meta property="og:site_name" content="Nop"> <script type="application/ld+json"> { "@context" : "http://schema.org", "@type" : "WebSite", "name" : "Nop", "url" : "https://nop-platform.gitee.io" } </script> <meta property="og:type" content="article"> <meta property="article:published_time" content="2024-04-13T09:39:39+08:00"> <link rel="next" href="https://nop-platform.gitee.io/projects/nop-entropy/docs/theory/framework-agnostic/" title="业务开发如何才能独立于框架"> <link rel="prev" href="https://nop-platform.gitee.io/projects/nop-entropy/docs/theory/discusson-about-nop/" title="关于Nop平台以及低代码平台建设经验的讨论"> <script type="application/ld+json"> { "@context": "http://schema.org", "@type": "NewsArticle", "headline": "从React Hooks看React的本质", "image": null, "datePublished": "2024-04-13T09:39:39+08:00", "description": "后jQuery时代的前端革命是由AngularJs发起的，它最初的一个想法是将后台的技术架构复制到前台来。后端的一个核心技术是所谓的模板技术(template)。它可以用一个公式来描述" } </script> <script type="application/ld+json"> { "@context": "http://schema.org", "@type": "Organization", "url": "https://nop-platform.gitee.io", "logo": "https://nop-platform.gitee.io/assets/logo-9952a8b58c6582fc86a9608db8113158fb31de7a9db19d4358ac7cb96578d34e.png" } </script> <link rel="author" href="https://nop-platform.gitee.io"> <!-- 页面渲染兼容性 --> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <meta name="renderer" content="webkit"> <meta name="viewport" content="width=device-width,initial-scale=1.0"> <meta name="theme-color" content="#0871ab"> <link rel="icon" href="/assets/logo-9952a8b58c6582fc86a9608db8113158fb31de7a9db19d4358ac7cb96578d34e.png"> <!-- 静态资源 --> <link type="text/css" rel="stylesheet" href="/assets/global-f979fafa22c865e727cd15f83cdc43dbc73c1a324d7ad4fe6fa48e275dc4c063.css"> <link type="text/css" rel="stylesheet" href="/assets/ksio/vendors/share-c2e41222f5f34b2de38cb5213fa0e439c11da73b3907b444a32635563ae85ffd.css"> <link type="text/css" rel="stylesheet" href="/assets/local/layouts/doc-c5c0ab8b12485893472e680b5f067b74e240481232265b6cb0ab6edc95c20f65.css"> <script type="text/javascript" src="/assets/global-b3a80dd53acf48ad7228d6fd741dba15d3845cbc3783bdbbf7244151a45628aa.js"></script> <!--[if lt IE 9]> <script type="text/javascript" src="/assets/ksio/support_ie8-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.js"></script> <![endif]--> </head> <body class="Page" itemscope itemtype="http://schema.org/WebPage"> <header class="Page-header"> <div class="navbar navbar-static-top"> <div class="container-fluid"> <div class="navbar-header"> <button class="navbar-toggle collapsed" type="button" data-target=".Page-navs" data-toggle="collapse"> <span class="sr-only">Toggle navs</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button> <a class="navbar-brand" href="/">Nop</a> </div> <!-- Nav menus --> <nav class="Page-navs navbar-collapse collapse"> <ul class="nav navbar-nav navbar-right"> <li class="dropdown"> <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a> <ul class="dropdown-menu"> <li><a href="/projects/nop-entropy/docs/">指南</a> </li> <li><a href="https://www.zhihu.com/column/reversible-computation?utm_source=https://nop-platform.gitee.io&utm_medium=common-header" target="_blank" rel="external nofollow">文章</a> </li> <li><a href="https://space.bilibili.com/3493261219990250?utm_source=https://nop-platform.gitee.io&utm_medium=common-header" target="_blank" rel="external nofollow">视频</a> </li> </ul> </li> <li class="dropdown"> <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a> <ul class="dropdown-menu"> <li><a href="/projects/nop-entropy/">Nop Entropy</a> </li> <li><a href="/projects/nop-chaos/">Nop Chaos</a> </li> </ul> </li> <li class="dropdown"> <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a> <ul class="dropdown-menu"> <li><a href="/community/">社区</a> </li> <li><a href="/team/">团队</a> </li> <li><a href="https://gitee.com/nop-platform?utm_source=https://nop-platform.gitee.io&utm_medium=common-header" target="_blank" rel="external nofollow">Gitee 组织</a> </li> </ul> </li> <li><a href="https://nop-platform.github.io?utm_source=https://nop-platform.gitee.io&utm_medium=common-header" target="_blank" rel="external nofollow">English</a> </li> </ul> </nav> </div> </div> </header> <div class="Page-content"> <aside class="Page-aside"> <div class="AsideBrand"> <a href="/">Nop</a> </div> <nav class="AsideNav"><ul> <li> <a href="/projects/nop-entropy/docs/why-nop/">介绍</a> <ul> <li> <a href="/projects/nop-entropy/docs/">文档概览</a> </li> <li> <a href="/projects/nop-entropy/docs/tutorial/tutorial/">入门教程</a> <ul> <li> <a href="/projects/nop-entropy/docs/tutorial/simple/1-simple-service/">极简服务层开发</a> </li> <li> <a href="/projects/nop-entropy/docs/tutorial/simple/2-simple-dao/">极简数据访问层开发</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/compare/">与其他平台的对比</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/user-guide/">用户指南</a> <ul> <li> <a href="/projects/nop-entropy/docs/user-guide/installation/">安装和配置</a> </li> <li> <a href="/projects/nop-entropy/docs/user-guide/report/">报表引擎</a> </li> <li> <a href="/projects/nop-entropy/docs/user-guide/idea/idea-plugin/">IDEA插件使用</a> </li> <li> <a href="/projects/nop-entropy/docs/user-guide/monitor/grafana/">监控</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/arch/">软件架构</a> <ul> <li> <a href="/projects/nop-entropy/docs/arch/module-dependency/">模块依赖关系</a> </li> <li> <a href="/projects/nop-entropy/docs/core-code-guidance/">核心代码阅读导引</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/theory/">理论基础</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/">开发指南</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/codegen/">代码生成器</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/cli/">命令行工具</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/command/command/">命令行开发支持</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/config/">配置管理</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/ioc/">IoC容器</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/ioc/aop/">AOP支持</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/orm/">ORM框架</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/">XLang语言</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/xdef/">XDef元模型</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/xdsl/">XDSL领域语言</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/xscript/">XScript脚本语言</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/xpl/">Xpl模板语言</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/meta-programming/">元编程</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/model/">Excel模型</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/graphql/">GraphQL引擎</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/microservice/">分布式微服务</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/rule/rule/">规则引擎</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/workflow/task-flow/">逻辑编排</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/autotest/">自动化测试</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/tenant/">多租户</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/delta/delta-customization/">Delta定制</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/vfs/">Delta文件系统</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/auth/">权限配置</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/biz/">业务规则</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/nocode/">动态模型</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xui/">前端模型</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/integration/">第三方集成</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/spring/">spring集成</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/quarkus/">quarkus集成</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/ide/idea/">IDEA插件</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/ide/plugin-dev/">插件开发</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/faq/faq/">常见问题</a> <ul> <li> <a href="/projects/nop-entropy/docs/faq/debug-errors/">错误诊断</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/recipe/">常见问题解决方案</a> </li> </ul> </li> </ul> </nav> </aside> <main class="Page-main"> <article class="Article container-fluid"> <header class="Article-header"> <h1 class="Article-title">从React Hooks看React的本质</h1> </header> <div class="Article-content col-md-9"><p>后jQuery时代的前端革命是由AngularJs发起的，它最初的一个想法是将后台的技术架构复制到前台来。后端的一个核心技术是所谓的模板技术(template)。它可以用一个公式来描述</p> <figure class="highlight"><pre><code class="language-text" data-lang="text"><span></span>html = template(vars)</code></pre></figure> <p>这是一个特别直观的想法：模板就是一个普通函数，它根据传入的变量信息（无特殊要求）拼接得到字符串（无特殊结构）。这一模型完全不需要考虑面向对象传统的状态分散管理的问题，基本上是一种函数式的解决方案。</p> <p>React的模式相当于是对模板渲染模型的一个<strong>面向领域结构的改进</strong></p> <figure class="highlight"><pre><code class="language-text" data-lang="text"><span></span>vdom = render(viewModel)</code></pre></figure> <p>vdom是面向浏览器的领域模型，而viewModel是基于业务领域概念所建立的页面显示模型，<strong>render相当于是两个模型世界之间的传送门</strong>。</p> <p>传统上我们编程时是必须要知道界面模型的。我们所依赖的基础设施是浏览器内置的DOM结构和事件bubble机制，总是监听在DOM节点上，总是拿到具体的控件，然后从控件上拉取我们所需要的数据。而在React的模式下，我们首先在JS中建立模型，这个模型包含具体的领域知识，在领域内部的操作是更加直接的，而且可以利用程序语言所提供的各种抽象手段。典型的，在jQuery时代我们需要频繁的使用$el.find(“.title”)这种形式去动态查找到所需的元素，而在js模型中我们一般通过this.title属性即可直接定位到所需要的数据。实际上我们对于弱耦合的事件机制的依赖是大大下降了的，特别是我们一般不再需要业务含义不明确的事件bubble处理。redux和vuex从某种意义上可以看作是面向领域的消息总线，它们一般都是直接派发到具体的监听器，而且这些监听器的入口函数不再是某种通用的、与业务无关的Event对象，而是具体的领域状态对象state和业务参数param。</p> <p>在新的范式下，viewModel的构造和管理成为一个独立的问题。而界面组件之间也不再直接交互，它们之间的关联通过共同依赖的js对象来得到隐式的表达。</p> <figure class="highlight"><pre><code class="language-text" data-lang="text"><span></span>component &lt;--&gt; js &lt;--&gt; component</code></pre></figure> <p>如果我们改写一下形式，可以把React的本质看得更清楚一些：</p> <figure class="highlight"><pre><code class="language-text" data-lang="text"><span></span>viewModel =&gt; vdom</code></pre></figure> <p>render函数可以看作是从viewModel上拉取领域数据，传送到vdom世界的一种信息管道。</p> <p>但是我们知道，前端与后端有一个本质性的不同：前端是讲究交互性的，而后端强调的只是单向执行。因此，我们需要一个新的概念reactive，利用这个概念可以把上面的公式改写为</p> <figure class="highlight"><pre><code class="language-text" data-lang="text"><span></span>(props, @reactive state) =&gt; vdom</code></pre></figure> <p>render函数是一种好不容易建立起来的信息管道，如果使用一次就随手丢弃，那实在是太浪费了，何不反复利用？通过引入具备响应性的状态变量，规定一个全局的响应式规则：“无论什么原因导致state变化，自动触发局部的render函数重新执行”，就可以使得render函数得到成功的升华，<strong>完美的将微观的交互性嵌入到了宏观的信息流场景中</strong>。</p> <p>React兜兜转转很多年，一直没有能够找到最契合以上公式的技术表达形式，其本质原因还是在于受到了面向对象思想的束缚，总是意图带着面向对象的尾巴。直到Hooks机制横空出世，彻底和历史决裂，我们才看到了React本来就应该具有的面目：</p> <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="k">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">useState</span><span class="p">,</span> <span class="nx">useEffect</span> <span class="p">}</span> <span class="kr">from</span> <span class="s1">&#39;react&#39;</span><span class="p">;</span>
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
 
-<span class="kd">function</span> <span class="nx">FriendStatus</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kd">const</span> <span class="p">[</span><span class="nx">isOnline</span><span class="p">,</span> <span class="nx">setIsOnline</span><span class="p">]</span> <span class="o">=</span> <span class="nx">useState</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
 
-  <span class="nx">useEffect</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
-    <span class="kd">function</span> <span class="nx">handleStatusChange</span><span class="p">(</span><span class="nx">status</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">setIsOnline</span><span class="p">(</span><span class="nx">status</span><span class="p">.</span><span class="nx">isOnline</span><span class="p">);</span>
-    <span class="p">}</span>
 
-    <span class="nx">ChatAPI</span><span class="p">.</span><span class="nx">subscribeToFriendStatus</span><span class="p">(</span><span class="nx">props</span><span class="p">.</span><span class="nx">friend</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="nx">handleStatusChange</span><span class="p">);</span>
 
-    <span class="c1">// 返回一个函数来进行额外的清理工作:</span>
-    <span class="k">return</span> <span class="kd">function</span> <span class="nx">cleanup</span><span class="p">()</span> <span class="p">{</span>
-      <span class="nx">ChatAPI</span><span class="p">.</span><span class="nx">unsubscribeFromFriendStatus</span><span class="p">(</span><span class="nx">props</span><span class="p">.</span><span class="nx">friend</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="nx">handleStatusChange</span><span class="p">);</span>
-    <span class="p">};</span>
-  <span class="p">});</span>
 
-  <span class="k">if</span> <span class="p">(</span><span class="nx">isOnline</span> <span class="o">===</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="s1">&#39;Loading...&#39;</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="k">return</span> <span class="nx">isOnline</span> <span class="o">?</span> <span class="s1">&#39;Online&#39;</span> <span class="o">:</span> <span class="s1">&#39;Offline&#39;</span><span class="p">;</span>
-<span class="p">}</span></code></pre></figure> <p>为什么Hooks需要限制只能在代码的第一层调用 Hooks，不能在循环、条件分支或者嵌套函数中调用 Hooks？因为本来它应该写在参数区的，只是因为语法的限制导致它没有专有的位置而已。</p> <p>现代框架技术的发展仔细回顾起来，其实可以看作是对传统面向对象封装概念的反叛史。面向对象强调先有对象，再有属性和方法，做事之前先拿到this。而现代框架强调的是全局规则，直接表达，为什么无论干什么事都要找个this指针绕一下呢？对比一下React此前的类组件</p> <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="kd">class</span> <span class="nx">FriendStatus</span> <span class="k">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span>
-  <span class="kr">constructor</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">super</span><span class="p">(</span><span class="nx">props</span><span class="p">);</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">state</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">isOnline</span><span class="o">:</span> <span class="kc">null</span> <span class="p">};</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">handleStatusChange</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">handleStatusChange</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
-  <span class="p">}</span>
 
-  <span class="nx">componentDidMount</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">ChatAPI</span><span class="p">.</span><span class="nx">subscribeToFriendStatus</span><span class="p">(</span>
-      <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">friend</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span>
-      <span class="k">this</span><span class="p">.</span><span class="nx">handleStatusChange</span>
-    <span class="p">);</span>
-  <span class="p">}</span>
 
-  <span class="nx">componentWillUnmount</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">ChatAPI</span><span class="p">.</span><span class="nx">unsubscribeFromFriendStatus</span><span class="p">(</span>
-      <span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">friend</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span>
-      <span class="k">this</span><span class="p">.</span><span class="nx">handleStatusChange</span>
-    <span class="p">);</span>
-  <span class="p">}</span>
 
-  <span class="nx">handleStatusChange</span><span class="p">(</span><span class="nx">status</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span>
-      <span class="nx">isOnline</span><span class="o">:</span> <span class="nx">status</span><span class="p">.</span><span class="nx">isOnline</span>
-    <span class="p">});</span>
-  <span class="p">}</span>
 
-  <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">isOnline</span> <span class="o">===</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="s1">&#39;Loading...&#39;</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">isOnline</span> <span class="o">?</span> <span class="s1">&#39;Online&#39;</span> <span class="o">:</span> <span class="s1">&#39;Offline&#39;</span><span class="p">;</span>
-  <span class="p">}</span>
-<span class="p">}</span></code></pre></figure> <p>真正的核心函数是render, 其他的都是外围支持性函数，这些函数之间通过this指针间接进行交互。仔细琢磨一下，我们不禁会有个疑问，所谓的生命周期函数为什么要从属于组件对象，它是局限于某个对象的知识吗？难道它的触发时刻不是一种全局知识吗？useEffect函数深刻理解了这一点，它成为一个静态函数，直接钩挂到全局执行引擎中，通过函数闭包直接实现多个生命周期回调函数之间的信息传递，而不是必须要造出某个this指针来随身携带。</p> <p>长期以来，面向对象语言中存在三种标准的信息传递方式，参数（param）、全局变量（global）和成员变量（this），但是当面对复杂的领域模型时，我们经常需要表达某个局部范围内的隐含的背景知识，这是一种自定义的、与领域紧密相关的上下文变量（context），不应该显式传递。因此，数据驱动的核心公式可以被改进为</p> <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="p">(</span><span class="nx">props</span><span class="p">,</span> <span class="err">@</span><span class="nx">reactive</span> <span class="nx">state</span><span class="p">,</span> <span class="err">@</span><span class="nx">implicit</span> <span class="nx">context</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="nx">vdom</span></code></pre></figure> <p>React Hooks中为implicit context这个概念也找到了一个对应的技术形式，把上下文定位方式确定为根据类型进行查找，相当于是某种import implicit机制。</p> <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="kd">const</span> <span class="nx">user</span> <span class="o">=</span> <span class="nx">useContext</span><span class="p">(</span><span class="nx">CurrentUser</span><span class="p">);</span>
-<span class="kd">const</span> <span class="nx">notifications</span> <span class="o">=</span> <span class="nx">useContext</span><span class="p">(</span><span class="nx">Notifications</span><span class="p">);</span></code></pre></figure> <p>React Hooks机制的出现意味着面向对象组件会衰落下去吗？我想也不尽然。传统的力量是强大的，而有生命力的文化总是具有包容性的。我们在Hooks概念之前在Vue技术体系中就已经通过元编程大法解决了相应问题：在编译期声明在一起的代码块，可以通过元编程机制拆分后挂接到组件对象上的各种插槽上。作为一种运行时，面向对象完全没有任何问题。</p> <p>问题： “作为一种运行时，面向对象完全没有任何问题。“ 这句话如何理解呢？ 答： 框架层面的运行时，比如vue3.0，表面上看起来watch函数不再需要和对象绑定，但隐藏的实际存在一个currentInstance对象，相当于是一个隐蔽的this指针，大量的信息实际上仍然是和this指针绑定，围绕this指针进行组织的，与面向对象的一般做法本质上没有差异。</p> <h2 id="section">前端编程模型</h2> <p>从现在的角度上看，前端的编程模型大概如下所示：</p> <p><img src="/assets/knosys/project-nop-entropy/theory/react/state-view-action-40d0335819087ae813cdeb632b23ccf2e1e9d81648f393a46b41b4dfb1dd664f.png" alt="" /></p> <p>render函数根据数据模型生成视图对象，而在视图对象上发生的交互会触发action动作，action负责修改数据对象，再借由响应式驱动机制自动触发数据对象到视图对象的渲染过程。底层借助于虚拟DOM的Diff算法，计算出实际要更新的视图模型的差量，尽量减少视图的实际更新范围，提升性能。</p> <p>实际的编程模型要更加复杂，因为我们面对的是一个复杂的应用，而不是一个单一的组件，所以必然需要采用分而治之的方式进行分解，</p> <p><img src="/assets/knosys/project-nop-entropy/theory/react/state-view-action-tree-f7b5e268ca0465bc03191b25f1e13aa7d24388de53560809cfb0dc3b224a08d8.png" alt="" /></p> <p>所以前端的一个核心组织难点就是如何实现StateTree、ViewTree和ActionTree这三棵树之间的相互连接。</p> <p>传统的组件编程实际上是以Component Tree为主，所有的状态数据和操作行为都挂接到Component对象上。而现在的主流方案是将状态数据独立出来管理，而Action和相关的状态变量一起构成所谓的Store。从理论上说，这种组织方式并不是唯一的，ActionTree也可以独立管理，只是我们需要有一种自然的机制将它和StateTree粘结在一起。理想情况下我们可以采用如下方案：</p> <figure class="highlight"><pre><code class="language-text" data-lang="text"><span></span>&lt;input name=&quot;myField&quot;/&gt;
-&lt;span&gt;{{state}} &lt;/span&gt;
-&lt;button label=&quot;submit&quot; v-on:click=&quot;submitForm&quot; /&gt;</code></pre></figure> <ol> <li> <p>展示和输入控件具有name属性，用于从StateTree的当前节点上拉取变量，并且如果修改可以自动更新回StateTree</p> </li> <li> <p>可以通过表达式从当前可见的StateTree节点上拉取变量信息。这里的可见性控制类似于一般程序语言中的词法作用域（Lexical Scope），相当于是由前台框架构建了一个应用层专用的闭包变量访问机制。（useXXX这种方案本质上是一种应用层自制的闭包机制）</p> </li> <li> <p>用户交互动作直接绑定到某个action函数上。action函数的定位也可以仿照数据变量的定位机制，从当前Action Scope向上查找，直到找到具有指定名称的处理函数。</p> </li> </ol> </div> <footer class="Article-footer col-md-3"> <div class="Widget"> <div class="Widget-body"><a href="https://gitee.com/canonical-entropy/nop-entropy/edit/master/docs/theory/essence-of-react.md" target="_blank" rel=" rel="external nofollow"">在 Gitee 上编辑文档内容</a></div> </div> <section class="Widget Widget--toc"> <div class="Widget-header"> <h2 class="Widget-title">目录</h2> </div> <div class="Widget-body"></div> </section> </footer> </article> <footer class="Page-footer Footer"> <div class="container-fluid"> <div class="Footer-description"> <!-- Important links --> <nav class="Footer-navs"> <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a> </li><li><a href="/community/"><span>社区</span></a> </li></ul> </nav> <!-- Copyright --> <div class="Footer-copyright"> <p>&copy; 2024 <a href="https://nop-platform.gitee.io?utm_source=https://nop-platform.gitee.io&utm_medium=common-footer" target="_blank" rel="external nofollow">Nop 社区</a> 版权所有 </p> </div> </div> </div> </footer> </main> </div> <script>$('table').addClass('table table-bordered')</script> <script type="text/javascript" src="/assets/ksio/vendors/share.min-3155ee636b84a04d036e0f1ba833227d3fd03a4c58a6f2e21c9ceb1c5d0198c7.js"></script><script type="text/javascript" src="/assets/ksio/components-a266f21fe1dfd61bebf40e74872cbf901eb3e201f7d33e9e5d5af9a55f4b24ea.js"></script> <script type="text/javascript" src="/assets/ksio/initializers/time-8d7a529a66ae6cb53c2283d21fd6a12c538b8473dd5bd76458366d09adce7bf6.js"></script><script type="text/javascript" src="/assets/ksio/initializers/lazyload-44b7df8a9282d598284d522e64d6be9ac88d466f3c4a734a514303e99347b2c9.js"></script> </body> </html>
+  
+  
+  
+    
+  
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <title>从React Hooks看React的本质 - Nop</title>
+
+
+  <meta property="og:title" content="从React Hooks看React的本质">
+
+
+  <meta name="description" content="Nop Platform 2.0 是基于可逆计算原理从零开始构建的新一代低代码平台，它致力于克服低代码平台无法摆脱穷举法的困境，从理论层面超越组件技术，有效的解决粗粒度软件复用的问题。">
+  <meta property="og:description" content="Nop Platform 2.0 是基于可逆计算原理从零开始构建的新一代低代码平台，它致力于克服低代码平台无法摆脱穷举法的困境，从理论层面超越组件技术，有效的解决粗粒度软件复用的问题。">
+
+
+
+  
+    
+  
+
+
+  <meta name="keywords" content="Nop,Nop平台,Nop 平台,Nop Platform,Nop社区,Nop 社区,Nop Community,可逆计算,软件构造理论,低代码,lowcode,low-code,low code,低代码平台,lcdp,软件工程">
+
+
+<!-- 页面渲染兼容性 -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<!-- 订阅 -->
+
+<meta name="theme-color" content="#0871ab">
+<link rel="shortcut icon" href="/images/nop/logo.png">
+
+
+    
+<link rel="stylesheet" href="/stylesheets/global.css">
+
+    
+<link rel="stylesheet" href="/stylesheets/ksio/vendors/share.css">
+
+<link rel="stylesheet" href="/local/syntax-highlighting.css">
+
+<link rel="stylesheet" href="/stylesheets/pages/post.css">
+
+<link rel="stylesheet" href="/stylesheets/pages/doc.css">
+
+    
+<script src="/javascripts/ksio/vendors/jquery-1.11.3.min.js"></script>
+
+    
+<script src="/javascripts/ksio/vendors/bootstrap.min.js"></script>
+
+  </head>
+  
+  
+  <body class="Page" itemscope itemtype="http://schema.org/WebPage">
+    
+
+  <header class="Page-header">
+  <div class="navbar navbar-static-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        
+          <button class="navbar-toggle collapsed" type="button" data-target=".Page-navs" data-toggle="collapse">
+            <span class="sr-only">Toggle navs</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        
+        
+          
+
+
+  <a class="navbar-brand" href="/">Nop</a>
+
+
+        
+      </div>
+      <!-- Nav menus -->
+      <nav class="Page-navs navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          
+  
+    <li class="dropdown">
+      <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+  
+    <li><a href="/projects/nop-entropy/docs/">指南</a>
+</li>
+  
+
+  
+    <li><a href="https://www.zhihu.com/column/reversible-computation?utm_source=https://nop-platform.gitee.io&amp;utm_medium=common-header" target="_blank" rel="external nofollow">文章</a>
+</li>
+  
+
+  
+    <li><a href="https://space.bilibili.com/3493261219990250?utm_source=https://nop-platform.gitee.io&amp;utm_medium=common-header" target="_blank" rel="external nofollow">视频</a>
+</li>
+  
+
+</ul>
+    </li>
+  
+
+  
+    <li class="dropdown">
+      <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+  
+    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+</li>
+  
+
+  
+    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+</li>
+  
+
+</ul>
+    </li>
+  
+
+  
+    <li class="dropdown">
+      <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+  
+    <li><a href="/community/">社区</a>
+</li>
+  
+
+  
+    <li><a href="/team/">团队</a>
+</li>
+  
+
+  
+    <li><a href="https://gitee.com/nop-platform?utm_source=https://nop-platform.gitee.io&amp;utm_medium=common-header" target="_blank" rel="external nofollow">Gitee 组织</a>
+</li>
+  
+
+</ul>
+    </li>
+  
+
+  
+    <li><a href="https://nop-platform.github.io?utm_source=https://nop-platform.gitee.io&amp;utm_medium=common-header" target="_blank" rel="external nofollow">English</a>
+</li>
+  
+
+
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<div class="Page-content">
+  
+  
+    <aside class="Page-aside">
+      <div class="AsideBrand">
+
+
+  <a href="/">Nop</a>
+
+</div>
+      <nav class="AsideNav"><ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/why-nop/">介绍</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+        
+        <a href="/projects/nop-entropy/docs/">文档概览</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/tutorial/tutorial/">入门教程</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/tutorial/simple/1-simple-service/">极简服务层开发</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/tutorial/simple/2-simple-dao/">极简数据访问层开发</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/compare/">与其他平台的对比</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/user-guide/">用户指南</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/user-guide/installation/">安装和配置</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/user-guide/report/">报表引擎</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/user-guide/idea/idea-plugin/">IDEA插件使用</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/user-guide/monitor/grafana/">监控</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/arch/">软件架构</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/arch/module-dependency/">模块依赖关系</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/core-code-guidance/">核心代码阅读导引</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/theory/">理论基础</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/">开发指南</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/codegen/">代码生成器</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/cli/">命令行工具</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/command/command/">命令行开发支持</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/config/">配置管理</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/ioc/">IoC容器</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/ioc/aop/">AOP支持</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/orm/">ORM框架</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/">XLang语言</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/xdef/">XDef元模型</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/xdsl/">XDSL领域语言</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/xscript/">XScript脚本语言</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/xpl/">Xpl模板语言</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/meta-programming/">元编程</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/model/">Excel模型</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/graphql/">GraphQL引擎</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/microservice/">分布式微服务</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/rule/rule/">规则引擎</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/workflow/task-flow/">逻辑编排</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/autotest/">自动化测试</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/tenant/">多租户</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/delta/delta-customization/">Delta定制</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/vfs/">Delta文件系统</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/auth/">权限配置</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/biz/">业务规则</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/nocode/">动态模型</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xui/">前端模型</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/integration/">第三方集成</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/spring/">spring集成</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/quarkus/">quarkus集成</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/ide/idea/">IDEA插件</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/ide/plugin-dev/">插件开发</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/faq/faq/">常见问题</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/faq/debug-errors/">错误诊断</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/recipe/">常见问题解决方案</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+</nav>
+    </aside>
+  
+  <main class="Page-main">
+    <article class="Article container-fluid">
+      <header class="Article-header">
+        
+  
+    <h1 class="Article-title">从React Hooks看React的本质</h1>
+  
+  
+
+
+      </header>
+      <div class="Article-content col-md-9"><p>后jQuery时代的前端革命是由AngularJs发起的，它最初的一个想法是将后台的技术架构复制到前台来。后端的一个核心技术是所谓的模板技术(template)。它可以用一个公式来描述</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">html = template(vars)</span><br></pre></td></tr></table></figure>
+
+<p>这是一个特别直观的想法：模板就是一个普通函数，它根据传入的变量信息（无特殊要求）拼接得到字符串（无特殊结构）。这一模型完全不需要考虑面向对象传统的状态分散管理的问题，基本上是一种函数式的解决方案。</p>
+<p>React的模式相当于是对模板渲染模型的一个<strong>面向领域结构的改进</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vdom = render(viewModel)</span><br></pre></td></tr></table></figure>
+
+<p>vdom是面向浏览器的领域模型，而viewModel是基于业务领域概念所建立的页面显示模型，<strong>render相当于是两个模型世界之间的传送门</strong>。</p>
+<p>传统上我们编程时是必须要知道界面模型的。我们所依赖的基础设施是浏览器内置的DOM结构和事件bubble机制，总是监听在DOM节点上，总是拿到具体的控件，然后从控件上拉取我们所需要的数据。而在React的模式下，我们首先在JS中建立模型，这个模型包含具体的领域知识，在领域内部的操作是更加直接的，而且可以利用程序语言所提供的各种抽象手段。典型的，在jQuery时代我们需要频繁的使用$el.find(“.title”)这种形式去动态查找到所需的元素，而在js模型中我们一般通过this.title属性即可直接定位到所需要的数据。实际上我们对于弱耦合的事件机制的依赖是大大下降了的，特别是我们一般不再需要业务含义不明确的事件bubble处理。redux和vuex从某种意义上可以看作是面向领域的消息总线，它们一般都是直接派发到具体的监听器，而且这些监听器的入口函数不再是某种通用的、与业务无关的Event对象，而是具体的领域状态对象state和业务参数param。</p>
+<p>在新的范式下，viewModel的构造和管理成为一个独立的问题。而界面组件之间也不再直接交互，它们之间的关联通过共同依赖的js对象来得到隐式的表达。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">component &lt;--&gt; js &lt;--&gt; component</span><br></pre></td></tr></table></figure>
+
+<p>如果我们改写一下形式，可以把React的本质看得更清楚一些：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">viewModel =&gt; vdom</span><br></pre></td></tr></table></figure>
+
+<p>render函数可以看作是从viewModel上拉取领域数据，传送到vdom世界的一种信息管道。</p>
+<p>但是我们知道，前端与后端有一个本质性的不同：前端是讲究交互性的，而后端强调的只是单向执行。因此，我们需要一个新的概念reactive，利用这个概念可以把上面的公式改写为</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(props, @reactive state) =&gt; vdom</span><br></pre></td></tr></table></figure>
+
+<p>render函数是一种好不容易建立起来的信息管道，如果使用一次就随手丢弃，那实在是太浪费了，何不反复利用？通过引入具备响应性的状态变量，规定一个全局的响应式规则：“无论什么原因导致state变化，自动触发局部的render函数重新执行”，就可以使得render函数得到成功的升华，<strong>完美的将微观的交互性嵌入到了宏观的信息流场景中</strong>。</p>
+<p>React兜兜转转很多年，一直没有能够找到最契合以上公式的技术表达形式，其本质原因还是在于受到了面向对象思想的束缚，总是意图带着面向对象的尾巴。直到Hooks机制横空出世，彻底和历史决裂，我们才看到了React本来就应该具有的面目：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">React</span>, &#123; useState, useEffect &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">FriendStatus</span>(<span class="params">props</span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> [isOnline, setIsOnline] = <span class="title function_">useState</span>(<span class="literal">null</span>);</span><br><span class="line"></span><br><span class="line">  <span class="title function_">useEffect</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">handleStatusChange</span>(<span class="params">status</span>) &#123;</span><br><span class="line">      <span class="title function_">setIsOnline</span>(status.<span class="property">isOnline</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title class_">ChatAPI</span>.<span class="title function_">subscribeToFriendStatus</span>(props.<span class="property">friend</span>.<span class="property">id</span>, handleStatusChange);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 返回一个函数来进行额外的清理工作:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">function</span> <span class="title function_">cleanup</span>(<span class="params"></span>) &#123;</span><br><span class="line">      <span class="title class_">ChatAPI</span>.<span class="title function_">unsubscribeFromFriendStatus</span>(props.<span class="property">friend</span>.<span class="property">id</span>, handleStatusChange);</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (isOnline === <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;Loading...&#x27;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> isOnline ? <span class="string">&#x27;Online&#x27;</span> : <span class="string">&#x27;Offline&#x27;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>为什么Hooks需要限制只能在代码的第一层调用 Hooks，不能在循环、条件分支或者嵌套函数中调用 Hooks？因为本来它应该写在参数区的，只是因为语法的限制导致它没有专有的位置而已。</p>
+<p>现代框架技术的发展仔细回顾起来，其实可以看作是对传统面向对象封装概念的反叛史。面向对象强调先有对象，再有属性和方法，做事之前先拿到this。而现代框架强调的是全局规则，直接表达，为什么无论干什么事都要找个this指针绕一下呢？对比一下React此前的类组件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">FriendStatus</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">props</span>) &#123;</span><br><span class="line">    <span class="variable language_">super</span>(props);</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">state</span> = &#123; <span class="attr">isOnline</span>: <span class="literal">null</span> &#125;;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">handleStatusChange</span> = <span class="variable language_">this</span>.<span class="property">handleStatusChange</span>.<span class="title function_">bind</span>(<span class="variable language_">this</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">componentDidMount</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title class_">ChatAPI</span>.<span class="title function_">subscribeToFriendStatus</span>(</span><br><span class="line">      <span class="variable language_">this</span>.<span class="property">props</span>.<span class="property">friend</span>.<span class="property">id</span>,</span><br><span class="line">      <span class="variable language_">this</span>.<span class="property">handleStatusChange</span></span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">componentWillUnmount</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title class_">ChatAPI</span>.<span class="title function_">unsubscribeFromFriendStatus</span>(</span><br><span class="line">      <span class="variable language_">this</span>.<span class="property">props</span>.<span class="property">friend</span>.<span class="property">id</span>,</span><br><span class="line">      <span class="variable language_">this</span>.<span class="property">handleStatusChange</span></span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">handleStatusChange</span>(<span class="params">status</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">setState</span>(&#123;</span><br><span class="line">      <span class="attr">isOnline</span>: status.<span class="property">isOnline</span></span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="variable language_">this</span>.<span class="property">state</span>.<span class="property">isOnline</span> === <span class="literal">null</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="string">&#x27;Loading...&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">state</span>.<span class="property">isOnline</span> ? <span class="string">&#x27;Online&#x27;</span> : <span class="string">&#x27;Offline&#x27;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>真正的核心函数是render, 其他的都是外围支持性函数，这些函数之间通过this指针间接进行交互。仔细琢磨一下，我们不禁会有个疑问，所谓的生命周期函数为什么要从属于组件对象，它是局限于某个对象的知识吗？难道它的触发时刻不是一种全局知识吗？useEffect函数深刻理解了这一点，它成为一个静态函数，直接钩挂到全局执行引擎中，通过函数闭包直接实现多个生命周期回调函数之间的信息传递，而不是必须要造出某个this指针来随身携带。</p>
+<p>长期以来，面向对象语言中存在三种标准的信息传递方式，参数（param）、全局变量（global）和成员变量（this），但是当面对复杂的领域模型时，我们经常需要表达某个局部范围内的隐含的背景知识，这是一种自定义的、与领域紧密相关的上下文变量（context），不应该显式传递。因此，数据驱动的核心公式可以被改进为</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(props, @reactive state, @implicit context) =&gt; vdom</span><br></pre></td></tr></table></figure>
+
+<p>React Hooks中为implicit context这个概念也找到了一个对应的技术形式，把上下文定位方式确定为根据类型进行查找，相当于是某种import implicit机制。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> user = <span class="title function_">useContext</span>(<span class="title class_">CurrentUser</span>);</span><br><span class="line"><span class="keyword">const</span> notifications = <span class="title function_">useContext</span>(<span class="title class_">Notifications</span>);</span><br></pre></td></tr></table></figure>
+
+<p>React Hooks机制的出现意味着面向对象组件会衰落下去吗？我想也不尽然。传统的力量是强大的，而有生命力的文化总是具有包容性的。我们在Hooks概念之前在Vue技术体系中就已经通过元编程大法解决了相应问题：在编译期声明在一起的代码块，可以通过元编程机制拆分后挂接到组件对象上的各种插槽上。作为一种运行时，面向对象完全没有任何问题。</p>
+<p>问题： “作为一种运行时，面向对象完全没有任何问题。“ 这句话如何理解呢？<br>答： 框架层面的运行时，比如vue3.0，表面上看起来watch函数不再需要和对象绑定，但隐藏的实际存在一个currentInstance对象，相当于是一个隐蔽的this指针，大量的信息实际上仍然是和this指针绑定，围绕this指针进行组织的，与面向对象的一般做法本质上没有差异。</p>
+<h2 id="前端编程模型"><a href="#前端编程模型" class="headerlink" title="前端编程模型"></a>前端编程模型</h2><p>从现在的角度上看，前端的编程模型大概如下所示：</p>
+<p><img src="/knosys/project-nop-entropy/theory/react/state-view-action.png"></p>
+<p>render函数根据数据模型生成视图对象，而在视图对象上发生的交互会触发action动作，action负责修改数据对象，再借由响应式驱动机制自动触发数据对象到视图对象的渲染过程。底层借助于虚拟DOM的Diff算法，计算出实际要更新的视图模型的差量，尽量减少视图的实际更新范围，提升性能。</p>
+<p>实际的编程模型要更加复杂，因为我们面对的是一个复杂的应用，而不是一个单一的组件，所以必然需要采用分而治之的方式进行分解，</p>
+<p><img src="/knosys/project-nop-entropy/theory/react/state-view-action-tree.png"></p>
+<p>所以前端的一个核心组织难点就是如何实现StateTree、ViewTree和ActionTree这三棵树之间的相互连接。</p>
+<p>传统的组件编程实际上是以Component Tree为主，所有的状态数据和操作行为都挂接到Component对象上。而现在的主流方案是将状态数据独立出来管理，而Action和相关的状态变量一起构成所谓的Store。从理论上说，这种组织方式并不是唯一的，ActionTree也可以独立管理，只是我们需要有一种自然的机制将它和StateTree粘结在一起。理想情况下我们可以采用如下方案：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;input name=&quot;myField&quot;/&gt;</span><br><span class="line">&lt;span&gt;&#123;&#123;state&#125;&#125; &lt;/span&gt;</span><br><span class="line">&lt;button label=&quot;submit&quot; v-on:click=&quot;submitForm&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>展示和输入控件具有name属性，用于从StateTree的当前节点上拉取变量，并且如果修改可以自动更新回StateTree</p>
+</li>
+<li><p>可以通过表达式从当前可见的StateTree节点上拉取变量信息。这里的可见性控制类似于一般程序语言中的词法作用域（Lexical Scope），相当于是由前台框架构建了一个应用层专用的闭包变量访问机制。（useXXX这种方案本质上是一种应用层自制的闭包机制）</p>
+</li>
+<li><p>用户交互动作直接绑定到某个action函数上。action函数的定位也可以仿照数据变量的定位机制，从当前Action Scope向上查找，直到找到具有指定名称的处理函数。</p>
+</li>
+</ol>
+
+</div>
+      <footer class="Article-footer col-md-3">
+        
+          
+          
+          
+          
+            
+          
+          
+            <div class="Widget">
+              <div class="Widget-body"><a href="https://gitee.com/canonical-entropy/nop-entropy/edit/master/docs/theory/essence-of-react.md" target="_blank" rel=" rel="external nofollow"">在 Gitee 上编辑文档内容</a></div>
+            </div>
+          
+        
+        
+  
+
+  <section class="Widget Widget--toc">
+  <div class="Widget-header">
+    <h2 class="Widget-title">目录</h2>
+  </div>
+  <div class="Widget-body"></div>
+</section>
+
+
+
+      </footer>
+    </article>
+    <footer class="Page-footer Footer">
+  <div class="container-fluid">
+    
+    <div class="Footer-description">
+      
+        <!-- Important links -->
+        <nav class="Footer-navs">
+          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
+</li><li><a href="/community/"><span>社区</span></a>
+</li></ul>
+        </nav>
+      
+      
+        <!-- Copyright -->
+        <div class="Footer-copyright">
+          <p>
+
+&copy; 2024 <a href="https://nop-platform.gitee.io?utm_source=https://nop-platform.gitee.io&amp;utm_medium=common-footer" target="_blank" rel="external nofollow">Nop 社区</a> 版权所有
+
+</p>
+          
+          
+        </div>
+      
+    </div>
+  </div>
+</footer>
+
+  </main>
+</div>
+
+
+
+
+    <script>$('.Article-content > table').addClass('table table-bordered')</script>
+    
+<script src="/javascripts/ksio/vendors/share.min.js"></script>
+
+<script src="/javascripts/ksio/components/page.js"></script>
+
+<script src="/javascripts/ksio/components/toc.js"></script>
+
+<script src="/javascripts/ksio/vendors/jquery.timeago.js"></script>
+
+<script src="/javascripts/ksio/vendors/jquery.timeago.zh-CN.js"></script>
+
+<script src="/javascripts/ksio/initializers/time.js"></script>
+
+<script src="/javascripts/ksio/vendors/jquery.lazyload.js"></script>
+
+<script src="/javascripts/ksio/initializers/lazyload.js"></script>
+
+  </body>
+</html>
+

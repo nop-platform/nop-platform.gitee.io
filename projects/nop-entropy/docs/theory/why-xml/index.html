@@ -1,50 +1,1361 @@
-<!DOCTYPE html> <html lang="zh-CN" dir="ltr"> <head> <meta charset="UTF-8"> <!-- SEO --> <title>为什么Nop平台坚持使用XML而不是JSON或者YAML - Nop</title> <meta property="og:title" content="为什么Nop平台坚持使用XML而不是JSON或者YAML"> <meta name="description" content="目前在开发领域似乎形成了一种政治正确：XML是一种过时的技术，不应该再被广泛的使用。对于Nop平台大量使用XML来表达领域模型，有网友调侃道：信息都用xml表达，你这是反（潮流而）动啊。在此前的文章XML、JSON和函数AST的等价性中，我已经对XML和JSON的等价性进行了说明。基于这种等价性，在Nop平台中，XML和JSON是自动支持双向转换的，本质上用哪种表达方式都不影响模型的语义，完全可以用JSON文件来存储模型信息。但是，目前的情况下，XML的表现力相比JSON格式而言存在一些优势，在本文中我将补充一些具体的分析。"> <meta property="og:description" content="目前在开发领域似乎形成了一种政治正确：XML是一种过时的技术，不应该再被广泛的使用。对于Nop平台大量使用XML来表达领域模型，有网友调侃道：信息都用xml表达，你这是反（潮流而）动啊。在此前的文章XML、JSON和函数AST的等价性中，我已经对XML和JSON的等价性进行了说明。基于这种等价性，在Nop平台中，XML和JSON是自动支持双向转换的，本质上用哪种表达方式都不影响模型的语义，完全可以用JSON文件来存储模型信息。但是，目前的情况下，XML的表现力相比JSON格式而言存在一些优势，在本文中我将补充一些具体的分析。"> <meta name="keywords" content="Nop,Nop平台,Nop 平台,Nop Platform,Nop社区,Nop 社区,Nop Community,可逆计算,软件构造理论,低代码,lowcode,low-code,low code,低代码平台,lcdp,软件工程"> <link rel="canonical" href="https://nop-platform.gitee.io/projects/nop-entropy/docs/theory/why-xml/"> <meta property="og:url" content="https://nop-platform.gitee.io/projects/nop-entropy/docs/theory/why-xml/"> <meta property="og:site_name" content="Nop"> <script type="application/ld+json"> { "@context" : "http://schema.org", "@type" : "WebSite", "name" : "Nop", "url" : "https://nop-platform.gitee.io" } </script> <meta property="og:type" content="article"> <meta property="article:published_time" content="2024-04-13T09:39:39+08:00"> <link rel="next" href="https://nop-platform.gitee.io/projects/nop-entropy/docs/theory/xdsl-design/" title="从可逆计算看DSL的设计要点"> <link rel="prev" href="https://nop-platform.gitee.io/projects/nop-entropy/docs/theory/why-nop-report-is-special/" title="NopReport为什么是一个非常独特的报表引擎？"> <script type="application/ld+json"> { "@context": "http://schema.org", "@type": "NewsArticle", "headline": "为什么Nop平台坚持使用XML而不是JSON或者YAML", "image": null, "datePublished": "2024-04-13T09:39:39+08:00", "description": "目前在开发领域似乎形成了一种政治正确：XML是一种过时的技术，不应该再被广泛的使用。对于Nop平台大量使用XML来表达领域模型，有网友调侃道：信息都用xml表达，你这是反（潮流而）动啊。在此前的文章XML、JSON和函数AST的等价性中，我已经对XML和JSON的等价性进行了说明。基于这种等价性，在Nop平台中，XML和JSON是自动支持双向转换的，本质上用哪种表达方式都不影响模型的语义，完全可以用JSON文件来存储模型信息。但是，目前的情况下，XML的表现力相比JSON格式而言存在一些优势，在本文中我将补充一些具体的分析。" } </script> <script type="application/ld+json"> { "@context": "http://schema.org", "@type": "Organization", "url": "https://nop-platform.gitee.io", "logo": "https://nop-platform.gitee.io/assets/logo-9952a8b58c6582fc86a9608db8113158fb31de7a9db19d4358ac7cb96578d34e.png" } </script> <link rel="author" href="https://nop-platform.gitee.io"> <!-- 页面渲染兼容性 --> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <meta name="renderer" content="webkit"> <meta name="viewport" content="width=device-width,initial-scale=1.0"> <meta name="theme-color" content="#0871ab"> <link rel="icon" href="/assets/logo-9952a8b58c6582fc86a9608db8113158fb31de7a9db19d4358ac7cb96578d34e.png"> <!-- 静态资源 --> <link type="text/css" rel="stylesheet" href="/assets/global-f979fafa22c865e727cd15f83cdc43dbc73c1a324d7ad4fe6fa48e275dc4c063.css"> <link type="text/css" rel="stylesheet" href="/assets/ksio/vendors/share-c2e41222f5f34b2de38cb5213fa0e439c11da73b3907b444a32635563ae85ffd.css"> <link type="text/css" rel="stylesheet" href="/assets/local/layouts/doc-c5c0ab8b12485893472e680b5f067b74e240481232265b6cb0ab6edc95c20f65.css"> <script type="text/javascript" src="/assets/global-b3a80dd53acf48ad7228d6fd741dba15d3845cbc3783bdbbf7244151a45628aa.js"></script> <!--[if lt IE 9]> <script type="text/javascript" src="/assets/ksio/support_ie8-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.js"></script> <![endif]--> </head> <body class="Page" itemscope itemtype="http://schema.org/WebPage"> <header class="Page-header"> <div class="navbar navbar-static-top"> <div class="container-fluid"> <div class="navbar-header"> <button class="navbar-toggle collapsed" type="button" data-target=".Page-navs" data-toggle="collapse"> <span class="sr-only">Toggle navs</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button> <a class="navbar-brand" href="/">Nop</a> </div> <!-- Nav menus --> <nav class="Page-navs navbar-collapse collapse"> <ul class="nav navbar-nav navbar-right"> <li class="dropdown"> <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a> <ul class="dropdown-menu"> <li><a href="/projects/nop-entropy/docs/">指南</a> </li> <li><a href="https://www.zhihu.com/column/reversible-computation?utm_source=https://nop-platform.gitee.io&utm_medium=common-header" target="_blank" rel="external nofollow">文章</a> </li> <li><a href="https://space.bilibili.com/3493261219990250?utm_source=https://nop-platform.gitee.io&utm_medium=common-header" target="_blank" rel="external nofollow">视频</a> </li> </ul> </li> <li class="dropdown"> <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a> <ul class="dropdown-menu"> <li><a href="/projects/nop-entropy/">Nop Entropy</a> </li> <li><a href="/projects/nop-chaos/">Nop Chaos</a> </li> </ul> </li> <li class="dropdown"> <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a> <ul class="dropdown-menu"> <li><a href="/community/">社区</a> </li> <li><a href="/team/">团队</a> </li> <li><a href="https://gitee.com/nop-platform?utm_source=https://nop-platform.gitee.io&utm_medium=common-header" target="_blank" rel="external nofollow">Gitee 组织</a> </li> </ul> </li> <li><a href="https://nop-platform.github.io?utm_source=https://nop-platform.gitee.io&utm_medium=common-header" target="_blank" rel="external nofollow">English</a> </li> </ul> </nav> </div> </div> </header> <div class="Page-content"> <aside class="Page-aside"> <div class="AsideBrand"> <a href="/">Nop</a> </div> <nav class="AsideNav"><ul> <li> <a href="/projects/nop-entropy/docs/why-nop/">介绍</a> <ul> <li> <a href="/projects/nop-entropy/docs/">文档概览</a> </li> <li> <a href="/projects/nop-entropy/docs/tutorial/tutorial/">入门教程</a> <ul> <li> <a href="/projects/nop-entropy/docs/tutorial/simple/1-simple-service/">极简服务层开发</a> </li> <li> <a href="/projects/nop-entropy/docs/tutorial/simple/2-simple-dao/">极简数据访问层开发</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/compare/">与其他平台的对比</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/user-guide/">用户指南</a> <ul> <li> <a href="/projects/nop-entropy/docs/user-guide/installation/">安装和配置</a> </li> <li> <a href="/projects/nop-entropy/docs/user-guide/report/">报表引擎</a> </li> <li> <a href="/projects/nop-entropy/docs/user-guide/idea/idea-plugin/">IDEA插件使用</a> </li> <li> <a href="/projects/nop-entropy/docs/user-guide/monitor/grafana/">监控</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/arch/">软件架构</a> <ul> <li> <a href="/projects/nop-entropy/docs/arch/module-dependency/">模块依赖关系</a> </li> <li> <a href="/projects/nop-entropy/docs/core-code-guidance/">核心代码阅读导引</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/theory/">理论基础</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/">开发指南</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/codegen/">代码生成器</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/cli/">命令行工具</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/command/command/">命令行开发支持</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/config/">配置管理</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/ioc/">IoC容器</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/ioc/aop/">AOP支持</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/orm/">ORM框架</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/">XLang语言</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/xdef/">XDef元模型</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/xdsl/">XDSL领域语言</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/xscript/">XScript脚本语言</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/xpl/">Xpl模板语言</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/meta-programming/">元编程</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/model/">Excel模型</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/graphql/">GraphQL引擎</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/microservice/">分布式微服务</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/rule/rule/">规则引擎</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/workflow/task-flow/">逻辑编排</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/autotest/">自动化测试</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/tenant/">多租户</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/delta/delta-customization/">Delta定制</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/vfs/">Delta文件系统</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/auth/">权限配置</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/biz/">业务规则</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/nocode/">动态模型</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xui/">前端模型</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/integration/">第三方集成</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/spring/">spring集成</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/quarkus/">quarkus集成</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/ide/idea/">IDEA插件</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/ide/plugin-dev/">插件开发</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/faq/faq/">常见问题</a> <ul> <li> <a href="/projects/nop-entropy/docs/faq/debug-errors/">错误诊断</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/recipe/">常见问题解决方案</a> </li> </ul> </li> </ul> </nav> </aside> <main class="Page-main"> <article class="Article container-fluid"> <header class="Article-header"> <h1 class="Article-title">为什么Nop平台坚持使用XML而不是JSON或者YAML</h1> </header> <div class="Article-content col-md-9"><p>目前在开发领域似乎形成了一种政治正确：XML是一种过时的技术，不应该再被广泛的使用。对于Nop平台大量使用XML来表达领域模型，有网友调侃道：信息都用xml表达，你这是反（潮流而）动啊。在此前的文章<a href="https://zhuanlan.zhihu.com/p/554294376" target="_blank" rel="external nofollow">XML、JSON和函数AST的等价性</a>中，我已经对XML和JSON的等价性进行了说明。基于这种等价性，在Nop平台中，XML和JSON是自动支持双向转换的，本质上用哪种表达方式都不影响模型的语义，完全可以用JSON文件来存储模型信息。但是，目前的情况下，XML的表现力相比JSON格式而言存在一些优势，在本文中我将补充一些具体的分析。</p> <h2 id="json">JSON存在的问题</h2> <p>JSON格式的主要问题是缺少注释机制以及多行文本表示形式。这些问题在YAML格式中已经被解决，而YAML格式兼容JSON格式。所以在Nop平台中我们一般倾向于使用YAML格式来替代JSON，例如使用page.yaml来存放前端JSON页面。</p> <figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span></span><span class="l l-Scalar l-Scalar-Plain">x:gen-extends</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">|</span>
-  <span class="no">&lt;web:GenPage view=&quot;NopAuthUser.view.xml&quot; page=&quot;main&quot; xpl:lib=&quot;/nop/web/xlib/web.xlib&quot; /&gt;</span>
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
 
-<span class="nt">body</span><span class="p">:</span>
-  <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">crud-grid</span>
-  <span class="nt">filter</span><span class="p">:</span>
-    <span class="nt">id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">crud-filter</span>
-    <span class="nt">actions</span><span class="p">:</span>
-      <span class="p p-Indicator">-</span> <span class="nt">id</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">submit-button</span>
-        <span class="nt">icon</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">fa fa-snapchat</span></code></pre></figure> <p>在XML中嵌入JSON格式是非常简单的一件事情。但是在JSON中嵌入XML就需要进行字符串转义，会大大影响数据的可读性。如果使用YAML格式，嵌入XML就很简单直观了。</p> <p>JSON乃至YAML格式所存在的另一个问题是它缺少特殊定义的类型属性。JSON对象中所有的属性原则上地位是平等的，在JSON规范中并没有规定可以用于快速区分JSON对象结构的类型属性，这导致它在反序列化的时候难以进行性能优化。</p> <p>反序列化的时候我们往往需要根据类型属性来决定反序列化得到的对象类型，但是因为JSON格式没有规定type属性一定是第一个属性，可能在解析完整个对象结构之后才能对类型数据做出判断，这导致无谓的临时对象构建过程和额外的内存消耗。</p> <p>相比较而言，XML总是突出tagName这个特殊属性，可以帮助我们在视觉层面快速识别特定的局部结构。在简单结构的情况下，XML表达形式可能会比JSON格式更简洁、直观。</p> <figure class="highlight"><pre><code class="language-text" data-lang="text"><span></span>&lt;row a=&quot;1&quot; b=&quot;xyz&quot; /&gt;
 
- {
- 	&quot;a&quot;: 1,
- 	&quot;b&quot;: &quot;xyz&quot;,
- 	&quot;type&quot;: &quot;row&quot;
- }</code></pre></figure> <h2 id="xml">XML存在的问题</h2> <p>毫无疑问，XML在实际使用过程中存在一些明显的问题，最本质的原因是XML最早的设计目标是一种面向文本数据的标签语言，对于具有丰富数据类型的应用数据缺乏规范化的表达方式。以IBM、SUN为首的大企业所大力推行的一系列XML相关标准又以严谨为名引入了大量复杂的设计，逐步成就了XML冗长繁琐的刻板印象。</p> <p>以<a href="https://www.w3school.com.cn/schema/schema_intro.asp" target="_blank" rel="external nofollow">XSD(XML Schema Definition)</a>语言为例，如果对比JSON Schema语言，我们可以很容易的得到结论：XML Schema的信息密度远比JSON Schema要低。</p> <p>JSON Schema可以很自然的声明嵌套结构，而XML Schema却强制把一切结构都拆解为type和element两层结构。</p> <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span></span><span class="nt">&lt;xs:element</span> <span class="na">name=</span><span class="s">&quot;personinfo&quot;</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;xs:complexType&gt;</span>
-    <span class="nt">&lt;xs:sequence&gt;</span>
-      <span class="nt">&lt;xs:element</span> <span class="na">name=</span><span class="s">&quot;firstname&quot;</span> <span class="na">type=</span><span class="s">&quot;xs:string&quot;</span><span class="nt">/&gt;</span>
-      <span class="nt">&lt;xs:element</span> <span class="na">name=</span><span class="s">&quot;lastname&quot;</span> <span class="na">type=</span><span class="s">&quot;xs:string&quot;</span><span class="nt">/&gt;</span>
-      <span class="nt">&lt;xs:element</span> <span class="na">name=</span><span class="s">&quot;address&quot;</span> <span class="na">type=</span><span class="s">&quot;xs:string&quot;</span><span class="nt">/&gt;</span>
-    <span class="nt">&lt;/xs:sequence&gt;</span>
-  <span class="nt">&lt;/xs:complexType&gt;</span>
-<span class="nt">&lt;/xs:element&gt;</span></code></pre></figure> <p>很多人在使用XSD的时候还总是倾向于使用xs:sequence定义，强制为子节点引入顺序依赖，这背离了声明式编程的基本思想，在使用层面往往也没有什么实际的价值，只是带来不必要的麻烦。</p> <blockquote> <p>声明式编程很大程度上就是要淡化顺序依赖这个概念，摆脱命令式编程所强行引入的非因果约束</p> </blockquote> <p>而在JSON schema中属性之间根本就无法定义顺序关系</p> <figure class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
-  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span>
-    <span class="nt">&quot;firstname&quot;</span><span class="p">:</span> <span class="p">{</span>
-      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span>
-    <span class="p">},</span>
-    <span class="nt">&quot;lastname&quot;</span><span class="p">:</span> <span class="p">{</span>
-      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span>
-    <span class="p">},</span>
-    <span class="nt">&quot;address&quot;</span><span class="p">:</span> <span class="p">{</span>
-      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-<span class="p">}</span></code></pre></figure> <h2 id="nopxml">Nop平台中的XML</h2> <p>Nop平台虽然大量使用XML语法，但是它并没有全盘接收目前的XML规范标准，而是只采纳了其中一个语法和特性子集。例如NopXML去除了外部Entity支持（由此避免了很多安全漏洞），简化了名字空间概念（仅在根节点处理xmlns配置），去除了Instruction概念（仅识别根节点上的Instruction）。 Nop平台在解析和处理XML的时候也没有使用现有的JAXB (Java Architecture for XML Binding) 技术，而是自行编写了XML解析器。解析得到的结果不是标准XML技术中所定义的DOM结构，而是面向应用层重新设计的XNode结构。</p> <figure class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="kd">class</span> <span class="nc">XNode</span><span class="p">{</span>
-	<span class="n">SourceLocation</span> <span class="n">loc</span><span class="p">;</span>
-	<span class="n">String</span> <span class="n">tagName</span><span class="p">;</span>
-	<span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span> <span class="n">ValueWithLocation</span><span class="o">&gt;</span> <span class="n">attributes</span><span class="p">;</span>
-	<span class="n">List</span><span class="o">&lt;</span><span class="n">XNode</span><span class="o">&gt;</span> <span class="n">children</span><span class="p">;</span>
-	<span class="n">ValueWithLocation</span> <span class="n">content</span><span class="p">;</span>
 
-	<span class="n">XNode</span> <span class="n">parent</span><span class="p">;</span>
-<span class="p">}</span>
 
-<span class="kd">class</span> <span class="nc">ValueWithLocation</span><span class="p">{</span>
-	<span class="n">SourceLocation</span> <span class="n">location</span><span class="p">;</span>
-	<span class="n">Object</span> <span class="n">value</span><span class="p">;</span>
-<span class="p">}</span></code></pre></figure> <p>XNode结构中记录了属性和节点的源码位置，并将attribute和content的值类型修改为Object类型，从而克服了XML原始设计中只针对文本文档的缺陷，使得它可以更高效的表达复杂的业务对象结构。</p> <p>Nop平台采用XDef元模型语言替代了XML Schema的作用，它利用了前缀引导语法的设计思想，比JSON Schema更紧凑直观。</p> <blockquote> <p>前缀引导语法的设计参见 <a href="https://zhuanlan.zhihu.com/p/548314138" target="_blank" rel="external nofollow">DSL分层语法设计及前缀引导语法</a></p> </blockquote> <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span></span><span class="nt">&lt;person</span> <span class="na">firstname=</span><span class="s">&quot;!string&quot;</span> <span class="na">lastname=</span><span class="s">&quot;!string&quot;</span> <span class="na">address=</span><span class="s">&quot;string&quot;</span> <span class="nt">/&gt;</span></code></pre></figure> <p>XDef元模型定义的结构基本与它所需要约束的数据结构相似，可以看作是将具体的某个模型数据中的值替换为类型声明后得到的结果。</p> <p>对于XPath和Xslt转换语法，Nop平台同样没有采用，而是设计了替代的XSelector和XTransform语法。</p> <p>更为重要的是，Nop平台引入了XML格式的模板语言XPL（XLang Template Language）。它是一个图灵完备的模板语言，支持判断、循环、标签抽象、模板元编程等概念，是Nop平台基于XML格式实现可逆计算的关键技术之一。</p> <p>具体介绍参见 <a href="https://gitee.com/canonical-entropy/nop-entropy/blob/master/docs/dev-guide/xlang/xpl.md" target="_blank" rel="external nofollow">xpl.md</a></p> <p><strong>Nop平台坚持使用XML文件格式最重要的原因就在于JSON乃至YAML格式缺少功能与XPL类似的可用于复杂结构代码生成的模板语言</strong>。</p> <h2 id="xpl">XPL的特点</h2> <ol> <li>具有类似Lisp的同像特性：XPL为XML格式，输出结果也是XML格式</li> <li>具有多种输出模式，当outputMode=node时会直接输出XNode节点，在输出的过程中会记录属性和节点的来源位置。这在代码生成和断点调试时特别有用，它意味着我们始终可以跟踪当前节点的最初源码位置，调试或者报错时可以直接定位到源码行。</li> <li>支持编译期运行，本质上类似于Lisp中的宏的作用。</li> <li>支持自定义标签库，标签库支持Delta定制。也就是说XPL模板语言支持函数级别的差量化定制。</li> </ol> <p>具体示例可以参见视频 <a href="../Nop平台中如果通过XBiz配置文件实现后台服务函数">Nop平台中如果通过XBiz配置文件实现后台服务函数</a></p> </div> <footer class="Article-footer col-md-3"> <div class="Widget"> <div class="Widget-body"><a href="https://gitee.com/canonical-entropy/nop-entropy/edit/master/docs/theory/why-xml.md" target="_blank" rel=" rel="external nofollow"">在 Gitee 上编辑文档内容</a></div> </div> <section class="Widget Widget--toc"> <div class="Widget-header"> <h2 class="Widget-title">目录</h2> </div> <div class="Widget-body"></div> </section> </footer> </article> <footer class="Page-footer Footer"> <div class="container-fluid"> <div class="Footer-description"> <!-- Important links --> <nav class="Footer-navs"> <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a> </li><li><a href="/community/"><span>社区</span></a> </li></ul> </nav> <!-- Copyright --> <div class="Footer-copyright"> <p>&copy; 2024 <a href="https://nop-platform.gitee.io?utm_source=https://nop-platform.gitee.io&utm_medium=common-footer" target="_blank" rel="external nofollow">Nop 社区</a> 版权所有 </p> </div> </div> </div> </footer> </main> </div> <script>$('table').addClass('table table-bordered')</script> <script type="text/javascript" src="/assets/ksio/vendors/share.min-3155ee636b84a04d036e0f1ba833227d3fd03a4c58a6f2e21c9ceb1c5d0198c7.js"></script><script type="text/javascript" src="/assets/ksio/components-a266f21fe1dfd61bebf40e74872cbf901eb3e201f7d33e9e5d5af9a55f4b24ea.js"></script> <script type="text/javascript" src="/assets/ksio/initializers/time-8d7a529a66ae6cb53c2283d21fd6a12c538b8473dd5bd76458366d09adce7bf6.js"></script><script type="text/javascript" src="/assets/ksio/initializers/lazyload-44b7df8a9282d598284d522e64d6be9ac88d466f3c4a734a514303e99347b2c9.js"></script> </body> </html>
+
+
+
+
+
+  
+  
+  
+    
+  
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <title>为什么Nop平台坚持使用XML而不是JSON或者YAML - Nop</title>
+
+
+  <meta property="og:title" content="为什么Nop平台坚持使用XML而不是JSON或者YAML">
+
+
+  <meta name="description" content="Nop Platform 2.0 是基于可逆计算原理从零开始构建的新一代低代码平台，它致力于克服低代码平台无法摆脱穷举法的困境，从理论层面超越组件技术，有效的解决粗粒度软件复用的问题。">
+  <meta property="og:description" content="Nop Platform 2.0 是基于可逆计算原理从零开始构建的新一代低代码平台，它致力于克服低代码平台无法摆脱穷举法的困境，从理论层面超越组件技术，有效的解决粗粒度软件复用的问题。">
+
+
+
+  
+    
+  
+
+
+  <meta name="keywords" content="Nop,Nop平台,Nop 平台,Nop Platform,Nop社区,Nop 社区,Nop Community,可逆计算,软件构造理论,低代码,lowcode,low-code,low code,低代码平台,lcdp,软件工程">
+
+
+<!-- 页面渲染兼容性 -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<!-- 订阅 -->
+
+<meta name="theme-color" content="#0871ab">
+<link rel="shortcut icon" href="/images/nop/logo.png">
+
+
+    
+<link rel="stylesheet" href="/stylesheets/global.css">
+
+    
+<link rel="stylesheet" href="/stylesheets/ksio/vendors/share.css">
+
+<link rel="stylesheet" href="/local/syntax-highlighting.css">
+
+<link rel="stylesheet" href="/stylesheets/pages/post.css">
+
+<link rel="stylesheet" href="/stylesheets/pages/doc.css">
+
+    
+<script src="/javascripts/ksio/vendors/jquery-1.11.3.min.js"></script>
+
+    
+<script src="/javascripts/ksio/vendors/bootstrap.min.js"></script>
+
+  </head>
+  
+  
+  <body class="Page" itemscope itemtype="http://schema.org/WebPage">
+    
+
+  <header class="Page-header">
+  <div class="navbar navbar-static-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        
+          <button class="navbar-toggle collapsed" type="button" data-target=".Page-navs" data-toggle="collapse">
+            <span class="sr-only">Toggle navs</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        
+        
+          
+
+
+  <a class="navbar-brand" href="/">Nop</a>
+
+
+        
+      </div>
+      <!-- Nav menus -->
+      <nav class="Page-navs navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          
+  
+    <li class="dropdown">
+      <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+  
+    <li><a href="/projects/nop-entropy/docs/">指南</a>
+</li>
+  
+
+  
+    <li><a href="https://www.zhihu.com/column/reversible-computation?utm_source=https://nop-platform.gitee.io&amp;utm_medium=common-header" target="_blank" rel="external nofollow">文章</a>
+</li>
+  
+
+  
+    <li><a href="https://space.bilibili.com/3493261219990250?utm_source=https://nop-platform.gitee.io&amp;utm_medium=common-header" target="_blank" rel="external nofollow">视频</a>
+</li>
+  
+
+</ul>
+    </li>
+  
+
+  
+    <li class="dropdown">
+      <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+  
+    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+</li>
+  
+
+  
+    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+</li>
+  
+
+</ul>
+    </li>
+  
+
+  
+    <li class="dropdown">
+      <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+  
+    <li><a href="/community/">社区</a>
+</li>
+  
+
+  
+    <li><a href="/team/">团队</a>
+</li>
+  
+
+  
+    <li><a href="https://gitee.com/nop-platform?utm_source=https://nop-platform.gitee.io&amp;utm_medium=common-header" target="_blank" rel="external nofollow">Gitee 组织</a>
+</li>
+  
+
+</ul>
+    </li>
+  
+
+  
+    <li><a href="https://nop-platform.github.io?utm_source=https://nop-platform.gitee.io&amp;utm_medium=common-header" target="_blank" rel="external nofollow">English</a>
+</li>
+  
+
+
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<div class="Page-content">
+  
+  
+    <aside class="Page-aside">
+      <div class="AsideBrand">
+
+
+  <a href="/">Nop</a>
+
+</div>
+      <nav class="AsideNav"><ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/why-nop/">介绍</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+        
+        <a href="/projects/nop-entropy/docs/">文档概览</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/tutorial/tutorial/">入门教程</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/tutorial/simple/1-simple-service/">极简服务层开发</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/tutorial/simple/2-simple-dao/">极简数据访问层开发</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/compare/">与其他平台的对比</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/user-guide/">用户指南</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/user-guide/installation/">安装和配置</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/user-guide/report/">报表引擎</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/user-guide/idea/idea-plugin/">IDEA插件使用</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/user-guide/monitor/grafana/">监控</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/arch/">软件架构</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/arch/module-dependency/">模块依赖关系</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/core-code-guidance/">核心代码阅读导引</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/theory/">理论基础</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/">开发指南</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/codegen/">代码生成器</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/cli/">命令行工具</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/command/command/">命令行开发支持</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/config/">配置管理</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/ioc/">IoC容器</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/ioc/aop/">AOP支持</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/orm/">ORM框架</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/">XLang语言</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/xdef/">XDef元模型</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/xdsl/">XDSL领域语言</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/xscript/">XScript脚本语言</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/xpl/">Xpl模板语言</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/meta-programming/">元编程</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/model/">Excel模型</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/graphql/">GraphQL引擎</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/microservice/">分布式微服务</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/rule/rule/">规则引擎</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/workflow/task-flow/">逻辑编排</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/autotest/">自动化测试</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/tenant/">多租户</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/delta/delta-customization/">Delta定制</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/vfs/">Delta文件系统</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/auth/">权限配置</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/biz/">业务规则</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/nocode/">动态模型</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xui/">前端模型</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/integration/">第三方集成</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/spring/">spring集成</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/quarkus/">quarkus集成</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/ide/idea/">IDEA插件</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/ide/plugin-dev/">插件开发</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/faq/faq/">常见问题</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/faq/debug-errors/">错误诊断</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/recipe/">常见问题解决方案</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+</nav>
+    </aside>
+  
+  <main class="Page-main">
+    <article class="Article container-fluid">
+      <header class="Article-header">
+        
+  
+    <h1 class="Article-title">为什么Nop平台坚持使用XML而不是JSON或者YAML</h1>
+  
+  
+
+
+      </header>
+      <div class="Article-content col-md-9"><p>目前在开发领域似乎形成了一种政治正确：XML是一种过时的技术，不应该再被广泛的使用。对于Nop平台大量使用XML来表达领域模型，有网友调侃道：信息都用xml表达，你这是反（潮流而）动啊。在此前的文章<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/554294376">XML、JSON和函数AST的等价性</a>中，我已经对XML和JSON的等价性进行了说明。基于这种等价性，在Nop平台中，XML和JSON是自动支持双向转换的，本质上用哪种表达方式都不影响模型的语义，完全可以用JSON文件来存储模型信息。但是，目前的情况下，XML的表现力相比JSON格式而言存在一些优势，在本文中我将补充一些具体的分析。</p>
+<h2 id="JSON存在的问题"><a href="#JSON存在的问题" class="headerlink" title="JSON存在的问题"></a>JSON存在的问题</h2><p>JSON格式的主要问题是缺少注释机制以及多行文本表示形式。这些问题在YAML格式中已经被解决，而YAML格式兼容JSON格式。所以在Nop平台中我们一般倾向于使用YAML格式来替代JSON，例如使用page.yaml来存放前端JSON页面。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">x:gen-extends:</span> <span class="string">|</span></span><br><span class="line"><span class="string">  &lt;web:GenPage view=&quot;NopAuthUser.view.xml&quot; page=&quot;main&quot; xpl:lib=&quot;/nop/web/xlib/web.xlib&quot; /&gt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="attr">body:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">crud-grid</span></span><br><span class="line">  <span class="attr">filter:</span></span><br><span class="line">    <span class="attr">id:</span> <span class="string">crud-filter</span></span><br><span class="line">    <span class="attr">actions:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">submit-button</span></span><br><span class="line">        <span class="attr">icon:</span> <span class="string">fa</span> <span class="string">fa-snapchat</span></span><br></pre></td></tr></table></figure>
+
+<p>在XML中嵌入JSON格式是非常简单的一件事情。但是在JSON中嵌入XML就需要进行字符串转义，会大大影响数据的可读性。如果使用YAML格式，嵌入XML就很简单直观了。</p>
+<p>JSON乃至YAML格式所存在的另一个问题是它缺少特殊定义的类型属性。JSON对象中所有的属性原则上地位是平等的，在JSON规范中并没有规定可以用于快速区分JSON对象结构的类型属性，这导致它在反序列化的时候难以进行性能优化。</p>
+<p>反序列化的时候我们往往需要根据类型属性来决定反序列化得到的对象类型，但是因为JSON格式没有规定type属性一定是第一个属性，可能在解析完整个对象结构之后才能对类型数据做出判断，这导致无谓的临时对象构建过程和额外的内存消耗。</p>
+<p>相比较而言，XML总是突出tagName这个特殊属性，可以帮助我们在视觉层面快速识别特定的局部结构。在简单结构的情况下，XML表达形式可能会比JSON格式更简洁、直观。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;row a=&quot;1&quot; b=&quot;xyz&quot; /&gt;</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">	&quot;a&quot;: 1,</span><br><span class="line">	&quot;b&quot;: &quot;xyz&quot;,</span><br><span class="line">	&quot;type&quot;: &quot;row&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="XML存在的问题"><a href="#XML存在的问题" class="headerlink" title="XML存在的问题"></a>XML存在的问题</h2><p>毫无疑问，XML在实际使用过程中存在一些明显的问题，最本质的原因是XML最早的设计目标是一种面向文本数据的标签语言，对于具有丰富数据类型的应用数据缺乏规范化的表达方式。以IBM、SUN为首的大企业所大力推行的一系列XML相关标准又以严谨为名引入了大量复杂的设计，逐步成就了XML冗长繁琐的刻板印象。</p>
+<p>以<a target="_blank" rel="noopener" href="https://www.w3school.com.cn/schema/schema_intro.asp">XSD(XML Schema Definition)</a>语言为例，如果对比JSON Schema语言，我们可以很容易的得到结论：XML Schema的信息密度远比JSON Schema要低。</p>
+<p>JSON Schema可以很自然的声明嵌套结构，而XML Schema却强制把一切结构都拆解为type和element两层结构。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">xs:element</span> <span class="attr">name</span>=<span class="string">&quot;personinfo&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">xs:complexType</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">xs:sequence</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">xs:element</span> <span class="attr">name</span>=<span class="string">&quot;firstname&quot;</span> <span class="attr">type</span>=<span class="string">&quot;xs:string&quot;</span>/&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">xs:element</span> <span class="attr">name</span>=<span class="string">&quot;lastname&quot;</span> <span class="attr">type</span>=<span class="string">&quot;xs:string&quot;</span>/&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">xs:element</span> <span class="attr">name</span>=<span class="string">&quot;address&quot;</span> <span class="attr">type</span>=<span class="string">&quot;xs:string&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">xs:sequence</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">xs:complexType</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">xs:element</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>很多人在使用XSD的时候还总是倾向于使用xs:sequence定义，强制为子节点引入顺序依赖，这背离了声明式编程的基本思想，在使用层面往往也没有什么实际的价值，只是带来不必要的麻烦。</p>
+<blockquote>
+<p>声明式编程很大程度上就是要淡化顺序依赖这个概念，摆脱命令式编程所强行引入的非因果约束</p>
+</blockquote>
+<p>而在JSON schema中属性之间根本就无法定义顺序关系</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;object&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;properties&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;firstname&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;string&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;lastname&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;string&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;address&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;string&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Nop平台中的XML"><a href="#Nop平台中的XML" class="headerlink" title="Nop平台中的XML"></a>Nop平台中的XML</h2><p>Nop平台虽然大量使用XML语法，但是它并没有全盘接收目前的XML规范标准，而是只采纳了其中一个语法和特性子集。例如NopXML去除了外部Entity支持（由此避免了很多安全漏洞），简化了名字空间概念（仅在根节点处理xmlns配置），去除了Instruction概念（仅识别根节点上的Instruction）。 Nop平台在解析和处理XML的时候也没有使用现有的JAXB (Java Architecture for XML Binding) 技术，而是自行编写了XML解析器。解析得到的结果不是标准XML技术中所定义的DOM结构，而是面向应用层重新设计的XNode结构。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">XNode</span>&#123;</span><br><span class="line">	SourceLocation loc;</span><br><span class="line">	String tagName;</span><br><span class="line">	Map&lt;String, ValueWithLocation&gt; attributes;</span><br><span class="line">	List&lt;XNode&gt; children;</span><br><span class="line">	ValueWithLocation content;</span><br><span class="line"></span><br><span class="line">	XNode parent;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ValueWithLocation</span>&#123;</span><br><span class="line">	SourceLocation location;</span><br><span class="line">	Object value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>XNode结构中记录了属性和节点的源码位置，并将attribute和content的值类型修改为Object类型，从而克服了XML原始设计中只针对文本文档的缺陷，使得它可以更高效的表达复杂的业务对象结构。</p>
+<p>Nop平台采用XDef元模型语言替代了XML Schema的作用，它利用了前缀引导语法的设计思想，比JSON Schema更紧凑直观。</p>
+<blockquote>
+<p>前缀引导语法的设计参见 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/548314138">DSL分层语法设计及前缀引导语法</a></p>
+</blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">person</span> <span class="attr">firstname</span>=<span class="string">&quot;!string&quot;</span> <span class="attr">lastname</span>=<span class="string">&quot;!string&quot;</span> <span class="attr">address</span>=<span class="string">&quot;string&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>XDef元模型定义的结构基本与它所需要约束的数据结构相似，可以看作是将具体的某个模型数据中的值替换为类型声明后得到的结果。</p>
+<p>对于XPath和Xslt转换语法，Nop平台同样没有采用，而是设计了替代的XSelector和XTransform语法。</p>
+<p>更为重要的是，Nop平台引入了XML格式的模板语言XPL（XLang Template Language）。它是一个图灵完备的模板语言，支持判断、循环、标签抽象、模板元编程等概念，是Nop平台基于XML格式实现可逆计算的关键技术之一。</p>
+<p>具体介绍参见 <a target="_blank" rel="noopener" href="https://gitee.com/canonical-entropy/nop-entropy/blob/master/docs/dev-guide/xlang/xpl.md">xpl.md</a></p>
+<p><strong>Nop平台坚持使用XML文件格式最重要的原因就在于JSON乃至YAML格式缺少功能与XPL类似的可用于复杂结构代码生成的模板语言</strong>。</p>
+<h2 id="XPL的特点"><a href="#XPL的特点" class="headerlink" title="XPL的特点"></a>XPL的特点</h2><ol>
+<li>具有类似Lisp的同像特性：XPL为XML格式，输出结果也是XML格式</li>
+<li>具有多种输出模式，当outputMode&#x3D;node时会直接输出XNode节点，在输出的过程中会记录属性和节点的来源位置。这在代码生成和断点调试时特别有用，它意味着我们始终可以跟踪当前节点的最初源码位置，调试或者报错时可以直接定位到源码行。</li>
+<li>支持编译期运行，本质上类似于Lisp中的宏的作用。</li>
+<li>支持自定义标签库，标签库支持Delta定制。也就是说XPL模板语言支持函数级别的差量化定制。</li>
+</ol>
+<p>具体示例可以参见视频 <a href="../Nop%E5%B9%B3%E5%8F%B0%E4%B8%AD%E5%A6%82%E6%9E%9C%E9%80%9A%E8%BF%87XBiz%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%AE%9E%E7%8E%B0%E5%90%8E%E5%8F%B0%E6%9C%8D%E5%8A%A1%E5%87%BD%E6%95%B0">Nop平台中如果通过XBiz配置文件实现后台服务函数</a></p>
+
+</div>
+      <footer class="Article-footer col-md-3">
+        
+          
+          
+          
+          
+            
+          
+          
+            <div class="Widget">
+              <div class="Widget-body"><a href="https://gitee.com/canonical-entropy/nop-entropy/edit/master/docs/theory/why-xml.md" target="_blank" rel=" rel="external nofollow"">在 Gitee 上编辑文档内容</a></div>
+            </div>
+          
+        
+        
+  
+
+  <section class="Widget Widget--toc">
+  <div class="Widget-header">
+    <h2 class="Widget-title">目录</h2>
+  </div>
+  <div class="Widget-body"></div>
+</section>
+
+
+
+      </footer>
+    </article>
+    <footer class="Page-footer Footer">
+  <div class="container-fluid">
+    
+    <div class="Footer-description">
+      
+        <!-- Important links -->
+        <nav class="Footer-navs">
+          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
+</li><li><a href="/community/"><span>社区</span></a>
+</li></ul>
+        </nav>
+      
+      
+        <!-- Copyright -->
+        <div class="Footer-copyright">
+          <p>
+
+&copy; 2024 <a href="https://nop-platform.gitee.io?utm_source=https://nop-platform.gitee.io&amp;utm_medium=common-footer" target="_blank" rel="external nofollow">Nop 社区</a> 版权所有
+
+</p>
+          
+          
+        </div>
+      
+    </div>
+  </div>
+</footer>
+
+  </main>
+</div>
+
+
+
+
+    <script>$('.Article-content > table').addClass('table table-bordered')</script>
+    
+<script src="/javascripts/ksio/vendors/share.min.js"></script>
+
+<script src="/javascripts/ksio/components/page.js"></script>
+
+<script src="/javascripts/ksio/components/toc.js"></script>
+
+<script src="/javascripts/ksio/vendors/jquery.timeago.js"></script>
+
+<script src="/javascripts/ksio/vendors/jquery.timeago.zh-CN.js"></script>
+
+<script src="/javascripts/ksio/initializers/time.js"></script>
+
+<script src="/javascripts/ksio/vendors/jquery.lazyload.js"></script>
+
+<script src="/javascripts/ksio/initializers/lazyload.js"></script>
+
+  </body>
+</html>
+

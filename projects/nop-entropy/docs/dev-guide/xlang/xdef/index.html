@@ -1,69 +1,1383 @@
-<!DOCTYPE html> <html lang="zh-CN" dir="ltr"> <head> <meta charset="UTF-8"> <!-- SEO --> <title>XDef元模型定义语言 - Nop</title> <meta property="og:title" content="XDef元模型定义语言"> <meta name="description" content="Nop平台中所有的DSL语言统一采用XML格式，而不是自定义的表观语法格式，这样可以简化DSL设计并提供统一的IDE开发工具。具体来说，所有的DSL采用统一的XDef元模型定义DSL的具体语法（XML的结构），然后利用Nop平台内置的一系列机制自动生成代码，实现DSL的解析、验证等功能。"> <meta property="og:description" content="Nop平台中所有的DSL语言统一采用XML格式，而不是自定义的表观语法格式，这样可以简化DSL设计并提供统一的IDE开发工具。具体来说，所有的DSL采用统一的XDef元模型定义DSL的具体语法（XML的结构），然后利用Nop平台内置的一系列机制自动生成代码，实现DSL的解析、验证等功能。"> <meta name="keywords" content="Nop,Nop平台,Nop 平台,Nop Platform,Nop社区,Nop 社区,Nop Community,可逆计算,软件构造理论,低代码,lowcode,low-code,low code,低代码平台,lcdp,软件工程"> <link rel="canonical" href="https://nop-platform.gitee.io/projects/nop-entropy/docs/dev-guide/xlang/xdef/"> <meta property="og:url" content="https://nop-platform.gitee.io/projects/nop-entropy/docs/dev-guide/xlang/xdef/"> <meta property="og:site_name" content="Nop"> <script type="application/ld+json"> { "@context" : "http://schema.org", "@type" : "WebSite", "name" : "Nop", "url" : "https://nop-platform.gitee.io" } </script> <meta property="og:type" content="article"> <meta property="article:published_time" content="2024-04-13T09:39:39+08:00"> <link rel="next" href="https://nop-platform.gitee.io/projects/nop-entropy/docs/dev-guide/xlang/xdsl/" title="XDSL：通用的领域特定语言设计"> <link rel="prev" href="https://nop-platform.gitee.io/projects/nop-entropy/docs/dev-guide/xlang/x-override/" title="可逆计算理论中的Delta合并算法"> <script type="application/ld+json"> { "@context": "http://schema.org", "@type": "NewsArticle", "headline": "XDef元模型定义语言", "image": null, "datePublished": "2024-04-13T09:39:39+08:00", "description": "Nop平台中所有的DSL语言统一采用XML格式，而不是自定义的表观语法格式，这样可以简化DSL设计并提供统一的IDE开发工具。具体来说，所有的DSL采用统一的XDef元模型定义DSL的具体语法（XML的结构），然后利用Nop平台内置的一系列机制自动生成代码，实现DSL的解析、验证等功能。" } </script> <script type="application/ld+json"> { "@context": "http://schema.org", "@type": "Organization", "url": "https://nop-platform.gitee.io", "logo": "https://nop-platform.gitee.io/assets/logo-9952a8b58c6582fc86a9608db8113158fb31de7a9db19d4358ac7cb96578d34e.png" } </script> <link rel="author" href="https://nop-platform.gitee.io"> <!-- 页面渲染兼容性 --> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <meta name="renderer" content="webkit"> <meta name="viewport" content="width=device-width,initial-scale=1.0"> <meta name="theme-color" content="#0871ab"> <link rel="icon" href="/assets/logo-9952a8b58c6582fc86a9608db8113158fb31de7a9db19d4358ac7cb96578d34e.png"> <!-- 静态资源 --> <link type="text/css" rel="stylesheet" href="/assets/global-f979fafa22c865e727cd15f83cdc43dbc73c1a324d7ad4fe6fa48e275dc4c063.css"> <link type="text/css" rel="stylesheet" href="/assets/ksio/vendors/share-c2e41222f5f34b2de38cb5213fa0e439c11da73b3907b444a32635563ae85ffd.css"> <link type="text/css" rel="stylesheet" href="/assets/local/layouts/doc-c5c0ab8b12485893472e680b5f067b74e240481232265b6cb0ab6edc95c20f65.css"> <script type="text/javascript" src="/assets/global-b3a80dd53acf48ad7228d6fd741dba15d3845cbc3783bdbbf7244151a45628aa.js"></script> <!--[if lt IE 9]> <script type="text/javascript" src="/assets/ksio/support_ie8-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.js"></script> <![endif]--> </head> <body class="Page" itemscope itemtype="http://schema.org/WebPage"> <header class="Page-header"> <div class="navbar navbar-static-top"> <div class="container-fluid"> <div class="navbar-header"> <button class="navbar-toggle collapsed" type="button" data-target=".Page-navs" data-toggle="collapse"> <span class="sr-only">Toggle navs</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button> <a class="navbar-brand" href="/">Nop</a> </div> <!-- Nav menus --> <nav class="Page-navs navbar-collapse collapse"> <ul class="nav navbar-nav navbar-right"> <li class="dropdown"> <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a> <ul class="dropdown-menu"> <li><a href="/projects/nop-entropy/docs/">指南</a> </li> <li><a href="https://www.zhihu.com/column/reversible-computation?utm_source=https://nop-platform.gitee.io&utm_medium=common-header" target="_blank" rel="external nofollow">文章</a> </li> <li><a href="https://space.bilibili.com/3493261219990250?utm_source=https://nop-platform.gitee.io&utm_medium=common-header" target="_blank" rel="external nofollow">视频</a> </li> </ul> </li> <li class="dropdown"> <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a> <ul class="dropdown-menu"> <li><a href="/projects/nop-entropy/">Nop Entropy</a> </li> <li><a href="/projects/nop-chaos/">Nop Chaos</a> </li> </ul> </li> <li class="dropdown"> <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a> <ul class="dropdown-menu"> <li><a href="/community/">社区</a> </li> <li><a href="/team/">团队</a> </li> <li><a href="https://gitee.com/nop-platform?utm_source=https://nop-platform.gitee.io&utm_medium=common-header" target="_blank" rel="external nofollow">Gitee 组织</a> </li> </ul> </li> <li><a href="https://nop-platform.github.io?utm_source=https://nop-platform.gitee.io&utm_medium=common-header" target="_blank" rel="external nofollow">English</a> </li> </ul> </nav> </div> </div> </header> <div class="Page-content"> <aside class="Page-aside"> <div class="AsideBrand"> <a href="/">Nop</a> </div> <nav class="AsideNav"><ul> <li> <a href="/projects/nop-entropy/docs/why-nop/">介绍</a> <ul> <li> <a href="/projects/nop-entropy/docs/">文档概览</a> </li> <li> <a href="/projects/nop-entropy/docs/tutorial/tutorial/">入门教程</a> <ul> <li> <a href="/projects/nop-entropy/docs/tutorial/simple/1-simple-service/">极简服务层开发</a> </li> <li> <a href="/projects/nop-entropy/docs/tutorial/simple/2-simple-dao/">极简数据访问层开发</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/compare/">与其他平台的对比</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/user-guide/">用户指南</a> <ul> <li> <a href="/projects/nop-entropy/docs/user-guide/installation/">安装和配置</a> </li> <li> <a href="/projects/nop-entropy/docs/user-guide/report/">报表引擎</a> </li> <li> <a href="/projects/nop-entropy/docs/user-guide/idea/idea-plugin/">IDEA插件使用</a> </li> <li> <a href="/projects/nop-entropy/docs/user-guide/monitor/grafana/">监控</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/arch/">软件架构</a> <ul> <li> <a href="/projects/nop-entropy/docs/arch/module-dependency/">模块依赖关系</a> </li> <li> <a href="/projects/nop-entropy/docs/core-code-guidance/">核心代码阅读导引</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/theory/">理论基础</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/">开发指南</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/codegen/">代码生成器</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/cli/">命令行工具</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/command/command/">命令行开发支持</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/config/">配置管理</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/ioc/">IoC容器</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/ioc/aop/">AOP支持</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/orm/">ORM框架</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/">XLang语言</a> <ul> <li> <a class="is-selected" href="/projects/nop-entropy/docs/dev-guide/xlang/xdef/">XDef元模型</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/xdsl/">XDSL领域语言</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/xscript/">XScript脚本语言</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/xpl/">Xpl模板语言</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xlang/meta-programming/">元编程</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/model/">Excel模型</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/graphql/">GraphQL引擎</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/microservice/">分布式微服务</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/rule/rule/">规则引擎</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/workflow/task-flow/">逻辑编排</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/autotest/">自动化测试</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/tenant/">多租户</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/delta/delta-customization/">Delta定制</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/vfs/">Delta文件系统</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/auth/">权限配置</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/biz/">业务规则</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/nocode/">动态模型</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/xui/">前端模型</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/integration/">第三方集成</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/spring/">spring集成</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/quarkus/">quarkus集成</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/ide/idea/">IDEA插件</a> <ul> <li> <a href="/projects/nop-entropy/docs/dev-guide/ide/plugin-dev/">插件开发</a> </li> </ul> </li> <li> <a href="/projects/nop-entropy/docs/faq/faq/">常见问题</a> <ul> <li> <a href="/projects/nop-entropy/docs/faq/debug-errors/">错误诊断</a> </li> <li> <a href="/projects/nop-entropy/docs/dev-guide/recipe/">常见问题解决方案</a> </li> </ul> </li> </ul> </nav> </aside> <main class="Page-main"> <article class="Article container-fluid"> <header class="Article-header"> <h1 class="Article-title">XDef元模型定义语言</h1> </header> <div class="Article-content col-md-9"><p>Nop平台中所有的DSL语言统一采用XML格式，而不是自定义的表观语法格式，这样可以简化DSL设计并提供统一的IDE开发工具。具体来说，所有的DSL采用统一的XDef元模型定义DSL的具体语法（XML的结构）， 然后利用Nop平台内置的一系列机制自动生成代码，实现DSL的解析、验证等功能。</p> <p>XDef元模型文件的作用类似于XSD(XML Schema Definition)文件，都是为XML格式增加语法约束。但是XDef相比于XSD更加简单易用，而且提供了更加强大的约束能力。</p> <h2 id="xdef">XDef语法示例</h2> <p>我们来看一个简单的工作流DSL定义：工作流包含多个步骤，每个步骤完成后指定下一个可执行的步骤。</p> <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span></span><span class="nt">&lt;workflow</span> <span class="na">name=</span><span class="s">&quot;Test&quot;</span> <span class="na">x:schema=</span><span class="s">&quot;/nop/schema/my-wf.xdef&quot;</span> <span class="na">xmlns:x=</span><span class="s">&quot;/nop/schema/xdsl.xdef&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;steps&gt;</span>
-        <span class="nt">&lt;step</span> <span class="na">id=</span><span class="s">&quot;a&quot;</span> <span class="na">displayName=</span><span class="s">&quot;StepA&quot;</span> <span class="na">next=</span><span class="s">&quot;b&quot;</span><span class="nt">&gt;</span>
-            <span class="nt">&lt;source&gt;</span>
-                <span class="nt">&lt;c:script&gt;</span>
-                    import app.MyHelper;
-                    MyHelper.doSomething();
-                <span class="nt">&lt;/c:script&gt;</span>
-            <span class="nt">&lt;/source&gt;</span>
-        <span class="nt">&lt;/step&gt;</span>
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
 
-        <span class="nt">&lt;step</span> <span class="na">id=</span><span class="s">&quot;b&quot;</span> <span class="na">displayName=</span><span class="s">&quot;StepB&quot;</span> <span class="na">joinType=</span><span class="s">&quot;and&quot;</span> <span class="nt">/&gt;</span>
-    <span class="nt">&lt;/steps&gt;</span>
-<span class="nt">&lt;/workflow&gt;</span></code></pre></figure> <p>对应的元模型为</p> <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span></span><span class="nt">&lt;workflow</span> <span class="na">name=</span><span class="s">&quot;!string&quot;</span> <span class="na">x:schema=</span><span class="s">&quot;/nop/schema/xdef.xdef&quot;</span> <span class="na">xmlns:x=</span><span class="s">&quot;/nop/schema/xdsl.xdef&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;steps</span> <span class="na">xdef:body-type=</span><span class="s">&quot;list&quot;</span> <span class="na">xdef:key-attr=</span><span class="s">&quot;id&quot;</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;step</span> <span class="na">id=</span><span class="s">&quot;!string&quot;</span> <span class="na">displayName=</span><span class="s">&quot;string&quot;</span> <span class="na">internal=</span><span class="s">&quot;!boolean=false&quot;</span>
-              <span class="na">joinType=</span><span class="s">&quot;enum:io.nop.wf.core.model.WfJoinType&quot;</span> <span class="na">next=</span><span class="s">&quot;string&quot;</span><span class="nt">&gt;</span>
-            <span class="nt">&lt;source</span> <span class="na">xdef:value=</span><span class="s">&quot;xpl&quot;</span><span class="nt">/&gt;</span>
-        <span class="nt">&lt;/step&gt;</span>
-    <span class="nt">&lt;/steps&gt;</span>
-<span class="nt">&lt;/workflow&gt;</span></code></pre></figure> <p>首先我们看到，XDef元模型与它所描述的模型之间是一种同态关系，简单的说，将模型XML中的值替换成类型描述符就可以得到XDef元模型。</p> <ul> <li><code>name="!string"</code> 表示<code>name</code>属性为<code>string</code>类型，字符<code>!</code>表示属性值不能为空。</li> <li><code>xdef:body-type="list"</code> 表示节点解析后对应于列表类型，<code>xdef:key-attr="id"</code>表示列表中每个元素都必须具有一个<code>id</code>属性，通过<code>id</code>属性可以区分不同的元素。</li> <li><code>internal="!boolean=false"</code> 表示<code>internal</code>属性不为空，类型为<code>boolean</code>，缺省值为<code>false</code></li> <li><code>joinType="enum:io.nop.wf.core.model.WfJoinType"</code> 表示<code>joinType</code>属性的值为<code>WfJoinType</code>类型，它是一个枚举值。</li> <li><code>xdef:value="xpl"</code> 表示<code>source</code>节点的内容(包含直接的文本内容以及所有的子节点)为Xpl模板语言的代码段，解析后可以直接得到一个<code>IEvalAction</code>对象（类似于JavaScript中的<code>Function</code>对象）。</li> </ul> <p>xdef文件中的所有属性（除去<code>xdef</code>名字空间以及<code>x</code>名字空间中的内置属性）的值类型都是<code>def-type</code>类型，它的格式为 <code>(!~#)?{stdDomain}:{options}={defaultValue}</code>。</p> <ul> <li><code>!</code>表示必填属性，<code>~</code>表示内部属性，<code>#</code>表示可以使用编译期表达式</li> <li><code>stdDomain</code>是比数据类型更严格的格式限制，例如<code>stdDomain=email</code>等，具体值参见字典定义<a href="https://gitee.com/canonical-entropy/nop-entropy/blob/master/nop-xlang/src/main/resources/_vfs/dict/core/std-domain.dict.yaml" target="_blank" rel="external nofollow">core/std-domain</a></li> <li>某些<code>def-type</code>定义需要<code>options</code>参数，例如<code>enum:xxx.yyy</code>，通过<code>options</code>来设置具体的字典名称</li> <li>可以为属性指定缺省值</li> </ul> <h2 id="xdsl">XDSL公共语法</h2> <p>在XML的根节点上必须通过<code>x:schema</code>属性引入元模型定义。例如<code>x:schema="/nop/schema/my-wf.xdef"</code>表示模型由<code>my-wf.xdef</code>元模型来约束。</p> <p>Nop平台中所有的DSL语言都具有一些公共的属性和子节点，相当于是为所有DSL引入一些公共的语法，<code>x:schema</code>属性就是这个公共语法的一部分。这些公共语法在<code>xdsl.xdef</code> 元模型中定义，所以我们要在根节点上通过属性<code>xmlns:x="/nop/schema/xdsl.xdef"</code>表示x名字空间对应于DSL公共语法空间。具体介绍参见 <a href="https://gitee.com/canonical-entropy/nop-entropy/blob/master/nop-xdefs/src/main/resources/_vfs/nop/schema/xdsl.xdef" target="_blank" rel="external nofollow">xdsl.xdef</a>和 <a href="https://zhuanlan.zhihu.com/p/612512300" target="_blank" rel="external nofollow">XDSL：通用的领域特定语言设计</a></p> <p>XDef元模型定义语言的能力足够强大，它可以被用于描述XDef元模型自身，具体参见<a href="https://gitee.com/canonical-entropy/nop-entropy/blob/master/nop-xdefs/src/main/resources/_vfs/nop/schema/xdef.xdef" target="_blank" rel="external nofollow">xdef.xdef</a></p> <p>在<code>xdef.xdef</code>这个元元模型定义文件中，<code>xdef</code>名字空间必须被看作是普通属性空间，不能被解释为XDef元属性，所以在根节点上我们增加了属性定义<code>xmlns:meta="/nop/schema/xdef.xdef"</code>，使用<code>meta</code>名字空间来表达元属性。</p> <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span></span><span class="nt">&lt;workflow</span> <span class="na">xmlns:meta=</span><span class="s">&quot;/nop/schema/xdef.xdef&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;steps</span> <span class="na">meta:body-type=</span><span class="s">&quot;list&quot;</span> <span class="na">meta:key-attr=</span><span class="s">&quot;id&quot;</span><span class="nt">&gt;</span>
-        ...
-    <span class="nt">&lt;/steps&gt;</span>
-<span class="nt">&lt;/workflow&gt;</span></code></pre></figure> <p>等价于</p> <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span></span><span class="nt">&lt;workflow</span> <span class="na">xmlns:xdef=</span><span class="s">&quot;/nop/schema/xdef.xdef&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;steps</span> <span class="na">xdef:body-type=</span><span class="s">&quot;list&quot;</span> <span class="na">xdef:key-attr=</span><span class="s">&quot;id&quot;</span><span class="nt">&gt;</span>
-        ...
-    <span class="nt">&lt;/steps&gt;</span>
-<span class="nt">&lt;/workflow&gt;</span></code></pre></figure> <h2 id="section">复用节点定义</h2> <p>在xdef文件中可以通过<code>xdef:ref</code>来引用已有的元模型定义。</p> <ol> <li>引入外部xdef文件</li> </ol> <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span></span><span class="nt">&lt;form</span> <span class="na">id=</span><span class="s">&quot;!string&quot;</span> <span class="na">xdef:ref=</span><span class="s">&quot;form.xdef&quot;</span> <span class="nt">/&gt;</span></code></pre></figure> <ol> <li>引用内部节点 在任意节点上可以增加<code>xdef:name</code>属性，将它标记为命名节点。然后就可以通过<code>xdef:ref</code>来引用。</li> </ol> <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span></span><span class="nt">&lt;steps&gt;</span>
-    <span class="nt">&lt;step</span> <span class="na">id=</span><span class="s">&quot;!string&quot;</span> <span class="na">xdef:name=</span><span class="s">&quot;WorkflowStepModel&quot;</span><span class="nt">&gt;</span>
-        ...
-    <span class="nt">&lt;/step&gt;</span>
 
-    <span class="nt">&lt;join</span> <span class="na">id=</span><span class="s">&quot;!string&quot;</span> <span class="na">xdef:ref=</span><span class="s">&quot;WorkflowStepModel&quot;</span> <span class="na">xdef:name=</span><span class="s">&quot;WfJoinStepModel&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;/join&gt;</span>
-<span class="nt">&lt;/steps&gt;</span></code></pre></figure> <blockquote> <p>注：目前因为实现上的原因，<code>id</code>等作为集合元素唯一区分的属性需要被重复，而其他属性则可直接引用自其他节点，无需重复定义。</p> </blockquote> <p>在代码生成的时候，<code>xdef:name</code>会被看作是节点对应的Java类名，<code>xdef:ref</code>会被看作是当前节点类的基类。</p> <p><code>xdef:ref="WorkflowStepModel" xdef:name="WfJoinStepModel"</code>对应于代码生成 <code>class WfJoinStepModel extends WorkflowStepModel</code></p> <p>为了简化节点复用，XDef语言还规定了一种特殊的、仅用于复用的特殊节点<code>xdef:define</code>，例如</p> <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span></span><span class="nt">&lt;workflow&gt;</span>
-    <span class="nt">&lt;xdef:define</span> <span class="na">xdef:name=</span><span class="s">&quot;WorkflowStepModel&quot;</span> <span class="na">id=</span><span class="s">&quot;!string&quot;</span><span class="nt">&gt;</span>
-        ....
-    <span class="nt">&lt;/xdef:define&gt;</span>
 
-    <span class="nt">&lt;steps</span> <span class="na">xdef:body-type=</span><span class="s">&quot;list&quot;</span> <span class="na">xdef:key-attr=</span><span class="s">&quot;id&quot;</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;step</span> <span class="na">xdef:ref=</span><span class="s">&quot;WorkflowStepModel&quot;</span> <span class="na">id=</span><span class="s">&quot;!string&quot;</span><span class="nt">/&gt;</span>
-    <span class="nt">&lt;/steps&gt;</span>
-<span class="nt">&lt;/workflow&gt;</span></code></pre></figure> <h2 id="section-1">集合节点定义</h2> <p>除了上面介绍的<code>xdef:body-type="list"</code>来表示集合节点之外，xdef语言还提供了一种简化的集合节点定义方式: 使用<code>xdef:unique-attr</code>表示集合元素的唯一表示属性。</p> <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span></span><span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;!string&quot;</span> <span class="na">xdef:unique-attr=</span><span class="s">&quot;name&quot;</span> <span class="na">value=</span><span class="s">&quot;any&quot;</span> <span class="nt">/&gt;</span></code></pre></figure> <p>具有<code>xdef:unique-attr</code>属性的节点会被解析为集合属性，属性名一般为 <code>节点名驼峰变换+'s'</code>，比如<code>&lt;task-step xdef:unique-attr="id"&gt;</code>对应于<code>taskSteps</code>。 我们也可以通过<code>xdef:bean-prop</code>属性来指定对应的属性名，例如可以指定<code>xdef:bean-prop="taskStepList"</code>。</p> <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span></span><span class="c">&lt;!--</span>
-<span class="c">  以下 DSL 定义等价于代码：</span>
-<span class="c">  bp.taskSteps.add({id: &#39;a&#39;, displayName: &#39;A&#39;})</span>
-<span class="c">  bp.taskSteps.add({id: &#39;b&#39;, displayName: &#39;B&#39;})</span>
-<span class="c">--&gt;</span>
-<span class="nt">&lt;task-step</span> <span class="na">id=</span><span class="s">&quot;a&quot;</span> <span class="na">displayName=</span><span class="s">&quot;A&quot;</span><span class="nt">&gt;&lt;/task-step&gt;</span>
-<span class="nt">&lt;task-step</span> <span class="na">id=</span><span class="s">&quot;b&quot;</span> <span class="na">displayName=</span><span class="s">&quot;B&quot;</span><span class="nt">&gt;&lt;/task-step&gt;</span></code></pre></figure> <p>使用<code>xdef:body-type="list"</code>方式来定义集合属性的好处在于，它允许集合中包含不同类型的子节点，例如</p> <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span></span><span class="nt">&lt;steps</span> <span class="na">xdef:body-type=</span><span class="s">&quot;list&quot;</span> <span class="na">xdef:key-attr=</span><span class="s">&quot;name&quot;</span> <span class="na">xdef:bean-sub-type-prop=</span><span class="s">&quot;type&quot;</span> <span class="na">xdef:bean-child-name=</span><span class="s">&quot;step&quot;</span>
-       <span class="na">xdef:bean-body-type=</span><span class="s">&quot;List&amp;lt;io.nop.wf.core.model.WfStepModel&gt;&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;step</span> <span class="na">name=</span><span class="s">&quot;!string&quot;</span> <span class="na">xdef:bean-tag-prop=</span><span class="s">&quot;type&quot;</span> <span class="nt">/&gt;</span>
-    <span class="nt">&lt;join</span> <span class="na">name=</span><span class="s">&quot;!string&quot;</span> <span class="na">xdef:bean-tag-prop=</span><span class="s">&quot;type&quot;</span> <span class="nt">/&gt;</span>
-<span class="nt">&lt;/steps&gt;</span></code></pre></figure> <ul> <li><code>xdef:bean-body-type</code>用于指定生成的集合属性类型名</li> <li><code>xdef:bean-child-name="step"</code>表示自动为模型对象增加<code>getStep(String name)</code>方法，用于按照唯一标识属性来获取子节点</li> <li><code>xdef:bean-tag-prop="type"</code>表示节点的标签名称（<code>step</code>、<code>join</code>）在json序列化时将被解析为<code>type</code>属性的值</li> <li><code>xdef:bean-sub-type-prop="type"</code>表示json反序列化的时候，根据<code>type</code>属性来确定子节点类型</li> </ul> <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span></span><span class="c">&lt;!--</span>
-<span class="c">  以下 DSL 定义转换为 JSON 后的结构为：</span>
-<span class="c">  {</span>
-<span class="c">    &quot;steps&quot;: [{</span>
-<span class="c">      &quot;type&quot;: &quot;step&quot;,</span>
-<span class="c">      &quot;name&quot;: &quot;a&quot;</span>
-<span class="c">    }, {</span>
-<span class="c">      &quot;type&quot;: &quot;join&quot;,</span>
-<span class="c">      &quot;name&quot;: &quot;b&quot;</span>
-<span class="c">    }]</span>
-<span class="c">  }</span>
-<span class="c">--&gt;</span>
-<span class="nt">&lt;steps&gt;</span>
-    <span class="nt">&lt;step</span> <span class="na">name=</span><span class="s">&quot;a&quot;</span><span class="nt">/&gt;</span>
-    <span class="nt">&lt;join</span> <span class="na">name=</span><span class="s">&quot;b&quot;</span><span class="nt">/&gt;</span>
-<span class="nt">&lt;/steps&gt;</span></code></pre></figure> </div> <footer class="Article-footer col-md-3"> <div class="Widget"> <div class="Widget-body"><a href="https://gitee.com/canonical-entropy/nop-entropy/edit/master/docs/dev-guide/xlang/xdef.md" target="_blank" rel=" rel="external nofollow"">在 Gitee 上编辑文档内容</a></div> </div> <section class="Widget Widget--toc"> <div class="Widget-header"> <h2 class="Widget-title">目录</h2> </div> <div class="Widget-body"></div> </section> </footer> </article> <footer class="Page-footer Footer"> <div class="container-fluid"> <div class="Footer-description"> <!-- Important links --> <nav class="Footer-navs"> <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a> </li><li><a href="/community/"><span>社区</span></a> </li></ul> </nav> <!-- Copyright --> <div class="Footer-copyright"> <p>&copy; 2024 <a href="https://nop-platform.gitee.io?utm_source=https://nop-platform.gitee.io&utm_medium=common-footer" target="_blank" rel="external nofollow">Nop 社区</a> 版权所有 </p> </div> </div> </div> </footer> </main> </div> <script>$('table').addClass('table table-bordered')</script> <script type="text/javascript" src="/assets/ksio/vendors/share.min-3155ee636b84a04d036e0f1ba833227d3fd03a4c58a6f2e21c9ceb1c5d0198c7.js"></script><script type="text/javascript" src="/assets/ksio/components-a266f21fe1dfd61bebf40e74872cbf901eb3e201f7d33e9e5d5af9a55f4b24ea.js"></script> <script type="text/javascript" src="/assets/ksio/initializers/time-8d7a529a66ae6cb53c2283d21fd6a12c538b8473dd5bd76458366d09adce7bf6.js"></script><script type="text/javascript" src="/assets/ksio/initializers/lazyload-44b7df8a9282d598284d522e64d6be9ac88d466f3c4a734a514303e99347b2c9.js"></script> </body> </html>
+
+
+
+
+
+
+  
+  
+  
+    
+  
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <title>XDef元模型定义语言 - Nop</title>
+
+
+  <meta property="og:title" content="XDef元模型定义语言">
+
+
+  <meta name="description" content="Nop Platform 2.0 是基于可逆计算原理从零开始构建的新一代低代码平台，它致力于克服低代码平台无法摆脱穷举法的困境，从理论层面超越组件技术，有效的解决粗粒度软件复用的问题。">
+  <meta property="og:description" content="Nop Platform 2.0 是基于可逆计算原理从零开始构建的新一代低代码平台，它致力于克服低代码平台无法摆脱穷举法的困境，从理论层面超越组件技术，有效的解决粗粒度软件复用的问题。">
+
+
+
+  
+    
+  
+
+
+  <meta name="keywords" content="Nop,Nop平台,Nop 平台,Nop Platform,Nop社区,Nop 社区,Nop Community,可逆计算,软件构造理论,低代码,lowcode,low-code,low code,低代码平台,lcdp,软件工程">
+
+
+<!-- 页面渲染兼容性 -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<!-- 订阅 -->
+
+<meta name="theme-color" content="#0871ab">
+<link rel="shortcut icon" href="/images/nop/logo.png">
+
+
+    
+<link rel="stylesheet" href="/stylesheets/global.css">
+
+    
+<link rel="stylesheet" href="/stylesheets/ksio/vendors/share.css">
+
+<link rel="stylesheet" href="/local/syntax-highlighting.css">
+
+<link rel="stylesheet" href="/stylesheets/pages/post.css">
+
+<link rel="stylesheet" href="/stylesheets/pages/doc.css">
+
+    
+<script src="/javascripts/ksio/vendors/jquery-1.11.3.min.js"></script>
+
+    
+<script src="/javascripts/ksio/vendors/bootstrap.min.js"></script>
+
+  </head>
+  
+  
+  <body class="Page" itemscope itemtype="http://schema.org/WebPage">
+    
+
+  <header class="Page-header">
+  <div class="navbar navbar-static-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        
+          <button class="navbar-toggle collapsed" type="button" data-target=".Page-navs" data-toggle="collapse">
+            <span class="sr-only">Toggle navs</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        
+        
+          
+
+
+  <a class="navbar-brand" href="/">Nop</a>
+
+
+        
+      </div>
+      <!-- Nav menus -->
+      <nav class="Page-navs navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          
+  
+    <li class="dropdown">
+      <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">学习 <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+  
+    <li><a href="/projects/nop-entropy/docs/">指南</a>
+</li>
+  
+
+  
+    <li><a href="https://www.zhihu.com/column/reversible-computation?utm_source=https://nop-platform.gitee.io&amp;utm_medium=common-header" target="_blank" rel="external nofollow">文章</a>
+</li>
+  
+
+  
+    <li><a href="https://space.bilibili.com/3493261219990250?utm_source=https://nop-platform.gitee.io&amp;utm_medium=common-header" target="_blank" rel="external nofollow">视频</a>
+</li>
+  
+
+</ul>
+    </li>
+  
+
+  
+    <li class="dropdown">
+      <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">项目 <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+  
+    <li><a href="/projects/nop-entropy/">Nop Entropy</a>
+</li>
+  
+
+  
+    <li><a href="/projects/nop-chaos/">Nop Chaos</a>
+</li>
+  
+
+</ul>
+    </li>
+  
+
+  
+    <li class="dropdown">
+      <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">关于 <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+  
+    <li><a href="/community/">社区</a>
+</li>
+  
+
+  
+    <li><a href="/team/">团队</a>
+</li>
+  
+
+  
+    <li><a href="https://gitee.com/nop-platform?utm_source=https://nop-platform.gitee.io&amp;utm_medium=common-header" target="_blank" rel="external nofollow">Gitee 组织</a>
+</li>
+  
+
+</ul>
+    </li>
+  
+
+  
+    <li><a href="https://nop-platform.github.io?utm_source=https://nop-platform.gitee.io&amp;utm_medium=common-header" target="_blank" rel="external nofollow">English</a>
+</li>
+  
+
+
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<div class="Page-content">
+  
+  
+    <aside class="Page-aside">
+      <div class="AsideBrand">
+
+
+  <a href="/">Nop</a>
+
+</div>
+      <nav class="AsideNav"><ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/why-nop/">介绍</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+        
+        <a href="/projects/nop-entropy/docs/">文档概览</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/tutorial/tutorial/">入门教程</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/tutorial/simple/1-simple-service/">极简服务层开发</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/tutorial/simple/2-simple-dao/">极简数据访问层开发</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/compare/">与其他平台的对比</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/user-guide/">用户指南</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/user-guide/installation/">安装和配置</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/user-guide/report/">报表引擎</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/user-guide/idea/idea-plugin/">IDEA插件使用</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/user-guide/monitor/grafana/">监控</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/arch/">软件架构</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/arch/module-dependency/">模块依赖关系</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/core-code-guidance/">核心代码阅读导引</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/theory/">理论基础</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/">开发指南</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/codegen/">代码生成器</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/cli/">命令行工具</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/command/command/">命令行开发支持</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/config/">配置管理</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/ioc/">IoC容器</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/ioc/aop/">AOP支持</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/orm/">ORM框架</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/">XLang语言</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a class="is-selected" href="/projects/nop-entropy/docs/dev-guide/xlang/xdef/">XDef元模型</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/xdsl/">XDSL领域语言</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/xscript/">XScript脚本语言</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/xpl/">Xpl模板语言</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xlang/meta-programming/">元编程</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/model/">Excel模型</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/graphql/">GraphQL引擎</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/microservice/">分布式微服务</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/rule/rule/">规则引擎</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/workflow/task-flow/">逻辑编排</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/autotest/">自动化测试</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/tenant/">多租户</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/delta/delta-customization/">Delta定制</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/vfs/">Delta文件系统</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/auth/">权限配置</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/biz/">业务规则</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/nocode/">动态模型</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/xui/">前端模型</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/integration/">第三方集成</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/spring/">spring集成</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/quarkus/">quarkus集成</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/ide/idea/">IDEA插件</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/ide/plugin-dev/">插件开发</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/faq/faq/">常见问题</a>
+      
+      
+        <ul>
+  
+  
+    
+  
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/faq/debug-errors/">错误诊断</a>
+      
+      
+    </li>
+  
+    <li>
+      
+      
+      
+      
+      
+        
+        
+        
+        
+          
+          
+        
+        <a href="/projects/nop-entropy/docs/dev-guide/recipe/">常见问题解决方案</a>
+      
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+</nav>
+    </aside>
+  
+  <main class="Page-main">
+    <article class="Article container-fluid">
+      <header class="Article-header">
+        
+  
+    <h1 class="Article-title">XDef元模型定义语言</h1>
+  
+  
+
+
+      </header>
+      <div class="Article-content col-md-9"><p>Nop平台中所有的DSL语言统一采用XML格式，而不是自定义的表观语法格式，这样可以简化DSL设计并提供统一的IDE开发工具。具体来说，所有的DSL采用统一的XDef元模型定义DSL的具体语法（XML的结构），<br>然后利用Nop平台内置的一系列机制自动生成代码，实现DSL的解析、验证等功能。</p>
+<p>XDef元模型文件的作用类似于XSD(XML Schema Definition)文件，都是为XML格式增加语法约束。但是XDef相比于XSD更加简单易用，而且提供了更加强大的约束能力。</p>
+<h2 id="XDef语法示例"><a href="#XDef语法示例" class="headerlink" title="XDef语法示例"></a>XDef语法示例</h2><p>我们来看一个简单的工作流DSL定义：工作流包含多个步骤，每个步骤完成后指定下一个可执行的步骤。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">workflow</span> <span class="attr">name</span>=<span class="string">&quot;Test&quot;</span> <span class="attr">x:schema</span>=<span class="string">&quot;/nop/schema/my-wf.xdef&quot;</span> <span class="attr">xmlns:x</span>=<span class="string">&quot;/nop/schema/xdsl.xdef&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">steps</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">step</span> <span class="attr">id</span>=<span class="string">&quot;a&quot;</span> <span class="attr">displayName</span>=<span class="string">&quot;StepA&quot;</span> <span class="attr">next</span>=<span class="string">&quot;b&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">source</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">c:script</span>&gt;</span></span><br><span class="line">                    import app.MyHelper;</span><br><span class="line">                    MyHelper.doSomething();</span><br><span class="line">                <span class="tag">&lt;/<span class="name">c:script</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">source</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">step</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">step</span> <span class="attr">id</span>=<span class="string">&quot;b&quot;</span> <span class="attr">displayName</span>=<span class="string">&quot;StepB&quot;</span> <span class="attr">joinType</span>=<span class="string">&quot;and&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">steps</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">workflow</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>对应的元模型为</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">workflow</span> <span class="attr">name</span>=<span class="string">&quot;!string&quot;</span> <span class="attr">x:schema</span>=<span class="string">&quot;/nop/schema/xdef.xdef&quot;</span> <span class="attr">xmlns:x</span>=<span class="string">&quot;/nop/schema/xdsl.xdef&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">steps</span> <span class="attr">xdef:body-type</span>=<span class="string">&quot;list&quot;</span> <span class="attr">xdef:key-attr</span>=<span class="string">&quot;id&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">step</span> <span class="attr">id</span>=<span class="string">&quot;!string&quot;</span> <span class="attr">displayName</span>=<span class="string">&quot;string&quot;</span> <span class="attr">internal</span>=<span class="string">&quot;!boolean=false&quot;</span></span></span><br><span class="line"><span class="tag">              <span class="attr">joinType</span>=<span class="string">&quot;enum:io.nop.wf.core.model.WfJoinType&quot;</span> <span class="attr">next</span>=<span class="string">&quot;string&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">source</span> <span class="attr">xdef:value</span>=<span class="string">&quot;xpl&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">step</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">steps</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">workflow</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>首先我们看到，XDef元模型与它所描述的模型之间是一种同态关系，简单的说，将模型XML中的值替换成类型描述符就可以得到XDef元模型。</p>
+<ul>
+<li><code>name=&quot;!string&quot;</code> 表示<code>name</code>属性为<code>string</code>类型，字符<code>!</code>表示属性值不能为空。</li>
+<li><code>xdef:body-type=&quot;list&quot;</code> 表示节点解析后对应于列表类型，<code>xdef:key-attr=&quot;id&quot;</code>表示列表中每个元素都必须具有一个<code>id</code>属性，通过<code>id</code>属性可以区分不同的元素。</li>
+<li><code>internal=&quot;!boolean=false&quot;</code> 表示<code>internal</code>属性不为空，类型为<code>boolean</code>，缺省值为<code>false</code></li>
+<li><code>joinType=&quot;enum:io.nop.wf.core.model.WfJoinType&quot;</code> 表示<code>joinType</code>属性的值为<code>WfJoinType</code>类型，它是一个枚举值。</li>
+<li><code>xdef:value=&quot;xpl&quot;</code> 表示<code>source</code>节点的内容(包含直接的文本内容以及所有的子节点)为Xpl模板语言的代码段，解析后可以直接得到一个<code>IEvalAction</code>对象（类似于JavaScript中的<code>Function</code>对象）。</li>
+</ul>
+<p>xdef文件中的所有属性（除去<code>xdef</code>名字空间以及<code>x</code>名字空间中的内置属性）的值类型都是<code>def-type</code>类型，它的格式为 <code>(!~#)?&#123;stdDomain&#125;:&#123;options&#125;=&#123;defaultValue&#125;</code>。</p>
+<ul>
+<li><code>!</code>表示必填属性，<code>~</code>表示内部属性，<code>#</code>表示可以使用编译期表达式</li>
+<li><code>stdDomain</code>是比数据类型更严格的格式限制，例如<code>stdDomain=email</code>等，具体值参见字典定义<a target="_blank" rel="noopener" href="https://gitee.com/canonical-entropy/nop-entropy/blob/master/nop-xlang/src/main/resources/_vfs/dict/core/std-domain.dict.yaml">core&#x2F;std-domain</a></li>
+<li>某些<code>def-type</code>定义需要<code>options</code>参数，例如<code>enum:xxx.yyy</code>，通过<code>options</code>来设置具体的字典名称</li>
+<li>可以为属性指定缺省值</li>
+</ul>
+<h2 id="XDSL公共语法"><a href="#XDSL公共语法" class="headerlink" title="XDSL公共语法"></a>XDSL公共语法</h2><p>在XML的根节点上必须通过<code>x:schema</code>属性引入元模型定义。例如<code>x:schema=&quot;/nop/schema/my-wf.xdef&quot;</code>表示模型由<code>my-wf.xdef</code>元模型来约束。</p>
+<p>Nop平台中所有的DSL语言都具有一些公共的属性和子节点，相当于是为所有DSL引入一些公共的语法，<code>x:schema</code>属性就是这个公共语法的一部分。这些公共语法在<code>xdsl.xdef</code><br>元模型中定义，所以我们要在根节点上通过属性<code>xmlns:x=&quot;/nop/schema/xdsl.xdef&quot;</code>表示x名字空间对应于DSL公共语法空间。具体介绍参见<br><a target="_blank" rel="noopener" href="https://gitee.com/canonical-entropy/nop-entropy/blob/master/nop-xdefs/src/main/resources/_vfs/nop/schema/xdsl.xdef">xdsl.xdef</a>和<br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/612512300">XDSL：通用的领域特定语言设计</a></p>
+<p>XDef元模型定义语言的能力足够强大，它可以被用于描述XDef元模型自身，具体参见<a target="_blank" rel="noopener" href="https://gitee.com/canonical-entropy/nop-entropy/blob/master/nop-xdefs/src/main/resources/_vfs/nop/schema/xdef.xdef">xdef.xdef</a></p>
+<p>在<code>xdef.xdef</code>这个元元模型定义文件中，<code>xdef</code>名字空间必须被看作是普通属性空间，不能被解释为XDef元属性，所以在根节点上我们增加了属性定义<code>xmlns:meta=&quot;/nop/schema/xdef.xdef&quot;</code>，使用<code>meta</code>名字空间来表达元属性。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">workflow</span> <span class="attr">xmlns:meta</span>=<span class="string">&quot;/nop/schema/xdef.xdef&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">steps</span> <span class="attr">meta:body-type</span>=<span class="string">&quot;list&quot;</span> <span class="attr">meta:key-attr</span>=<span class="string">&quot;id&quot;</span>&gt;</span></span><br><span class="line">        ...</span><br><span class="line">    <span class="tag">&lt;/<span class="name">steps</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">workflow</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>等价于</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">workflow</span> <span class="attr">xmlns:xdef</span>=<span class="string">&quot;/nop/schema/xdef.xdef&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">steps</span> <span class="attr">xdef:body-type</span>=<span class="string">&quot;list&quot;</span> <span class="attr">xdef:key-attr</span>=<span class="string">&quot;id&quot;</span>&gt;</span></span><br><span class="line">        ...</span><br><span class="line">    <span class="tag">&lt;/<span class="name">steps</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">workflow</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="复用节点定义"><a href="#复用节点定义" class="headerlink" title="复用节点定义"></a>复用节点定义</h2><p>在xdef文件中可以通过<code>xdef:ref</code>来引用已有的元模型定义。</p>
+<ol>
+<li>引入外部xdef文件</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">id</span>=<span class="string">&quot;!string&quot;</span> <span class="attr">xdef:ref</span>=<span class="string">&quot;form.xdef&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>引用内部节点<br>在任意节点上可以增加<code>xdef:name</code>属性，将它标记为命名节点。然后就可以通过<code>xdef:ref</code>来引用。</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">steps</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">step</span> <span class="attr">id</span>=<span class="string">&quot;!string&quot;</span> <span class="attr">xdef:name</span>=<span class="string">&quot;WorkflowStepModel&quot;</span>&gt;</span></span><br><span class="line">        ...</span><br><span class="line">    <span class="tag">&lt;/<span class="name">step</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">join</span> <span class="attr">id</span>=<span class="string">&quot;!string&quot;</span> <span class="attr">xdef:ref</span>=<span class="string">&quot;WorkflowStepModel&quot;</span> <span class="attr">xdef:name</span>=<span class="string">&quot;WfJoinStepModel&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">join</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">steps</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注：目前因为实现上的原因，<code>id</code>等作为集合元素唯一区分的属性需要被重复，而其他属性则可直接引用自其他节点，无需重复定义。</p>
+</blockquote>
+<p>在代码生成的时候，<code>xdef:name</code>会被看作是节点对应的Java类名，<code>xdef:ref</code>会被看作是当前节点类的基类。</p>
+<p><code>xdef:ref=&quot;WorkflowStepModel&quot; xdef:name=&quot;WfJoinStepModel&quot;</code>对应于代码生成 <code>class WfJoinStepModel extends WorkflowStepModel</code></p>
+<p>为了简化节点复用，XDef语言还规定了一种特殊的、仅用于复用的特殊节点<code>xdef:define</code>，例如</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">workflow</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">xdef:define</span> <span class="attr">xdef:name</span>=<span class="string">&quot;WorkflowStepModel&quot;</span> <span class="attr">id</span>=<span class="string">&quot;!string&quot;</span>&gt;</span></span><br><span class="line">        ....</span><br><span class="line">    <span class="tag">&lt;/<span class="name">xdef:define</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">steps</span> <span class="attr">xdef:body-type</span>=<span class="string">&quot;list&quot;</span> <span class="attr">xdef:key-attr</span>=<span class="string">&quot;id&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">step</span> <span class="attr">xdef:ref</span>=<span class="string">&quot;WorkflowStepModel&quot;</span> <span class="attr">id</span>=<span class="string">&quot;!string&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">steps</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">workflow</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="集合节点定义"><a href="#集合节点定义" class="headerlink" title="集合节点定义"></a>集合节点定义</h2><p>除了上面介绍的<code>xdef:body-type=&quot;list&quot;</code>来表示集合节点之外，xdef语言还提供了一种简化的集合节点定义方式: 使用<code>xdef:unique-attr</code>表示集合元素的唯一表示属性。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">arg</span> <span class="attr">name</span>=<span class="string">&quot;!string&quot;</span> <span class="attr">xdef:unique-attr</span>=<span class="string">&quot;name&quot;</span> <span class="attr">value</span>=<span class="string">&quot;any&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>具有<code>xdef:unique-attr</code>属性的节点会被解析为集合属性，属性名一般为 <code>节点名驼峰变换+&#39;s&#39;</code>，比如<code>&lt;task-step xdef:unique-attr=&quot;id&quot;&gt;</code>对应于<code>taskSteps</code>。<br>我们也可以通过<code>xdef:bean-prop</code>属性来指定对应的属性名，例如可以指定<code>xdef:bean-prop=&quot;taskStepList&quot;</code>。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">  以下 DSL 定义等价于代码：</span></span><br><span class="line"><span class="comment">  bp.taskSteps.add(&#123;id: &#x27;a&#x27;, displayName: &#x27;A&#x27;&#125;)</span></span><br><span class="line"><span class="comment">  bp.taskSteps.add(&#123;id: &#x27;b&#x27;, displayName: &#x27;B&#x27;&#125;)</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">task-step</span> <span class="attr">id</span>=<span class="string">&quot;a&quot;</span> <span class="attr">displayName</span>=<span class="string">&quot;A&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">task-step</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">task-step</span> <span class="attr">id</span>=<span class="string">&quot;b&quot;</span> <span class="attr">displayName</span>=<span class="string">&quot;B&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">task-step</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>使用<code>xdef:body-type=&quot;list&quot;</code>方式来定义集合属性的好处在于，它允许集合中包含不同类型的子节点，例如</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">steps</span> <span class="attr">xdef:body-type</span>=<span class="string">&quot;list&quot;</span> <span class="attr">xdef:key-attr</span>=<span class="string">&quot;name&quot;</span> <span class="attr">xdef:bean-sub-type-prop</span>=<span class="string">&quot;type&quot;</span> <span class="attr">xdef:bean-child-name</span>=<span class="string">&quot;step&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xdef:bean-body-type</span>=<span class="string">&quot;List<span class="symbol">&amp;lt;</span>io.nop.wf.core.model.WfStepModel&gt;&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">step</span> <span class="attr">name</span>=<span class="string">&quot;!string&quot;</span> <span class="attr">xdef:bean-tag-prop</span>=<span class="string">&quot;type&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">join</span> <span class="attr">name</span>=<span class="string">&quot;!string&quot;</span> <span class="attr">xdef:bean-tag-prop</span>=<span class="string">&quot;type&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">steps</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>xdef:bean-body-type</code>用于指定生成的集合属性类型名</li>
+<li><code>xdef:bean-child-name=&quot;step&quot;</code>表示自动为模型对象增加<code>getStep(String name)</code>方法，用于按照唯一标识属性来获取子节点</li>
+<li><code>xdef:bean-tag-prop=&quot;type&quot;</code>表示节点的标签名称（<code>step</code>、<code>join</code>）在json序列化时将被解析为<code>type</code>属性的值</li>
+<li><code>xdef:bean-sub-type-prop=&quot;type&quot;</code>表示json反序列化的时候，根据<code>type</code>属性来确定子节点类型</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">  以下 DSL 定义转换为 JSON 后的结构为：</span></span><br><span class="line"><span class="comment">  &#123;</span></span><br><span class="line"><span class="comment">    &quot;steps&quot;: [&#123;</span></span><br><span class="line"><span class="comment">      &quot;type&quot;: &quot;step&quot;,</span></span><br><span class="line"><span class="comment">      &quot;name&quot;: &quot;a&quot;</span></span><br><span class="line"><span class="comment">    &#125;, &#123;</span></span><br><span class="line"><span class="comment">      &quot;type&quot;: &quot;join&quot;,</span></span><br><span class="line"><span class="comment">      &quot;name&quot;: &quot;b&quot;</span></span><br><span class="line"><span class="comment">    &#125;]</span></span><br><span class="line"><span class="comment">  &#125;</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">steps</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">step</span> <span class="attr">name</span>=<span class="string">&quot;a&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">join</span> <span class="attr">name</span>=<span class="string">&quot;b&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">steps</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</div>
+      <footer class="Article-footer col-md-3">
+        
+          
+          
+          
+          
+            
+          
+          
+            <div class="Widget">
+              <div class="Widget-body"><a href="https://gitee.com/canonical-entropy/nop-entropy/edit/master/docs/dev-guide/xlang/xdef.md" target="_blank" rel=" rel="external nofollow"">在 Gitee 上编辑文档内容</a></div>
+            </div>
+          
+        
+        
+  
+
+  <section class="Widget Widget--toc">
+  <div class="Widget-header">
+    <h2 class="Widget-title">目录</h2>
+  </div>
+  <div class="Widget-body"></div>
+</section>
+
+
+
+      </footer>
+    </article>
+    <footer class="Page-footer Footer">
+  <div class="container-fluid">
+    
+    <div class="Footer-description">
+      
+        <!-- Important links -->
+        <nav class="Footer-navs">
+          <ul><li><a href="/projects/nop-entropy/docs/"><span>指南</span></a>
+</li><li><a href="/community/"><span>社区</span></a>
+</li></ul>
+        </nav>
+      
+      
+        <!-- Copyright -->
+        <div class="Footer-copyright">
+          <p>
+
+&copy; 2024 <a href="https://nop-platform.gitee.io?utm_source=https://nop-platform.gitee.io&amp;utm_medium=common-footer" target="_blank" rel="external nofollow">Nop 社区</a> 版权所有
+
+</p>
+          
+          
+        </div>
+      
+    </div>
+  </div>
+</footer>
+
+  </main>
+</div>
+
+
+
+
+    <script>$('.Article-content > table').addClass('table table-bordered')</script>
+    
+<script src="/javascripts/ksio/vendors/share.min.js"></script>
+
+<script src="/javascripts/ksio/components/page.js"></script>
+
+<script src="/javascripts/ksio/components/toc.js"></script>
+
+<script src="/javascripts/ksio/vendors/jquery.timeago.js"></script>
+
+<script src="/javascripts/ksio/vendors/jquery.timeago.zh-CN.js"></script>
+
+<script src="/javascripts/ksio/initializers/time.js"></script>
+
+<script src="/javascripts/ksio/vendors/jquery.lazyload.js"></script>
+
+<script src="/javascripts/ksio/initializers/lazyload.js"></script>
+
+  </body>
+</html>
+
