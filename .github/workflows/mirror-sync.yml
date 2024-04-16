@@ -9,7 +9,7 @@ jobs:
   repo-sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Mirror the GitHub organization repos to Gitee.
+      - name: Mirror to Gitee
         uses: Yikun/hub-mirror-action@master
         with:
           src: github/nop-platform
@@ -21,3 +21,10 @@ jobs:
           static_list: nop-platform.gitee.io
           force_update: true
           debug: true
+      - name: Deploy to Gitee Pages
+        uses: yanglbme/gitee-pages-action@main
+        with:
+          gitee-username: ${{ env.GITEE_USERNAME }}
+          gitee-password: ${{ secrets.GITEE_PASSWORD }}
+          gitee-repo: nop-platform/nop-platform
+          branch: master
