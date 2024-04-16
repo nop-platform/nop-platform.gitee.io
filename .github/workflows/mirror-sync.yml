@@ -1,0 +1,23 @@
+name: Sync Repo
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  repo-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mirror the GitHub organization repos to Gitee.
+        uses: Yikun/hub-mirror-action@master
+        with:
+          src: github/nop-platform
+          dst: gitee/nop-platform
+          dst_key: ${{ secrets.GITEE_PRIVATE_KEY }}
+          dst_token:  ${{ secrets.GITEE_TOKEN }}
+          account_type: org
+          mappings: nop-platform.gitee.io=>nop-platform
+          static_list: nop-platform.gitee.io
+          force_update: true
+          debug: true
