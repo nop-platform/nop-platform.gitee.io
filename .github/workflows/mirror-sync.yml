@@ -24,7 +24,7 @@ jobs:
       - name: Deploy to Gitee Pages
         uses: yanglbme/gitee-pages-action@main
         with:
-          gitee-username: ${{ env.GITEE_USERNAME }}
+          gitee-username: ntksol
           gitee-password: ${{ secrets.GITEE_PASSWORD }}
           gitee-repo: nop-platform/nop-platform
           branch: master
